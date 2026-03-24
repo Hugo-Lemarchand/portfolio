@@ -1,0 +1,160 @@
+/* S'assurer que l'image couvre toute la page et reste fixe pendant le défilement */
+body {
+    background-image: url('C:/Users/hugol/OneDrive/Bureau/portfolio/imagefond.jpg'); /* Remplace par le chemin de ton image */
+    background-size: cover; /* Couvre toute la zone sans déformation */
+    background-position: center; /* Centre l'image dans la fenêtre */
+    background-repeat: no-repeat; /* Empêche la répétition de l'image */
+    background-attachment: fixed; /* L'image reste fixe lors du défilement */
+    color: #333; /* Assure que le texte est visible */
+    height: 100vh; /* Utilise toute la hauteur de l'écran */
+    margin: 0; /* Supprime les marges par défaut du body */
+    font-family: Arial, sans-serif; /* Police standard pour plus de lisibilité */
+}
+
+
+
+
+header {
+    background-color: rgba(255, 255, 255, 0.7); /* Fond semi-transparent pour le header */
+    color: #333;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre douce pour donner du relief */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+section {
+    padding: 30px;
+    margin: 40px auto;
+    background-color: rgba(255, 255, 255, 0.8); /* Fond transparent mais pas trop pour une bonne lisibilité */
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    max-width: 1200px; /* Limite la largeur pour un meilleur rendu */
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    color: #333;
+}
+
+footer {
+    background-color: rgba(255, 255, 255, 0.7); /* Fond semi-transparent pour le footer */
+    color: #333;
+    text-align: center;
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1); /* Ombre douce pour le footer */
+}
+
+#about, #skills, #projects, #experience {
+    margin: 30px auto;
+}
+
+.about-me, .skill-level, .education-item, .experience-item {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: rgba(249, 249, 249, 0.9); /* Plus transparent pour mieux voir le fond */
+}
+
+h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+ul li a:hover {a
+    color: #007bff;
+}
+
+/* Amélioration de la lisibilité : ajout d'un padding et d'une bordure douce pour les sections */
+section, header, footer {
+    position: relative;
+    z-index: 2; /* Assure que ces éléments sont au-dessus de l'image */
+}
+
+h2, h3 {
+    font-weight: bold;
+    color: #333;
+}
+
+ul li {
+    line-height: 1.8;
+}
+
+/* Style pour le bouton "Remonter en haut" */
+#scrollToTop {
+    position: fixed; /* Le bouton reste fixe même lors du défilement */
+    bottom: 20px; /* 20px depuis le bas */
+    right: 20px; /* 20px depuis la droite */
+    background-color: #007bff; /* Couleur de fond bleu */
+    color: white; /* Texte en blanc */
+    text-decoration: none; /* Supprime la décoration du lien */
+    border: none; /* Supprime la bordure */
+    border-radius: 50%; /* Bordure arrondie pour un effet circulaire */
+    font-size: 2em; /* Taille du texte */
+    width: 50px; /* Largeur du bouton */
+    height: 50px; /* Hauteur du bouton */
+    display: block; /* Affiche toujours le bouton */
+    text-align: center; /* Centrer le texte dans le bouton */
+    line-height: 50px; /* Centrer verticalement le texte */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+#scrollToTop:hover {
+    background-color: #0056b3; /* Couleur bleu plus foncée au survol */
+}
+
+/* Amélioration du style des liens dans les compétences */
+.skill-level a {
+    color: #007bff; /* Couleur bleue */
+    text-decoration: none; /* Supprimer le soulignement par défaut */
+}
+
+.skill-level a:hover {
+    text-decoration: underline; /* Souligner le lien au survol */
+    color: #0056b3; /* Couleur plus foncée au survol */
+}
+
