@@ -1,16 +1,15 @@
 /* S'assurer que l'image couvre toute la page et reste fixe pendant le défilement */
 body {
-    body {
-    background-image: url('imagefond.jpg');  /* Remplace par le chemin de ton image */
-    background-size: cover; /* Couvre toute la zone sans déformation */
-    background-position: center; /* Centre l'image dans la fenêtre */
-    background-repeat: no-repeat; /* Empêche la répétition de l'image */
-    background-attachment: fixed; /* L'image reste fixe lors du défilement */
-    color: #333; /* Assure que le texte est visible */
-    height: 100vh; /* Utilise toute la hauteur de l'écran */
-    margin: 0; /* Supprime les marges par défaut du body */
-    font-family: Arial, sans-serif; /* Police standard pour plus de lisibilité */
+    background-image: url('imagefond.jpg'); /* Vérifiez bien : tout en minuscules ! */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
 }
+
 
 
 
