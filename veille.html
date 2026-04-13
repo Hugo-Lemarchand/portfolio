@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Veille Technologique – Réseaux & Infrastructure | Hugo Lemarchand</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f9;
+      color: #1a1a2e;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #1F3864;
+      color: white;
+      padding: 2.5rem 2rem 2rem;
+    }
+    header .badge {
+      display: inline-block;
+      background: #2E75B6;
+      color: white;
+      font-size: 12px;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    header p {
+      color: #a8c4e0;
+      font-size: 0.95rem;
+      max-width: 600px;
+    }
+    header .meta {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: #7aa6cc;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #2E75B6;
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #2E75B6;
+    }
+
+    /* INTRO */
+    .intro-block {
+      background: white;
+      border-radius: 10px;
+      border: 1px solid #e0e6f0;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .intro-block p {
+      color: #444;
+      margin-bottom: 0.5rem;
+    }
+    .intro-block p:last-child { margin-bottom: 0; }
+    .intro-block strong { color: #1F3864; }
+
+    /* SOURCES RSS */
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .source-card {
+      background: white;
+      border: 1px solid #e0e6f0;
+      border-radius: 10px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .source-card .source-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #1F3864;
+    }
+    .source-card .source-lang {
+      font-size: 11px;
+      background: #D6E4F0;
+      color: #1F3864;
+      padding: 2px 8px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+    .source-card a {
+      font-size: 11px;
+      color: #2E75B6;
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .source-card a:hover { text-decoration: underline; }
+
+    /* ARTICLES */
+    .articles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .article-card {
+      background: white;
+      border: 1px solid #e0e6f0;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      border-left: 4px solid #2E75B6;
+      transition: box-shadow 0.2s;
+    }
+    .article-card:hover {
+      box-shadow: 0 4px 12px rgba(30,60,100,0.08);
+    }
+    .article-card .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .article-card .article-date {
+      font-size: 12px;
+      color: #888;
+    }
+    .article-card .article-source {
+      font-size: 11px;
+      background: #f0f4fa;
+      color: #2E75B6;
+      padding: 2px 8px;
+      border-radius: 20px;
+      border: 1px solid #D6E4F0;
+    }
+    .article-card .article-tag {
+      font-size: 11px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .article-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1F3864;
+      margin-bottom: 0.5rem;
+    }
+    .article-card p {
+      font-size: 0.88rem;
+      color: #555;
+      margin-bottom: 0.75rem;
+    }
+    .article-card a.read-more {
+      font-size: 0.85rem;
+      color: #2E75B6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .article-card a.read-more:hover { text-decoration: underline; }
+
+    /* ANALYSE */
+    .analyse-block {
+      background: white;
+      border: 1px solid #e0e6f0;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .analyse-block p {
+      color: #444;
+      margin-bottom: 0.75rem;
+      font-size: 0.92rem;
+    }
+    .analyse-block p:last-child { margin-bottom: 0; }
+
+    /* COMMENT UTILISER */
+    .how-to {
+      background: #1F3864;
+      color: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .how-to h3 { color: #a8c4e0; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+    .how-to ol { padding-left: 1.2rem; }
+    .how-to li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #d0e4f5; }
+    .how-to code {
+      background: rgba(255,255,255,0.1);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-family: monospace;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: #999;
+      border-top: 1px solid #e0e6f0;
+    }
+    footer a { color: #2E75B6; text-decoration: none; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.3rem; }
+      .sources-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">BTS SIO – SISR | Épreuve E4</div>
+  <h1>Veille Technologique</h1>
+  <p>Réseaux &amp; Infrastructure – Évolutions des technologies réseau en entreprise</p>
+  <div class="meta">Hugo Lemarchand · Ensitech · Session 2026</div>
+</header>
+
+<div class="container">
+
+  <!-- PRESENTATION -->
+  <p class="section-title">Présentation de la veille</p>
+  <div class="intro-block">
+    <p>Cette veille technologique porte sur les <strong>évolutions des technologies réseau et d'infrastructure</strong> en entreprise. Elle s'inscrit directement dans mon option SISR et fait écho à mes réalisations professionnelles : configuration de VLANs, déploiement de serveurs Windows Server, administration Active Directory.</p>
+    <p>L'objectif est de suivre les nouveaux protocoles, équipements et paradigmes réseau (SD-WAN, IPv6, Wi-Fi 7, cloud hybride…) afin de rester à jour sur les évolutions du métier d'administrateur systèmes et réseaux.</p>
+  </div>
+
+  <!-- SOURCES -->
+  <p class="section-title">Sources – Flux RSS utilisés</p>
+  <div class="sources-grid">
+    <div class="source-card">
+      <span class="source-name">IT-Connect</span>
+      <span class="source-lang">🇫🇷 Français</span>
+      <span style="font-size:12px;color:#555;">Windows Server, AD, réseau</span>
+      <a href="https://www.it-connect.fr/feed/" target="_blank">it-connect.fr/feed/</a>
+    </div>
+    <div class="source-card">
+      <span class="source-name">Cisco Blogs</span>
+      <span class="source-lang">🇬🇧 Anglais</span>
+      <span style="font-size:12px;color:#555;">Protocoles, infrastructure</span>
+      <a href="https://blogs.cisco.com/feed" target="_blank">blogs.cisco.com/feed</a>
+    </div>
+    <div class="source-card">
+      <span class="source-name">Le Monde Informatique</span>
+      <span class="source-lang">🇫🇷 Français</span>
+      <span style="font-size:12px;color:#555;">Infrastructure, cloud</span>
+      <a href="https://www.lemondeinformatique.fr/flux-rss/thematique/infrastructures/rss.xml" target="_blank">lemondeinformatique.fr</a>
+    </div>
+    <div class="source-card">
+      <span class="source-name">ARCEP</span>
+      <span class="source-lang">🇫🇷 Français</span>
+      <span style="font-size:12px;color:#555;">Régulation, IPv6, réseau FR</span>
+      <a href="https://www.arcep.fr/actualites/actualites-et-communiques/rss.xml" target="_blank">arcep.fr</a>
+    </div>
+  </div>
+
+  <!-- ARTICLES -->
+  <p class="section-title">Articles sélectionnés</p>
+  <div class="articles-list">
+
+    <!-- ARTICLE 1 -->
+    <div class="article-card">
+      <div class="article-meta">
+        <span class="article-date">Avril 2025</span>
+        <span class="article-source">IT-Connect</span>
+        <span class="article-tag">Wi-Fi 7</span>
+      </div>
+      <h3>Wi-Fi 7 (802.11be) : ce qui change pour les réseaux d'entreprise</h3>
+      <p>Le Wi-Fi 7 apporte des débits théoriques jusqu'à 46 Gbps et la technologie Multi-Link Operation (MLO) qui permet d'agréger plusieurs bandes simultanément. Pour les administrateurs réseau, cela implique de revoir les plans d'adressage et la gestion des points d'accès.</p>
+      <a class="read-more" href="https://www.lemondeinformatique.fr/actualites/lire-la-wifi-alliance-lance-la-certification-wifi-7-officielle-92632.html" target="_blank">Lire l'article sur Le Monde Informatique →</a>
+    </div>
+
+    <!-- ARTICLE 2 -->
+    <div class="article-card">
+      <div class="article-meta">
+        <span class="article-date">Mars 2025</span>
+        <span class="article-source">Le Monde Informatique</span>
+        <span class="article-tag">SD-WAN</span>
+      </div>
+      <h3>SD-WAN : adoption massive dans les PME françaises en 2025</h3>
+      <p>Le SD-WAN (Software-Defined Wide Area Network) s'impose comme alternative aux liens MPLS traditionnels. Il permet de gérer le réseau étendu via logiciel, offrant plus de flexibilité et réduisant les coûts. Une tendance importante pour les techniciens SISR en entreprise.</p>
+      <a class="read-more" href="https://www.lemondeinformatique.fr/actualites/lire-les-entreprises-tres-pragmatiques-sur-le-deploiement-du-sd-wan-97589.html" target="_blank">Lire l'article sur Le Monde Informatique →</a>
+    </div>
+
+    <!-- ARTICLE 3 -->
+    <div class="article-card">
+      <div class="article-meta">
+        <span class="article-date">Février 2025</span>
+        <span class="article-source">IT-Connect</span>
+        <span class="article-tag">IPv6</span>
+      </div>
+      <h3>Transition IPv6 en France : état des lieux 2025 selon l'ARCEP</h3>
+      <p>Selon le baromètre annuel de l'ARCEP, fin 2024, 87 % des clients du réseau fixe grand public ont IPv6 activé. Free, Bouygues et Orange ont quasiment terminé leur transition sur le réseau fixe. Côté entreprises, la transition est plus lente et implique des mécanismes de coexistence comme le dual-stack, impactant la configuration des routeurs et serveurs DHCP.</p>
+      <a class="read-more" href="https://www.arcep.fr/cartes-et-donnees/nos-publications-chiffrees/transition-ipv6/barometre-annuel-de-la-transition-vers-ipv6-en-france.html" target="_blank">Lire le baromètre ARCEP →</a>
+    </div>
+
+    <!-- ARTICLE 4 - MODELE VIDE A REMPLIR -->
+    <div class="article-card" style="border-left-color: #ccc; opacity: 0.6;">
+      <div class="article-meta">
+        <span class="article-date">📝 À compléter</span>
+        <span class="article-source">Source</span>
+      </div>
+      <h3>Titre de votre prochain article de veille</h3>
+      <p>Résumé de l'article : expliquez en 2-3 phrases ce que vous avez retenu, pourquoi c'est pertinent pour votre métier d'administrateur réseau, et le lien avec vos réalisations professionnelles.</p>
+      <a class="read-more" href="https://www.it-connect.fr" target="_blank">Lien vers l'article →</a>
+    </div>
+
+  </div>
+
+  <!-- ANALYSE -->
+  <p class="section-title">Analyse et synthèse</p>
+  <div class="analyse-block">
+    <p>Les évolutions réseau de 2024-2025 convergent vers trois grandes tendances : la <strong>montée en débit</strong> (Wi-Fi 7, 25G/100G dans les datacenters), la <strong>virtualisation du réseau</strong> (SD-WAN, SASE) qui déplace la gestion vers le logiciel, et la <strong>transition vers IPv6</strong> qui implique une refonte des configurations existantes.</p>
+    <p>Ces évolutions impactent directement le quotidien d'un technicien SISR. Lors de mes stages, j'ai pu observer que la documentation réseau (que je maintiens sur Confluence) doit être constamment mise à jour pour rester pertinente face à ces changements.</p>
+    <p>Le défi pour les années à venir sera d'accompagner les utilisateurs dans ces transitions, notamment pour IPv6 et les nouveaux équipements Wi-Fi 7 qui nécessitent des compétences de configuration actualisées.</p>
+  </div>
+
+  <!-- COMMENT METTRE A JOUR -->
+  <p class="section-title">Comment mettre à jour cette page</p>
+  <div class="how-to">
+    <h3>Instructions</h3>
+    <ol>
+      <li>Abonnez-vous aux flux RSS via <strong>Feedly</strong> ou <strong>Inoreader</strong> (gratuits)</li>
+      <li>Chaque semaine, lisez 2-3 articles dans votre agrégateur</li>
+      <li>Copiez le bloc <code>&lt;div class="article-card"&gt;</code> d'un article existant</li>
+      <li>Modifiez la date, la source, le tag, le titre, le résumé et le lien</li>
+      <li>Supprimez le bloc grisé "À compléter" quand vous ajoutez un vrai article</li>
+      <li>Faites un <code>git add . &amp;&amp; git commit -m "veille: ajout article"</code> puis <code>git push</code></li>
+    </ol>
+  </div>
+
+</div>
+
+<footer>
+  <p>Hugo Lemarchand · BTS SIO SISR · Ensitech · Session 2026 · <a href="https://hugo-lemarchand.github.io/portfolio/" target="_blank">Portfolio →</a></p>
+</footer>
+
+</body>
+</html>
