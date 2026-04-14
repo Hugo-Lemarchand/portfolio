@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Zabbix - Tutoriel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #dc3545;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #dc3545;
+        }
+        h2 {
+            color: #dc3545;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        h3 {
+            color: #ffc107;
+            margin: 20px 0 10px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        code {
+            background: #0d1117;
+            color: #58a6ff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+        }
+        pre {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        pre code {
+            padding: 0;
+            background: none;
+        }
+        .warning {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #ffa500;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .tip {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .back-btn {
+            display: inline-block;
+            background: #dc3545;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(220, 53, 69, 0.3);
+        }
+        .step-number {
+            display: inline-block;
+            background: #dc3545;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Monitoring avec Zabbix</h1>
+            <p class="subtitle">Solution de supervision d'infrastructure complète</p>
+        </header>
+
+        <div class="section">
+            <h2>📋 Présentation</h2>
+            <p>Zabbix est une solution de monitoring open-source permettant de surveiller :</p>
+            <ul>
+                <li>Serveurs (Linux, Windows)</li>
+                <li>Équipements réseau (switches, routeurs)</li>
+                <li>Applications et services</li>
+                <li>Bases de données</li>
+                <li>Cloud et virtualisation</li>
+            </ul>
+
+            <h3>Architecture Zabbix</h3>
+            <table>
+                <tr>
+                    <th>Composant</th>
+                    <th>Rôle</th>
+                </tr>
+                <tr>
+                    <td>Zabbix Server</td>
+                    <td>Collecte et traitement des données</td>
+                </tr>
+                <tr>
+                    <td>Zabbix Frontend</td>
+                    <td>Interface web de gestion</td>
+                </tr>
+                <tr>
+                    <td>Zabbix Agent</td>
+                    <td>Collecteur sur les hôtes surveillés</td>
+                </tr>
+                <tr>
+                    <td>Zabbix Proxy</td>
+                    <td>Collecteur intermédiaire (optionnel)</td>
+                </tr>
+                <tr>
+                    <td>Database</td>
+                    <td>Stockage des données (MySQL/PostgreSQL)</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🔧 Installation du serveur Zabbix</h2>
+
+            <h3><span class="step-number">1</span>Ajouter le dépôt Zabbix</h3>
+            <pre><code># Pour Debian 12
+wget [repo.zabbix.com](https://repo.zabbix.com/zabbix/7.0/debian/pool/main/z/zabbix-release/zabbix-release_7.0-1+debian12_all.deb)
+sudo dpkg -i zabbix-release_7.0-1+debian12_all.deb
+sudo apt update</code></pre>
+
+            <h3><span class="step-number">2</span>Installer les composants</h3>
+            <pre><code>sudo apt install -y zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent</code></pre>
+
+            <h3><span class="step-number">3</span>Créer la base de données</h3>
+            <pre><code>sudo mysql -u root -p</code></pre>
+            <pre><code>CREATE DATABASE zabbix CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+CREATE USER 'zabbix'@'localhost' IDENTIFIED BY 'MotDePasseZabbix123!';
+GRANT ALL PRIVILEGES ON zabbix.* TO 'zabbix'@'localhost';
+SET GLOBAL log_bin_trust_function_creators = 1;
+FLUSH PRIVILEGES;
+EXIT;</code></pre>
+
+            <h3><span class="step-number">4</span>Importer le schéma de base</h3>
+            <pre><code>zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix</code></pre>
+
+            <pre><code># Désactiver log_bin_trust_function_creators
+sudo mysql -u root -p -e "SET GLOBAL log_bin_trust_function_creators = 0;"</code></pre>
+
+            <h3><span class="step-number">5</span>Configurer Zabbix Server</h3>
+            <pre><code>sudo nano /etc/zabbix/zabbix_server.conf</code></pre>
+            <pre><code>DBPassword=MotDePasseZabbix123!</code></pre>
+
+            <h3><span class="step-number">6</span>Configurer PHP</h3>
+            <pre><code>sudo nano /etc/zabbix/apache.conf
+
+# Décommenter et définir :
+php_value date.timezone Europe/Paris</code></pre>
+
+            <h3><span class="step-number">7</span>Démarrer les services</h3>
+            <pre><code>sudo systemctl restart zabbix-server zabbix-agent apache2
+sudo systemctl enable zabbix-server zabbix-agent apache2</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>🖥️ Configuration initiale (interface web)</h2>
+
+            <h3><span class="step-number">8</span>Accéder à l'interface</h3>
+            <pre><code>[ip_du_serveur](http://IP_DU_SERVEUR/zabbix)</code></pre>
+
+            <h3><span class="step-number">9</span>Assistant d'installation</h3>
+            <ol>
+                <li>Vérifier les prérequis (tout en vert)</li>
+                <li>Configurer la connexion base de données :
+                    <ul>
+                        <li>Database type : MySQL</li>
+                        <li>Database host : localhost</li>
+                        <li>Database name : zabbix</li>
+                        <li>User : zabbix</li>
+                        <li>Password : MotDePasseZabbix123!</li>
+                    </ul>
+                </li>
+                <li>Configurer le nom du serveur Zabbix</li>
+                <li>Finaliser l'installation</li>
+            </ol>
+
+            <h3>Identifiants par défaut</h3>
+            <ul>
+                <li>Login : <code>Admin</code></li>
+                <li>Mot de passe : <code>zabbix</code></li>
+            </ul>
+
+            <div class="warning">
+                <strong>⚠️ Important :</strong> Changer immédiatement le mot de passe Admin !
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔌 Installation des agents</h2>
+
+            <h3>Agent Linux (Debian/Ubuntu)</h3>
+            <pre><code># Ajouter le dépôt
+wget [repo.zabbix.com](https://repo.zabbix.com/zabbix/7.0/debian/pool/main/z/zabbix-release/zabbix-release_7.0-1+debian12_all.deb)
+sudo dpkg -i zabbix-release_7.0-1+debian12_all.deb
+sudo apt update
+
+# Installer l'agent
+sudo apt install zabbix-agent2 -y
+
+# Configurer
+sudo nano /etc/zabbix/zabbix_agent2.conf</code></pre>
+            <pre><code>Server=IP_SERVEUR_ZABBIX
+ServerActive=IP_SERVEUR_ZABBIX
+Hostname=nom-du-serveur</code></pre>
+            <pre><code># Démarrer et activer
+sudo systemctl restart zabbix-agent2
+sudo systemctl enable zabbix-agent2</code></pre>
+
+            <h3>Agent Windows</h3>
+            <ol>
+                <li>Télécharger l'agent depuis zabbix.com</li>
+                <li>Installation via MSI :
+                    <pre><code>msiexec /i zabbix_agent2-7.0.0-windows-amd64.msi /qn SERVER=IP_SERVEUR HOSTNAME=PC-WIN01</code></pre>
+                </li>
+                <li>Ou installer manuellement et configurer <code>C:\Program Files\Zabbix Agent 2\zabbix_agent2.conf</code></li>
+            </ol>
+
+            <h3>Configuration du pare-feu</h3>
+            <pre><code># Sur le serveur Zabbix
+sudo ufw allow 10051/tcp  # Zabbix trapper
+
+# Sur les agents
+sudo ufw allow 10050/tcp  # Zabbix agent</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>➕ Ajout d'hôtes à superviser</h2>
+
+            <h3><span class="step-number">10</span>Via l'interface web</h3>
+            <ol>
+                <li>Configuration → Hosts → Create host</li>
+                <li>Configurer :
+                    <ul>
+                        <li>Host name : nom de l'hôte</li>
+                        <li>Groups : sélectionner ou créer un groupe</li>
+                        <li>Interfaces : ajouter l'IP et le port (10050)</li>
+                    </ul>
+                </li>
+                <li>Onglet Templates : associer des templates de monitoring</li>
+            </ol>
+
+            <h3>Templates recommandés</h3>
+            <table>
+                <tr>
+                    <th>Type d'hôte</th>
+                    <th>Template</th>
+                </tr>
+                <tr>
+                    <td>Linux</td>
+                    <td>Linux by Zabbix agent</td>
+                </tr>
+                <tr>
+                    <td>Windows</td>
+                    <td>Windows by Zabbix agent</td>
+                </tr>
+                <tr>
+                    <td>Switch/Routeur</td>
+                    <td>Template Network Generic Device SNMPv2</td>
+                </tr>
+                <tr>
+                    <td>VMware</td>
+                    <td>VMware by HTTP</td>
+                </tr>
+                <tr>
+                    <td>MySQL</td>
+                    <td>MySQL by Zabbix agent</td>
+                </tr>
+                <tr>
+                    <td>Apache</td>
+                    <td>Apache by Zabbix agent</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🔔 Configuration des alertes</h2>
+
+            <h3><span class="step-number">11</span>Configurer les médias de notification</h3>
+
+            <h4>Email</h4>
+            <pre><code># Administration → Media types → Email
+SMTP server: smtp.gmail.com
+SMTP server port: 587
+SMTP helo: gmail.com
+SMTP email: votreemail@gmail.com
+Authentication: Username and password
+Username: votreemail@gmail.com
+Password: mot_de_passe_application</code></pre>
+
+            <h4>Webhook Discord/Slack</h4>
+            <p>Utiliser les templates de webhook intégrés ou créer un script personnalisé.</p>
+
+            <h3><span class="step-number">12</span>Créer des actions</h3>
+            <ol>
+                <li>Configuration → Actions → Trigger actions → Create action</li>
+                <li>Conditions : définir quand déclencher (ex: severity >= Warning)</li>
+                <li>Operations : envoyer notification aux utilisateurs/groupes</li>
+            </ol>
+
+            <div class="tip">
+                <strong>💡 Astuce :</strong> Configurer des escalades pour les problèmes non résolus après un certain temps.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📈 Création de dashboards</h2>
+
+            <h3><span class="step-number">13</span>Dashboard personnalisé</h3>
+            <ol>
+                <li>Monitoring → Dashboards → Create dashboard</li>
+                <li>Ajouter des widgets :
+                    <ul>
+                        <li><strong>Problems</strong> : liste des problèmes actifs</li>
+                        <li><strong>Graph</strong> : graphiques de métriques</li>
+                        <li><strong>Host availability</strong> : état des hôtes</li>
+                        <li><strong>System information</strong> : infos serveur Zabbix</li>
+                        <li><strong>Map</strong> : carte du réseau</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>Créer une carte réseau</h3>
+            <ol>
+                <li>Monitoring → Maps → Create map</li>
+                <li>Ajouter des éléments (hôtes, groupes)</li>
+                <li>Créer des liens entre les éléments</li>
+                <li>Les liens changent de couleur selon l'état</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>🛠️ Supervision avancée</h2>
+
+            <h3>Monitoring SNMP (switches, routeurs)</h3>
+            <pre><code># Activer SNMP sur l'équipement
+# Configurer la communauté (ex: public)
+
+# Dans Zabbix, créer l'hôte avec interface SNMP
+# IP de l'équipement, port 161
+# Associer le template SNMP correspondant</code></pre>
+
+            <h3>Monitoring web (sites)</h3>
+            <ol>
+                <li>Configuration → Hosts → Sélectionner l'hôte</li>
+                <li>Web scenarios → Create web scenario</li>
+                <li>Configurer les étapes (URL, code retour attendu)</li>
+            </ol>
+
+            <h3>Découverte automatique</h3>
+            <pre><code># Configuration → Discovery → Create discovery rule
+# Définir le range IP à scanner
+# Configurer les checks (ICMP, agent, SNMP)
+# Créer des actions pour ajouter automatiquement les hôtes découverts</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>📚 Commandes utiles</h2>
+            <pre><code># Vérifier le statut du serveur
+sudo systemctl status zabbix-server
+
+# Voir les logs
+sudo tail -f /var/log/zabbix/zabbix_server.log
+
+# Tester la connectivité agent
+zabbix_get -s IP_AGENT -k agent.ping
+
+# Nettoyer l'historique (maintenance)
+# Administration → Housekeeping</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>✅ Éléments à surveiller en entreprise</h2>
+            <ul>
+                <li>☑ CPU, RAM, disque des serveurs</li>
+                <li>☑ Services critiques (AD, DNS, DHCP)</li>
+                <li>☑ Disponibilité des sites web</li>
+                <li>☑ État des sauvegardes</li>
+                <li>☑ Trafic réseau des switches</li>
+                <li>☑ Expiration des certificats SSL</li>
+                <li>☑ État des VMs (VMware, Proxmox)</li>
+                <li>☑ Performances des bases de données</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+    </div>
+</body>
+</html>
