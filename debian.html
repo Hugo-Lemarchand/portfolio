@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation Debian - Tutoriel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #d63384;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #d63384;
+        }
+        h2 {
+            color: #d63384;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        h3 {
+            color: #ffa500;
+            margin: 20px 0 10px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        code {
+            background: #0d1117;
+            color: #58a6ff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+        }
+        pre {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        pre code {
+            padding: 0;
+            background: none;
+        }
+        .warning {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #ffa500;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .tip {
+            background: rgba(214, 51, 132, 0.1);
+            border-left: 4px solid #d63384;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .back-btn {
+            display: inline-block;
+            background: #d63384;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.3);
+        }
+        .step-number {
+            display: inline-block;
+            background: #d63384;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            background: rgba(214, 51, 132, 0.2);
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐧 Installation Debian</h1>
+            <p class="subtitle">Système d'exploitation GNU/Linux stable et fiable</p>
+        </header>
+
+        <div class="section">
+            <h2>📋 Prérequis</h2>
+            <table>
+                <tr>
+                    <th>Composant</th>
+                    <th>Minimum</th>
+                    <th>Recommandé</th>
+                </tr>
+                <tr>
+                    <td>RAM</td>
+                    <td>512 Mo</td>
+                    <td>2 Go+</td>
+                </tr>
+                <tr>
+                    <td>Espace disque</td>
+                    <td>10 Go</td>
+                    <td>20 Go+</td>
+                </tr>
+                <tr>
+                    <td>Processeur</td>
+                    <td>1 GHz</td>
+                    <td>2 GHz+</td>
+                </tr>
+            </table>
+            <ul>
+                <li>Clé USB de 4 Go minimum</li>
+                <li>Image ISO Debian (netinst recommandée) depuis <code>debian.org</code></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔧 Étapes d'installation</h2>
+
+            <h3><span class="step-number">1</span>Création de la clé USB bootable</h3>
+            <pre><code># Windows : utiliser Rufus
+# Linux :
+sudo dd if=debian-12.*-amd64-netinst.iso of=/dev/sdX bs=4M status=progress sync</code></pre>
+
+            <h3><span class="step-number">2</span>Démarrage et sélection du mode</h3>
+            <ul>
+                <li>Booter sur la clé USB</li>
+                <li>Choisir "Graphical Install" ou "Install" (mode texte)</li>
+            </ul>
+
+            <h3><span class="step-number">3</span>Configuration de base</h3>
+            <ul>
+                <li>Langue : Français</li>
+                <li>Pays : France</li>
+                <li>Clavier : Français (azerty)</li>
+            </ul>
+
+            <h3><span class="step-number">4</span>Configuration réseau</h3>
+            <pre><code>Nom de la machine : debian-server
+Domaine : local (ou laisser vide)</code></pre>
+
+            <h3><span class="step-number">5</span>Configuration des utilisateurs</h3>
+            <ul>
+                <li>Mot de passe root (laisser vide pour désactiver root et utiliser sudo)</li>
+                <li>Créer un utilisateur standard</li>
+            </ul>
+
+            <h3><span class="step-number">6</span>Partitionnement du disque</h3>
+            <p>Pour les débutants :</p>
+            <ul>
+                <li>Choisir "Assisté - utiliser un disque entier"</li>
+                <li>Sélectionner "Tous les fichiers dans une seule partition"</li>
+            </ul>
+
+            <div class="tip">
+                <strong>💡 Configuration avancée :</strong>
+                <pre><code>/boot   - 500 Mo (ext4)
+/       - 20 Go (ext4)
+/home   - Reste du disque (ext4)
+swap    - 2x RAM (max 8 Go)</code></pre>
+            </div>
+
+            <h3><span class="step-number">7</span>Sélection des logiciels</h3>
+            <p>Cocher selon vos besoins :</p>
+            <ul>
+                <li>☐ Environnement de bureau Debian (GNOME, KDE, XFCE...)</li>
+                <li>☑ Serveur SSH</li>
+                <li>☑ Utilitaires usuels du système</li>
+            </ul>
+
+            <h3><span class="step-number">8</span>Installation de GRUB</h3>
+            <ul>
+                <li>Installer GRUB sur le disque principal</li>
+                <li>Sélectionner <code>/dev/sda</code></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>⚙️ Configuration post-installation</h2>
+
+            <h3>Mise à jour du système</h3>
+            <pre><code>sudo apt update
+sudo apt upgrade -y
+sudo apt full-upgrade -y</code></pre>
+
+            <h3>Installation des outils essentiels</h3>
+            <pre><code>sudo apt install -y vim curl wget git htop net-tools</code></pre>
+
+            <h3>Configuration de sudo (si root désactivé)</h3>
+            <pre><code># Ajouter l'utilisateur au groupe sudo
+su -
+usermod -aG sudo votre_utilisateur
+# Déconnecter et reconnecter</code></pre>
+
+            <h3>Configuration SSH</h3>
+            <pre><code># Éditer la configuration
+sudo nano /etc/ssh/sshd_config
+
+# Recommandations sécurité :
+PermitRootLogin no
+PasswordAuthentication yes
+Port 22
+
+# Redémarrer SSH
+sudo systemctl restart sshd</code></pre>
+
+            <h3>Configuration du pare-feu (UFW)</h3>
+            <pre><code>sudo apt install ufw
+sudo ufw allow ssh
+sudo ufw enable
+sudo ufw status</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>📚 Commandes essentielles</h2>
+            <pre><code># Gestion des paquets
+apt search &lt;paquet&gt;
+apt install &lt;paquet&gt;
+apt remove &lt;paquet&gt;
+apt autoremove
+
+# Informations système
+uname -a
+lsb_release -a
+df -h
+free -h
+
+# Gestion des services
+systemctl status &lt;service&gt;
+systemctl start/stop/restart &lt;service&gt;
+systemctl enable/disable &lt;service&gt;</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>🔐 Sécurisation de base</h2>
+            <ul>
+                <li>Mettre à jour régulièrement le système</li>
+                <li>Configurer les mises à jour automatiques de sécurité</li>
+                <li>Désactiver les services inutiles</li>
+                <li>Configurer fail2ban contre les attaques brute force</li>
+            </ul>
+            <pre><code># Installation de fail2ban
+sudo apt install fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban</code></pre>
+        </div>
+
+        <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+    </div>
+</body>
+</html>

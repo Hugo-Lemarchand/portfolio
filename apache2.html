@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation Apache 2 - Tutoriel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e94560;
+        }
+        h2 {
+            color: #e94560;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        h3 {
+            color: #ffa500;
+            margin: 20px 0 10px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        code {
+            background: #0d1117;
+            color: #58a6ff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+        }
+        pre {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        pre code {
+            padding: 0;
+            background: none;
+        }
+        .warning {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #ffa500;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .tip {
+            background: rgba(233, 69, 96, 0.1);
+            border-left: 4px solid #e94560;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .back-btn {
+            display: inline-block;
+            background: #e94560;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+        }
+        .step-number {
+            display: inline-block;
+            background: #e94560;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .file-structure {
+            background: #0d1117;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 Installation Apache 2</h1>
+            <p class="subtitle">Serveur web HTTP open-source</p>
+        </header>
+
+        <div class="section">
+            <h2>📋 Prérequis</h2>
+            <ul>
+                <li>Serveur Debian/Ubuntu à jour</li>
+                <li>Accès root ou sudo</li>
+                <li>Port 80 et 443 disponibles</li>
+                <li>Connexion internet pour télécharger les paquets</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔧 Installation</h2>
+
+            <h3><span class="step-number">1</span>Mise à jour du système</h3>
+            <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
+
+            <h3><span class="step-number">2</span>Installation d'Apache</h3>
+            <pre><code>sudo apt install apache2 -y</code></pre>
+
+            <h3><span class="step-number">3</span>Vérification du service</h3>
+            <pre><code># Vérifier le statut
+sudo systemctl status apache2
+
+# Activer au démarrage
+sudo systemctl enable apache2
+
+# Tester dans un navigateur
+[ip_du_serveur](http://IP_DU_SERVEUR)</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>📁 Structure des fichiers</h2>
+            <div class="file-structure">
+/etc/apache2/
+├── apache2.conf      # Configuration principale
+├── ports.conf        # Ports d'écoute
+├── sites-available/  # Sites disponibles
+├── sites-enabled/    # Sites activés (liens symboliques)
+├── mods-available/   # Modules disponibles
+├── mods-enabled/     # Modules activés
+└── conf-available/   # Configurations additionnelles
+
+/var/www/html/        # Racine web par défaut
+/var/log/apache2/     # Logs (access.log, error.log)
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚙️ Configuration d'un Virtual Host</h2>
+
+            <h3><span class="step-number">1</span>Créer le répertoire du site</h3>
+            <pre><code>sudo mkdir -p /var/www/monsite.fr/public_html
+sudo chown -R $USER:$USER /var/www/monsite.fr
+sudo chmod -R 755 /var/www/monsite.fr</code></pre>
+
+            <h3><span class="step-number">2</span>Créer une page de test</h3>
+            <pre><code>nano /var/www/monsite.fr/public_html/index.html</code></pre>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Bienvenue sur MonSite&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Le site monsite.fr fonctionne !&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <h3><span class="step-number">3</span>Créer le fichier de configuration</h3>
+            <pre><code>sudo nano /etc/apache2/sites-available/monsite.fr.conf</code></pre>
+            <pre><code>&lt;VirtualHost *:80&gt;
+    ServerAdmin admin@monsite.fr
+    ServerName monsite.fr
+    ServerAlias www.monsite.fr
+    DocumentRoot /var/www/monsite.fr/public_html
+
+    &lt;Directory /var/www/monsite.fr/public_html&gt;
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/monsite.fr_error.log
+    CustomLog ${APACHE_LOG_DIR}/monsite.fr_access.log combined
+&lt;/VirtualHost&gt;</code></pre>
+
+            <h3><span class="step-number">4</span>Activer le site</h3>
+            <pre><code># Activer le site
+sudo a2ensite monsite.fr.conf
+
+# Désactiver le site par défaut (optionnel)
+sudo a2dissite 000-default.conf
+
+# Vérifier la configuration
+sudo apache2ctl configtest
+
+# Recharger Apache
+sudo systemctl reload apache2</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>🔒 Installation SSL avec Let's Encrypt</h2>
+
+            <h3><span class="step-number">1</span>Installer Certbot</h3>
+            <pre><code>sudo apt install certbot python3-certbot-apache -y</code></pre>
+
+            <h3><span class="step-number">2</span>Obtenir le certificat</h3>
+            <pre><code>sudo certbot --apache -d monsite.fr -d www.monsite.fr</code></pre>
+
+            <h3><span class="step-number">3</span>Renouvellement automatique</h3>
+            <pre><code># Tester le renouvellement
+sudo certbot renew --dry-run
+
+# Le cron est automatiquement configuré</code></pre>
+
+            <div class="tip">
+                <strong>💡 Note :</strong> Certbot modifie automatiquement la configuration Apache pour rediriger HTTP vers HTTPS.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔌 Modules utiles</h2>
+            <pre><code># Activer mod_rewrite (réécriture d'URL)
+sudo a2enmod rewrite
+
+# Activer mod_ssl (HTTPS)
+sudo a2enmod ssl
+
+# Activer mod_headers (en-têtes personnalisés)
+sudo a2enmod headers
+
+# Activer mod_deflate (compression)
+sudo a2enmod deflate
+
+# Redémarrer Apache après activation
+sudo systemctl restart apache2</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>🛡️ Sécurisation</h2>
+
+            <h3>Masquer la version d'Apache</h3>
+            <pre><code>sudo nano /etc/apache2/conf-available/security.conf
+
+# Modifier ces lignes :
+ServerTokens Prod
+ServerSignature Off</code></pre>
+
+            <h3>Configuration des en-têtes de sécurité</h3>
+            <pre><code># Dans le VirtualHost ou .htaccess
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-XSS-Protection "1; mode=block"</code></pre>
+
+            <h3>Configurer le pare-feu</h3>
+            <pre><code>sudo ufw allow 'Apache Full'
+sudo ufw status</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>📚 Commandes utiles</h2>
+            <pre><code># Gestion du service
+sudo systemctl start/stop/restart/reload apache2
+
+# Activer/désactiver un site
+sudo a2ensite nom_du_site.conf
+sudo a2dissite nom_du_site.conf
+
+# Activer/désactiver un module
+sudo a2enmod nom_du_module
+sudo a2dismod nom_du_module
+
+# Vérifier la configuration
+sudo apache2ctl configtest
+
+# Voir les logs en temps réel
+sudo tail -f /var/log/apache2/error.log
+sudo tail -f /var/log/apache2/access.log</code></pre>
+        </div>
+
+        <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+    </div>
+</body>
+</html>
