@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migration vers Intune - Tutoriel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #0078d4;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #0078d4;
+        }
+        h2 {
+            color: #0078d4;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        h3 {
+            color: #00bcf2;
+            margin: 20px 0 10px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        code {
+            background: #0d1117;
+            color: #58a6ff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+        }
+        pre {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        pre code {
+            padding: 0;
+            background: none;
+        }
+        .warning {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #ffa500;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .tip {
+            background: rgba(0, 120, 212, 0.1);
+            border-left: 4px solid #0078d4;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .back-btn {
+            display: inline-block;
+            background: #0078d4;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 120, 212, 0.3);
+        }
+        .step-number {
+            display: inline-block;
+            background: #0078d4;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .phase {
+            background: linear-gradient(90deg, #0078d4 0%, #00bcf2 100%);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            background: rgba(0, 120, 212, 0.2);
+            color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>☁️ Migration Domaine vers Intune</h1>
+            <p class="subtitle">Active Directory → Microsoft Entra ID + Intune</p>
+        </header>
+
+        <div class="section">
+            <h2>📋 Vue d'ensemble du projet</h2>
+            <p>Cette migration permet de passer d'une gestion traditionnelle Active Directory (on-premise) vers une gestion cloud avec Microsoft Entra ID (Azure AD) et Microsoft Intune pour le MDM.</p>
+            
+            <h3>Avantages de la migration</h3>
+            <ul>
+                <li>Gestion centralisée depuis le cloud</li>
+                <li>Accès aux applications de n'importe où</li>
+                <li>Sécurité renforcée (Conditional Access, MFA)</li>
+                <li>Déploiement et configuration automatisés</li>
+                <li>Réduction des coûts d'infrastructure</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <span class="phase">Phase 1</span>
+            <h2>🔍 Audit et planification</h2>
+
+            <h3><span class="step-number">1</span>Inventaire de l'existant</h3>
+            <ul>
+                <li>Nombre de postes et utilisateurs</li>
+                <li>Applications déployées (GPO, scripts)</li>
+                <li>Imprimantes et partages réseau</li>
+                <li>Stratégies de groupe (GPO) en place</li>
+                <li>Certificats et configurations spécifiques</li>
+            </ul>
+
+            <h3><span class="step-number">2</span>Prérequis licences</h3>
+            <table>
+                <tr>
+                    <th>Licence</th>
+                    <th>Fonctionnalités</th>
+                </tr>
+                <tr>
+                    <td>Microsoft 365 Business Premium</td>
+                    <td>Intune, Entra ID P1, Defender</td>
+                </tr>
+                <tr>
+                    <td>Microsoft 365 E3/E5</td>
+                    <td>Intune, Entra ID P1/P2, fonctionnalités avancées</td>
+                </tr>
+                <tr>
+                    <td>Intune Plan 1 (standalone)</td>
+                    <td>MDM uniquement</td>
+                </tr>
+            </table>
+
+            <h3><span class="step-number">3</span>Planifier la coexistence</h3>
+            <p>Définir si vous optez pour :</p>
+            <ul>
+                <li><strong>Hybrid Join</strong> : postes joints à AD et Entra ID (transition progressive)</li>
+                <li><strong>Cloud-only</strong> : migration complète vers Entra ID (recommandé pour nouveaux postes)</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <span class="phase">Phase 2</span>
+            <h2>⚙️ Configuration Entra ID et Intune</h2>
+
+            <h3><span class="step-number">4</span>Configurer Entra ID Connect (si Hybrid)</h3>
+            <pre><code># Télécharger Azure AD Connect depuis Microsoft
+# Installer sur un serveur membre du domaine
+
+# Configuration recommandée :
+- Synchronisation de hash de mot de passe
+- Filtrage par OU si nécessaire
+- Rétroécriture de mot de passe (optionnel)</code></pre>
+
+            <h3><span class="step-number">5</span>Configurer l'inscription automatique Intune</h3>
+            <p>Dans le portail Entra ID :</p>
+            <ol>
+                <li>Mobility (MDM and MAM) → Microsoft Intune</li>
+                <li>MDM user scope : Tous ou groupe spécifique</li>
+                <li>MAM user scope : Aucun (ou selon besoin)</li>
+            </ol>
+
+            <h3><span class="step-number">6</span>Configurer Windows Autopilot</h3>
+            <pre><code># Sur un poste de test, récupérer l'ID matériel
+Install-Script -Name Get-WindowsAutoPilotInfo
+Get-WindowsAutoPilotInfo -OutputFile C:\autopilot.csv
+
+# Importer dans Intune :
+# Devices → Windows → Enrollment → Devices (Autopilot)</code></pre>
+        </div>
+
+        <div class="section">
+            <span class="phase">Phase 3</span>
+            <h2>📝 Migration des GPO vers Intune</h2>
+
+            <h3><span class="step-number">7</span>Analyser les GPO existantes</h3>
+            <pre><code># Exporter les GPO pour analyse
+Get-GPO -All | ForEach-Object {
+    Get-GPOReport -Guid $_.Id -ReportType Html -Path "C:\GPO_Reports\$($_.DisplayName).html"
+}</code></pre>
+
+            <h3><span class="step-number">8</span>Utiliser Group Policy Analytics</h3>
+            <p>Dans Intune : Devices → Windows → Group Policy analytics</p>
+            <ul>
+                <li>Importer les fichiers de sauvegarde GPO</li>
+                <li>Analyser la compatibilité avec Intune</li>
+                <li>Migrer les paramètres compatibles</li>
+            </ul>
+
+            <h3><span class="step-number">9</span>Créer les profils de configuration</h3>
+            <p>Types de profils Intune :</p>
+            <ul>
+                <li><strong>Device restrictions</strong> : sécurité, fonctionnalités Windows</li>
+                <li><strong>Configuration profiles</strong> : paramètres personnalisés</li>
+                <li><strong>Endpoint security</strong> : antivirus, pare-feu, chiffrement</li>
+                <li><strong>Compliance policies</strong> : conformité des appareils</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <span class="phase">Phase 4</span>
+            <h2>💻 Migration des postes</h2>
+
+            <h3>Option A : Migration en place (Hybrid → Cloud)</h3>
+            <pre><code># Disjoindre du domaine et joindre Entra ID
+# En tant qu'administrateur local
+
+# Vérifier l'état actuel
+dsregcmd /status
+
+# Quitter le domaine
+Remove-Computer -UnjoinDomainCredential (Get-Credential) -PassThru -Verbose -Restart
+
+# Après redémarrage, joindre Entra ID
+# Paramètres → Comptes → Accès professionnel ou scolaire → Connecter
+# Choisir "Joindre cet appareil à Azure Active Directory"</code></pre>
+
+            <h3>Option B : Réinstallation avec Autopilot</h3>
+            <ol>
+                <li>Enregistrer le poste dans Autopilot</li>
+                <li>Réinitialiser Windows (Reset this PC)</li>
+                <li>L'utilisateur se connecte avec ses identifiants M365</li>
+                <li>Configuration automatique via Intune</li>
+            </ol>
+
+            <h3><span class="step-number">10</span>Script de migration automatisé</h3>
+            <pre><code># Script PowerShell de migration
+$Credential = Get-Credential -Message "Compte admin domaine"
+
+# Sauvegarder les données utilisateur si nécessaire
+$UserProfile = $env:USERPROFILE
+Copy-Item "$UserProfile\Desktop" "D:\Backup\Desktop" -Recurse
+Copy-Item "$UserProfile\Documents" "D:\Backup\Documents" -Recurse
+
+# Disjoindre du domaine
+Remove-Computer -UnjoinDomainCredential $Credential -Force -Restart</code></pre>
+
+            <div class="warning">
+                <strong>⚠️ Attention :</strong> Toujours tester sur un groupe pilote avant le déploiement massif !
+            </div>
+        </div>
+
+        <div class="section">
+            <span class="phase">Phase 5</span>
+            <h2>🔒 Configuration de la sécurité</h2>
+
+            <h3><span class="step-number">11</span>Conditional Access</h3>
+            <p>Créer des stratégies d'accès conditionnel :</p>
+            <ul>
+                <li>Exiger MFA pour les connexions à risque</li>
+                <li>Bloquer l'accès depuis des pays non autorisés</li>
+                <li>Exiger un appareil conforme pour accéder aux données</li>
+            </ul>
+
+            <h3><span class="step-number">12</span>Compliance Policies</h3>
+            <pre><code># Exemple de politique de conformité
+- Version Windows minimum : 22H2
+- BitLocker activé
+- Antivirus actif
+- Pare-feu activé
+- Mot de passe requis
+
+# Action si non conforme :
+- Notification utilisateur
+- Bloquer l'accès après X jours</code></pre>
+
+            <h3><span class="step-number">13</span>Windows Hello for Business</h3>
+            <p>Configurer l'authentification sans mot de passe :</p>
+            <ul>
+                <li>Devices → Windows → Enrollment → Windows Hello for Business</li>
+                <li>Activer et configurer PIN, biométrie</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <span class="phase">Phase 6</span>
+            <h2>📦 Déploiement des applications</h2>
+
+            <h3><span class="step-number">14</span>Apps Microsoft 365</h3>
+            <pre><code># Dans Intune : Apps → Windows → Add
+# Type : Microsoft 365 Apps
+
+# Configuration recommandée :
+- Update channel : Monthly Enterprise
+- Apps : Word, Excel, PowerPoint, Outlook, Teams
+- Architecture : 64-bit
+- Version : Latest</code></pre>
+
+            <h3><span class="step-number">15</span>Applications Win32</h3>
+            <pre><code># Préparer le package avec IntuneWinAppUtil
+IntuneWinAppUtil.exe -c "C:\Source\App" -s "setup.exe" -o "C:\Output" -q
+
+# Configurer dans Intune :
+# Install command : setup.exe /silent
+# Uninstall command : setup.exe /uninstall /silent
+# Detection rules : fichier, registre ou script</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>✅ Checklist post-migration</h2>
+            <ul>
+                <li>☐ Tous les postes apparaissent dans Intune</li>
+                <li>☐ Les profils de configuration sont appliqués</li>
+                <li>☐ Les applications sont déployées</li>
+                <li>☐ Les politiques de conformité sont actives</li>
+                <li>☐ L'accès conditionnel fonctionne</li>
+                <li>☐ Les utilisateurs peuvent accéder à leurs ressources</li>
+                <li>☐ La documentation est à jour</li>
+                <li>☐ L'ancien AD peut être décommissionné (si full cloud)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+    </div>
+</body>
+</html>
