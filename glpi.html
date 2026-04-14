@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation GLPI - Tutoriel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ffc107;
+        }
+        h2 {
+            color: #ffc107;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        h3 {
+            color: #17a2b8;
+            margin: 20px 0 10px;
+        }
+        ul, ol {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        code {
+            background: #0d1117;
+            color: #58a6ff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+        }
+        pre {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        pre code {
+            padding: 0;
+            background: none;
+        }
+        .warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .tip {
+            background: rgba(23, 162, 184, 0.1);
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .back-btn {
+            display: inline-block;
+            background: #ffc107;
+            color: #1a1a2e;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3);
+        }
+        .step-number {
+            display: inline-block;
+            background: #ffc107;
+            color: #1a1a2e;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎫 Installation GLPI</h1>
+            <p class="subtitle">Gestion Libre de Parc Informatique - Helpdesk & Inventaire</p>
+        </header>
+
+        <div class="section">
+            <h2>📋 Prérequis</h2>
+            <ul>
+                <li>Serveur Debian/Ubuntu avec Apache2 installé</li>
+                <li>PHP 8.1 ou supérieur</li>
+                <li>MariaDB/MySQL</li>
+                <li>Minimum 2 Go de RAM</li>
+                <li>Espace disque : 2 Go minimum</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔧 Installation des dépendances</h2>
+
+            <h3><span class="step-number">1</span>Installer PHP et les extensions requises</h3>
+            <pre><code>sudo apt update
+sudo apt install -y php php-{curl,gd,imagick,intl,apcu,memcache,imap,mysql,cas,ldap,tidy,pear,xmlrpc,pspell,mbstring,json,iconv,xml,gd,xsl,zip,bz2}</code></pre>
+
+            <h3><span class="step-number">2</span>Installer MariaDB</h3>
+            <pre><code>sudo apt install mariadb-server -y
+sudo mysql_secure_installation</code></pre>
+
+            <h3><span class="step-number">3</span>Créer la base de données</h3>
+            <pre><code>sudo mysql -u root -p</code></pre>
+            <pre><code>CREATE DATABASE glpi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'glpi_user'@'localhost' IDENTIFIED BY 'MotDePasseFort123!';
+GRANT ALL PRIVILEGES ON glpi.* TO 'glpi_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>📥 Téléchargement et installation de GLPI</h2>
+
+            <h3><span class="step-number">4</span>Télécharger GLPI</h3>
+            <pre><code>cd /tmp
+wget [github.com](https://github.com/glpi-project/glpi/releases/download/10.0.16/glpi-10.0.16.tgz)
+
+# Extraire l'archive
+tar -xvzf glpi-10.0.16.tgz
+
+# Déplacer vers le répertoire web
+sudo mv glpi /var/www/html/</code></pre>
+
+            <h3><span class="step-number">5</span>Configurer les permissions</h3>
+            <pre><code>sudo chown -R www-data:www-data /var/www/html/glpi
+sudo chmod -R 755 /var/www/html/glpi</code></pre>
+
+            <h3><span class="step-number">6</span>Sécuriser les dossiers sensibles</h3>
+            <pre><code># Déplacer les dossiers sensibles hors du web
+sudo mkdir -p /etc/glpi
+sudo mkdir -p /var/lib/glpi
+sudo mkdir -p /var/log/glpi
+
+sudo mv /var/www/html/glpi/config /etc/glpi/
+sudo mv /var/www/html/glpi/files /var/lib/glpi/
+
+sudo chown -R www-data:www-data /etc/glpi
+sudo chown -R www-data:www-data /var/lib/glpi
+sudo chown -R www-data:www-data /var/log/glpi</code></pre>
+
+            <h3><span class="step-number">7</span>Créer les fichiers de configuration</h3>
+            <pre><code>sudo nano /var/www/html/glpi/inc/downstream.php</code></pre>
+            <pre><code>&lt;?php
+define('GLPI_CONFIG_DIR', '/etc/glpi/');
+if (file_exists(GLPI_CONFIG_DIR . '/local_define.php')) {
+    require_once GLPI_CONFIG_DIR . '/local_define.php';
+}</code></pre>
+
+            <pre><code>sudo nano /etc/glpi/local_define.php</code></pre>
+            <pre><code>&lt;?php
+define('GLPI_VAR_DIR', '/var/lib/glpi');
+define('GLPI_LOG_DIR', '/var/log/glpi');</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>🌐 Configuration Apache</h2>
+
+            <pre><code>sudo nano /etc/apache2/sites-available/glpi.conf</code></pre>
+            <pre><code>&lt;VirtualHost *:80&gt;
+    ServerName glpi.mondomaine.fr
+    DocumentRoot /var/www/html/glpi/public
+
+    &lt;Directory /var/www/html/glpi/public&gt;
+        Require all granted
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^(.*)$ index.php [QSA,L]
+    &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/glpi_error.log
+    CustomLog ${APACHE_LOG_DIR}/glpi_access.log combined
+&lt;/VirtualHost&gt;</code></pre>
+
+            <pre><code># Activer le site et les modules nécessaires
+sudo a2ensite glpi.conf
+sudo a2enmod rewrite
+sudo systemctl restart apache2</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>🖥️ Installation via l'interface web</h2>
+
+            <h3><span class="step-number">8</span>Accéder à l'installation</h3>
+            <p>Ouvrir un navigateur et accéder à :</p>
+            <pre><code>[ip_du_serveur](http://IP_DU_SERVEUR/glpi)</code></pre>
+
+            <h3><span class="step-number">9</span>Étapes de l'assistant</h3>
+            <ol>
+                <li>Sélectionner la langue (Français)</li>
+                <li>Accepter la licence GPL</li>
+                <li>Choisir "Installer"</li>
+                <li>Vérifier les prérequis (tout doit être en vert)</li>
+                <li>Configurer la connexion à la base de données :
+                    <ul>
+                        <li>Serveur : localhost</li>
+                        <li>Utilisateur : glpi_user</li>
+                        <li>Mot de passe : MotDePasseFort123!</li>
+                    </ul>
+                </li>
+                <li>Sélectionner la base "glpi"</li>
+                <li>Finaliser l'installation</li>
+            </ol>
+
+            <div class="warning">
+                <strong>⚠️ Important :</strong> Noter les identifiants par défaut puis les changer immédiatement !
+            </div>
+
+            <table>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Mot de passe</th>
+                    <th>Rôle</th>
+                </tr>
+                <tr>
+                    <td>glpi</td>
+                    <td>glpi</td>
+                    <td>Super-Admin</td>
+                </tr>
+                <tr>
+                    <td>tech</td>
+                    <td>tech</td>
+                    <td>Technicien</td>
+                </tr>
+                <tr>
+                    <td>normal</td>
+                    <td>normal</td>
+                    <td>Utilisateur</td>
+                </tr>
+                <tr>
+                    <td>post-only</td>
+                    <td>postonly</td>
+                    <td>Post-only</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🔒 Sécurisation post-installation</h2>
+
+            <pre><code># Supprimer le fichier d'installation
+sudo rm /var/www/html/glpi/install/install.php
+
+# Changer les mots de passe par défaut
+# Administration → Utilisateurs → Modifier chaque utilisateur
+
+# Configurer les tâches automatiques (cron)
+sudo crontab -u www-data -e
+# Ajouter :
+*/1 * * * * php /var/www/html/glpi/front/cron.php</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>🔌 Intégration avec OCS Inventory</h2>
+            <p>GLPI peut s'interfacer avec OCS Inventory pour l'inventaire automatique :</p>
+            <ol>
+                <li>Configuration → Plugins → Installer le plugin OCS</li>
+                <li>Configurer la connexion au serveur OCS</li>
+                <li>Planifier les imports automatiques</li>
+            </ol>
+
+            <div class="tip">
+                <strong>💡 Conseil :</strong> Utiliser le plugin FusionInventory (intégré nativement) comme alternative à OCS.
+            </div>
+        </div>
+
+        <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+    </div>
+</body>
+</html>
