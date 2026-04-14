@@ -1,219 +1,431 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installation Proxmox - Tutoriel</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e0e0e0;
-            line-height: 1.8;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            color: #00d4ff;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            color: #888;
-            font-size: 1.1rem;
-        }
-        .section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border-left: 4px solid #00d4ff;
-        }
-        h2 {
-            color: #00d4ff;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-        h3 {
-            color: #ffa500;
-            margin: 20px 0 10px;
-        }
-        ul, ol {
-            padding-left: 25px;
-            margin: 15px 0;
-        }
-        li {
-            margin: 10px 0;
-        }
-        code {
-            background: #0d1117;
-            color: #58a6ff;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-family: 'Consolas', monospace;
-        }
-        pre {
-            background: #0d1117;
-            padding: 20px;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 15px 0;
-        }
-        pre code {
-            padding: 0;
-            background: none;
-        }
-        .warning {
-            background: rgba(255, 165, 0, 0.1);
-            border-left: 4px solid #ffa500;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .tip {
-            background: rgba(0, 212, 255, 0.1);
-            border-left: 4px solid #00d4ff;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .back-btn {
-            display: inline-block;
-            background: #00d4ff;
-            color: #1a1a2e;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 30px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .back-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
-        }
-        .step-number {
-            display: inline-block;
-            background: #00d4ff;
-            color: #1a1a2e;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Installation Proxmox VE – Tutoriel | Hugo Lemarchand</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f9;
+      color: #1a1a2e;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #1F3864;
+      color: white;
+      padding: 2.5rem 2rem 2rem;
+    }
+    header .badge {
+      display: inline-block;
+      background: #2E75B6;
+      color: white;
+      font-size: 12px;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    header p {
+      color: #a8c4e0;
+      font-size: 0.95rem;
+      max-width: 600px;
+    }
+    header .meta {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: #7aa6cc;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #2E75B6;
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #2E75B6;
+    }
+
+    /* INTRO */
+    .intro-block {
+      background: white;
+      border-radius: 10px;
+      border: 1px solid #e0e6f0;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .intro-block p { color: #444; margin-bottom: 0.5rem; }
+    .intro-block p:last-child { margin-bottom: 0; }
+    .intro-block strong { color: #1F3864; }
+
+    /* PRÉREQUIS */
+    .prereq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .prereq-card {
+      background: white;
+      border: 1px solid #e0e6f0;
+      border-radius: 10px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .prereq-card .prereq-icon { font-size: 1.3rem; margin-bottom: 2px; }
+    .prereq-card .prereq-name { font-weight: 700; font-size: 0.9rem; color: #1F3864; }
+    .prereq-card .prereq-detail { font-size: 0.82rem; color: #555; }
+    .prereq-card .prereq-badge {
+      font-size: 11px;
+      background: #D6E4F0;
+      color: #1F3864;
+      padding: 2px 8px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+
+    /* ÉTAPES */
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .step-card {
+      background: white;
+      border: 1px solid #e0e6f0;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      border-left: 4px solid #2E75B6;
+      transition: box-shadow 0.2s;
+    }
+    .step-card:hover { box-shadow: 0 4px 12px rgba(30,60,100,0.08); }
+    .step-card .step-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0.6rem;
+    }
+    .step-num {
+      width: 26px; height: 26px;
+      background: #2E75B6;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-card h3 { font-size: 1rem; font-weight: 700; color: #1F3864; }
+    .step-card p { font-size: 0.88rem; color: #555; margin-bottom: 0.6rem; }
+    .step-card ul { padding-left: 1.2rem; margin: 0.4rem 0 0.6rem; }
+    .step-card ul li { font-size: 0.88rem; color: #555; margin-bottom: 0.3rem; }
+
+    /* CODE */
+    code {
+      background: #f0f4fa;
+      color: #1F3864;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.82rem;
+    }
+    pre {
+      background: #1a2540;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      margin: 0.75rem 0;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: #a8c8e8;
+      font-size: 0.83rem;
+      line-height: 1.7;
+    }
+
+    /* TIP */
+    .tip {
+      background: #eaf4fd;
+      border-left: 4px solid #2E75B6;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: #444;
+      margin-top: 0.75rem;
+    }
+    .tip strong {
+      color: #1F3864;
+      display: block;
+      margin-bottom: 2px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* POST-INSTALL & COMMANDES */
+    .content-block {
+      background: white;
+      border: 1px solid #e0e6f0;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .content-block h3 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #2E75B6;
+      margin: 1.2rem 0 0.5rem;
+    }
+    .content-block h3:first-child { margin-top: 0; }
+    .content-block p, .content-block li { font-size: 0.88rem; color: #555; }
+    .content-block ul { padding-left: 1.2rem; margin: 0.4rem 0; }
+    .content-block li { margin-bottom: 0.3rem; }
+
+    /* CRÉATION VM */
+    .vm-block {
+      background: #1F3864;
+      color: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .vm-block .vm-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a8c4e0;
+      margin-bottom: 1rem;
+    }
+    .vm-block ol { padding-left: 1.2rem; }
+    .vm-block li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #d0e4f5; }
+    .vm-block code {
+      background: rgba(255,255,255,0.1);
+      color: #a8c4e0;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    /* BACK */
+    .back-btn {
+      display: inline-block;
+      background: #2E75B6;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: background 0.2s;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+    .back-btn:hover { background: #1F3864; }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: #999;
+      border-top: 1px solid #e0e6f0;
+    }
+    footer a { color: #2E75B6; text-decoration: none; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.3rem; }
+      .prereq-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🖥️ Installation Proxmox VE</h1>
-            <p class="subtitle">Hyperviseur de virtualisation open-source</p>
-        </header>
 
-        <div class="section">
-            <h2>📋 Prérequis</h2>
-            <ul>
-                <li>Un serveur ou PC dédié avec processeur supportant la virtualisation (VT-x/AMD-V)</li>
-                <li>Minimum 4 Go de RAM (8 Go+ recommandé)</li>
-                <li>Disque dur de 32 Go minimum</li>
-                <li>Clé USB de 8 Go minimum pour l'installation</li>
-                <li>Image ISO de Proxmox VE (téléchargeable sur <code>proxmox.com</code>)</li>
-            </ul>
-        </div>
+<header>
+  <div class="badge">BTS SIO – SISR | Projet</div>
+  <h1>Installation Proxmox VE</h1>
+  <p>Hyperviseur de virtualisation open-source – Guide d'installation et de configuration</p>
+  <div class="meta">Hugo Lemarchand · Ensitech · Session 2026</div>
+</header>
 
-        <div class="section">
-            <h2>🔧 Étapes d'installation</h2>
+<div class="container">
 
-            <h3><span class="step-number">1</span>Création de la clé USB bootable</h3>
-            <p>Télécharger l'ISO depuis le site officiel et utiliser un outil comme Rufus ou Balena Etcher :</p>
-            <pre><code># Sous Linux avec dd
-sudo dd if=proxmox-ve_*.iso of=/dev/sdX bs=4M status=progress</code></pre>
+  <!-- PRÉSENTATION -->
+  <p class="section-title">Présentation</p>
+  <div class="intro-block">
+    <p>Ce tutoriel présente l'installation et la configuration de <strong>Proxmox Virtual Environment (VE)</strong>, un hyperviseur open-source basé sur Debian permettant de gérer des machines virtuelles (KVM) et des conteneurs (LXC) depuis une interface web centralisée.</p>
+    <p>Ce projet s'inscrit dans mon parcours SISR, en lien direct avec la virtualisation d'infrastructure et l'administration de serveurs. Proxmox a été utilisé dans le cadre de mes environnements de test et de déploiement en laboratoire.</p>
+  </div>
 
-            <h3><span class="step-number">2</span>Démarrage sur la clé USB</h3>
-            <ul>
-                <li>Configurer le BIOS/UEFI pour démarrer sur la clé USB</li>
-                <li>Activer la virtualisation (VT-x ou AMD-V) dans le BIOS</li>
-                <li>Sélectionner "Install Proxmox VE"</li>
-            </ul>
+  <!-- PRÉREQUIS -->
+  <p class="section-title">Prérequis matériels et logiciels</p>
+  <div class="prereq-grid">
+    <div class="prereq-card">
+      <span class="prereq-icon">🖥️</span>
+      <span class="prereq-name">Processeur</span>
+      <span class="prereq-detail">Compatible virtualisation</span>
+      <span class="prereq-badge">VT-x / AMD-V requis</span>
+    </div>
+    <div class="prereq-card">
+      <span class="prereq-icon">🧠</span>
+      <span class="prereq-name">RAM</span>
+      <span class="prereq-detail">4 Go minimum</span>
+      <span class="prereq-badge">8 Go+ recommandé</span>
+    </div>
+    <div class="prereq-card">
+      <span class="prereq-icon">💾</span>
+      <span class="prereq-name">Stockage</span>
+      <span class="prereq-detail">32 Go minimum</span>
+      <span class="prereq-badge">SSD recommandé</span>
+    </div>
+    <div class="prereq-card">
+      <span class="prereq-icon">🔌</span>
+      <span class="prereq-name">Clé USB</span>
+      <span class="prereq-detail">8 Go minimum</span>
+      <span class="prereq-badge">Pour l'ISO bootable</span>
+    </div>
+    <div class="prereq-card">
+      <span class="prereq-icon">📀</span>
+      <span class="prereq-name">ISO Proxmox VE</span>
+      <span class="prereq-detail">Depuis proxmox.com</span>
+      <span class="prereq-badge">Version stable</span>
+    </div>
+  </div>
 
-            <h3><span class="step-number">3</span>Configuration de l'installation</h3>
-            <ul>
-                <li>Accepter la licence EULA</li>
-                <li>Sélectionner le disque cible pour l'installation</li>
-                <li>Configurer le pays, le fuseau horaire et la disposition clavier</li>
-                <li>Définir le mot de passe root et l'email administrateur</li>
-            </ul>
+  <!-- ÉTAPES -->
+  <p class="section-title">Étapes d'installation</p>
+  <div class="steps-list">
 
-            <h3><span class="step-number">4</span>Configuration réseau</h3>
-            <pre><code>Hostname: proxmox.local
+    <div class="step-card">
+      <div class="step-meta">
+        <div class="step-num">1</div>
+        <h3>Création de la clé USB bootable</h3>
+      </div>
+      <p>Télécharger l'ISO depuis le site officiel, puis flasher la clé avec Rufus, Balena Etcher, ou <code>dd</code> sous Linux :</p>
+      <pre><code>sudo dd if=proxmox-ve_*.iso of=/dev/sdX bs=4M status=progress</code></pre>
+    </div>
+
+    <div class="step-card">
+      <div class="step-meta">
+        <div class="step-num">2</div>
+        <h3>Démarrage sur la clé USB</h3>
+      </div>
+      <ul>
+        <li>Accéder au BIOS/UEFI et définir la clé USB comme périphérique de démarrage prioritaire</li>
+        <li>Activer la virtualisation matérielle (VT-x ou AMD-V)</li>
+        <li>Sélectionner <code>Install Proxmox VE</code> dans le menu de démarrage</li>
+      </ul>
+    </div>
+
+    <div class="step-card">
+      <div class="step-meta">
+        <div class="step-num">3</div>
+        <h3>Configuration de l'installation</h3>
+      </div>
+      <ul>
+        <li>Accepter la licence EULA</li>
+        <li>Sélectionner le disque cible pour l'installation</li>
+        <li>Configurer le pays, le fuseau horaire et la disposition du clavier</li>
+        <li>Définir un mot de passe root sécurisé et une adresse e-mail administrateur</li>
+      </ul>
+    </div>
+
+    <div class="step-card">
+      <div class="step-meta">
+        <div class="step-num">4</div>
+        <h3>Configuration réseau</h3>
+      </div>
+      <p>Renseigner les paramètres réseau du serveur :</p>
+      <pre><code>Hostname:   proxmox.local
 IP Address: 192.168.1.100
-Netmask: 255.255.255.0
-Gateway: 192.168.1.1
+Netmask:    255.255.255.0
+Gateway:    192.168.1.1
 DNS Server: 192.168.1.1</code></pre>
+    </div>
 
-            <h3><span class="step-number">5</span>Finalisation</h3>
-            <p>Après l'installation, accéder à l'interface web :</p>
-            <pre><code>[192.168.1.100](https://192.168.1.100:8006)</code></pre>
-        </div>
+    <div class="step-card">
+      <div class="step-meta">
+        <div class="step-num">5</div>
+        <h3>Finalisation et premier accès</h3>
+      </div>
+      <p>Une fois l'installation terminée et le serveur redémarré, accéder à l'interface web via un navigateur :</p>
+      <pre><code>https://192.168.1.100:8006</code></pre>
+      <div class="tip">
+        <strong>💡 Note</strong>
+        Le navigateur affichera un avertissement de certificat auto-signé. Cliquer sur "Avancé" puis "Continuer" pour accéder à l'interface.
+      </div>
+    </div>
 
-        <div class="section">
-            <h2>⚙️ Configuration post-installation</h2>
+  </div>
 
-            <h3>Désactiver le dépôt Enterprise (optionnel)</h3>
-            <pre><code># Éditer le fichier sources
+  <!-- POST-INSTALL -->
+  <p class="section-title">Configuration post-installation</p>
+  <div class="content-block">
+    <h3>Désactiver le dépôt Enterprise (optionnel)</h3>
+    <p>Si vous n'avez pas de licence commerciale, désactivez le dépôt Enterprise pour éviter les erreurs lors des mises à jour :</p>
+    <pre><code># Commenter la ligne dans le fichier sources
 nano /etc/apt/sources.list.d/pve-enterprise.list
-# Commenter la ligne existante
 
 # Ajouter le dépôt no-subscription
-echo "deb [download.proxmox.com](http://download.proxmox.com/debian/pve) bookworm pve-no-subscription" > /etc/apt/sources.list.d/pve-no-subscription.list
+echo "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription" \
+  > /etc/apt/sources.list.d/pve-no-subscription.list
 
-# Mettre à jour
+# Mettre à jour le système
 apt update && apt full-upgrade -y</code></pre>
 
-            <h3>Créer un stockage pour les VMs</h3>
-            <ul>
-                <li>Datacenter → Storage → Add</li>
-                <li>Choisir le type (Directory, LVM, ZFS...)</li>
-                <li>Configurer le chemin et les contenus autorisés</li>
-            </ul>
+    <h3>Configurer un stockage pour les VMs</h3>
+    <ul>
+      <li>Datacenter → Storage → Add</li>
+      <li>Choisir le type adapté : Directory, LVM, ZFS…</li>
+      <li>Définir le chemin de stockage et les types de contenus autorisés</li>
+    </ul>
+    <div class="tip">
+      <strong>💡 Conseil</strong>
+      ZFS est recommandé pour les environnements critiques : il offre snapshots, compression et réplication native.
+    </div>
+  </div>
 
-            <div class="tip">
-                <strong>💡 Conseil :</strong> Utiliser ZFS pour bénéficier des snapshots et de la réplication.
-            </div>
-        </div>
+  <!-- CRÉATION VM -->
+  <p class="section-title">Création de votre première VM</p>
+  <div class="vm-block">
+    <div class="vm-label">Procédure via l'interface web</div>
+    <ol>
+      <li>Cliquer sur <code>Create VM</code> en haut à droite de l'interface</li>
+      <li>Définir l'ID et le nom de la VM</li>
+      <li>Sélectionner l'image ISO à utiliser (depuis le stockage)</li>
+      <li>Configurer le disque virtuel : taille et format (<code>qcow2</code> ou <code>raw</code>)</li>
+      <li>Allouer les ressources CPU et RAM</li>
+      <li>Configurer le réseau sur le bridge <code>vmbr0</code></li>
+      <li>Valider, puis démarrer la VM depuis le panneau de gauche</li>
+    </ol>
+  </div>
 
-        <div class="section">
-            <h2>🚀 Création de votre première VM</h2>
-            <ol>
-                <li>Cliquer sur "Create VM" en haut à droite</li>
-                <li>Configurer l'ID et le nom de la VM</li>
-                <li>Sélectionner l'image ISO</li>
-                <li>Configurer le disque virtuel (taille, format qcow2/raw)</li>
-                <li>Allouer CPU et RAM</li>
-                <li>Configurer le réseau (bridge vmbr0)</li>
-                <li>Valider et démarrer la VM</li>
-            </ol>
-        </div>
-
-        <div class="section">
-            <h2>📚 Commandes utiles</h2>
-            <pre><code># Lister les VMs
+  <!-- COMMANDES -->
+  <p class="section-title">Commandes utiles</p>
+  <div class="content-block">
+    <pre><code># Lister les VMs
 qm list
 
 # Démarrer une VM
@@ -225,11 +437,17 @@ qm stop &lt;vmid&gt;
 # Créer un snapshot
 qm snapshot &lt;vmid&gt; &lt;snapname&gt;
 
-# Voir les logs
+# Consulter les logs du service Proxmox
 journalctl -u pvedaemon</code></pre>
-        </div>
+  </div>
 
-        <a href="index.html" class="back-btn">← Retour au Portfolio</a>
-    </div>
+  <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+
+</div>
+
+<footer>
+  <p>Hugo Lemarchand · BTS SIO SISR · Ensitech · Session 2026 · <a href="https://hugo-lemarchand.github.io/portfolio/" target="_blank">Portfolio →</a></p>
+</footer>
+
 </body>
 </html>
