@@ -1,275 +1,204 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installation Debian - Tutoriel</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e0e0e0;
-            line-height: 1.8;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            color: #d63384;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            color: #888;
-            font-size: 1.1rem;
-        }
-        .section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border-left: 4px solid #d63384;
-        }
-        h2 {
-            color: #d63384;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-        h3 {
-            color: #ffa500;
-            margin: 20px 0 10px;
-        }
-        ul, ol {
-            padding-left: 25px;
-            margin: 15px 0;
-        }
-        li {
-            margin: 10px 0;
-        }
-        code {
-            background: #0d1117;
-            color: #58a6ff;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-family: 'Consolas', monospace;
-        }
-        pre {
-            background: #0d1117;
-            padding: 20px;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 15px 0;
-        }
-        pre code {
-            padding: 0;
-            background: none;
-        }
-        .warning {
-            background: rgba(255, 165, 0, 0.1);
-            border-left: 4px solid #ffa500;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .tip {
-            background: rgba(214, 51, 132, 0.1);
-            border-left: 4px solid #d63384;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .back-btn {
-            display: inline-block;
-            background: #d63384;
-            color: #fff;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 30px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .back-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.3);
-        }
-        .step-number {
-            display: inline-block;
-            background: #d63384;
-            color: #fff;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        th {
-            background: rgba(214, 51, 132, 0.2);
-            color: #d63384;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Installation Debian – Tutoriel | Hugo Lemarchand</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 15px; line-height: 1.6; }
+    header { background: #1F3864; color: white; padding: 2.5rem 2rem 2rem; }
+    header .badge { display: inline-block; background: #2E75B6; color: white; font-size: 12px; padding: 3px 12px; border-radius: 20px; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+    header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.4rem; }
+    header p { color: #a8c4e0; font-size: 0.95rem; max-width: 600px; }
+    header .meta { margin-top: 1rem; font-size: 0.85rem; color: #7aa6cc; }
+    .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #2E75B6; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid #2E75B6; }
+    .intro-block { background: white; border-radius: 10px; border: 1px solid #e0e6f0; padding: 1.5rem; margin-bottom: 2rem; }
+    .intro-block p { color: #444; margin-bottom: 0.5rem; }
+    .intro-block p:last-child { margin-bottom: 0; }
+    .intro-block strong { color: #1F3864; }
+    /* PREREQ TABLE */
+    .content-block { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .content-block h3 { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #2E75B6; margin: 1.2rem 0 0.5rem; }
+    .content-block h3:first-child { margin-top: 0; }
+    .content-block p, .content-block li { font-size: 0.88rem; color: #555; }
+    .content-block ul, .content-block ol { padding-left: 1.2rem; margin: 0.4rem 0; }
+    .content-block li { margin-bottom: 0.3rem; }
+    table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e0e6f0; font-size: 0.88rem; }
+    th { background: #D6E4F0; color: #1F3864; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { color: #444; }
+    /* STEPS */
+    .steps-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+    .step-card { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.25rem 1.5rem; border-left: 4px solid #2E75B6; transition: box-shadow 0.2s; }
+    .step-card:hover { box-shadow: 0 4px 12px rgba(30,60,100,0.08); }
+    .step-card .step-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 0.6rem; }
+    .step-num { width: 26px; height: 26px; background: #2E75B6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; }
+    .step-card h3 { font-size: 1rem; font-weight: 700; color: #1F3864; }
+    .step-card p { font-size: 0.88rem; color: #555; margin-bottom: 0.6rem; }
+    .step-card ul, .step-card ol { padding-left: 1.2rem; margin: 0.4rem 0 0.6rem; }
+    .step-card li { font-size: 0.88rem; color: #555; margin-bottom: 0.3rem; }
+    /* CODE */
+    code { background: #f0f4fa; color: #1F3864; padding: 2px 7px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.82rem; }
+    pre { background: #1a2540; border-radius: 8px; padding: 1rem 1.25rem; overflow-x: auto; margin: 0.75rem 0; }
+    pre code { background: none; padding: 0; color: #a8c8e8; font-size: 0.83rem; line-height: 1.7; }
+    /* CALLOUTS */
+    .tip { background: #eaf4fd; border-left: 4px solid #2E75B6; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.88rem; color: #444; margin-top: 0.75rem; }
+    .tip strong { color: #1F3864; display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .warning { background: #fff8e1; border-left: 4px solid #f0b43c; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.88rem; color: #444; margin-top: 0.75rem; }
+    .warning strong { color: #b07d00; display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    /* DARK BLOCK */
+    .dark-block { background: #1F3864; color: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .dark-block .dark-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #a8c4e0; margin-bottom: 1rem; }
+    .dark-block ol { padding-left: 1.2rem; }
+    .dark-block li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #d0e4f5; }
+    .dark-block code { background: rgba(255,255,255,0.1); color: #a8c4e0; padding: 1px 6px; border-radius: 4px; }
+    /* BACK */
+    .back-btn { display: inline-block; background: #2E75B6; color: white; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 0.88rem; font-weight: 600; transition: background 0.2s; margin-top: 1rem; margin-bottom: 2rem; }
+    .back-btn:hover { background: #1F3864; }
+    footer { text-align: center; padding: 1.5rem; font-size: 0.8rem; color: #999; border-top: 1px solid #e0e6f0; }
+    footer a { color: #2E75B6; text-decoration: none; }
+    @media (max-width: 600px) { header h1 { font-size: 1.3rem; } }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🐧 Installation Debian</h1>
-            <p class="subtitle">Système d'exploitation GNU/Linux stable et fiable</p>
-        </header>
 
-        <div class="section">
-            <h2>📋 Prérequis</h2>
-            <table>
-                <tr>
-                    <th>Composant</th>
-                    <th>Minimum</th>
-                    <th>Recommandé</th>
-                </tr>
-                <tr>
-                    <td>RAM</td>
-                    <td>512 Mo</td>
-                    <td>2 Go+</td>
-                </tr>
-                <tr>
-                    <td>Espace disque</td>
-                    <td>10 Go</td>
-                    <td>20 Go+</td>
-                </tr>
-                <tr>
-                    <td>Processeur</td>
-                    <td>1 GHz</td>
-                    <td>2 GHz+</td>
-                </tr>
-            </table>
-            <ul>
-                <li>Clé USB de 4 Go minimum</li>
-                <li>Image ISO Debian (netinst recommandée) depuis <code>debian.org</code></li>
-            </ul>
-        </div>
+<header>
+  <div class="badge">BTS SIO – SISR | Projet</div>
+  <h1>Installation Debian</h1>
+  <p>Système d'exploitation GNU/Linux stable et fiable</p>
+  <div class="meta">Hugo Lemarchand · Ensitech · Session 2026</div>
+</header>
 
-        <div class="section">
-            <h2>🔧 Étapes d'installation</h2>
+<div class="container">
 
-            <h3><span class="step-number">1</span>Création de la clé USB bootable</h3>
-            <pre><code># Windows : utiliser Rufus
-# Linux :
+  <p class="section-title">Présentation</p>
+  <div class="intro-block">
+    <p>Ce tutoriel détaille l'installation et la configuration initiale de <strong>Debian GNU/Linux</strong>, distribution reconnue pour sa stabilité et largement utilisée en environnement serveur. Debian constitue la base de nombreuses infrastructures SISR et est le système utilisé pour déployer la plupart des services de ce portfolio.</p>
+  </div>
+
+  <p class="section-title">Prérequis matériels</p>
+  <div class="content-block">
+    <table>
+      <tr><th>Composant</th><th>Minimum</th><th>Recommandé</th></tr>
+      <tr><td>RAM</td><td>512 Mo</td><td>2 Go+</td></tr>
+      <tr><td>Espace disque</td><td>10 Go</td><td>20 Go+</td></tr>
+      <tr><td>Processeur</td><td>1 GHz</td><td>2 GHz+</td></tr>
+    </table>
+    <ul style="margin-top:0.75rem;">
+      <li>Clé USB de 4 Go minimum</li>
+      <li>Image ISO Debian (netinst recommandée) depuis <code>debian.org</code></li>
+    </ul>
+  </div>
+
+  <p class="section-title">Étapes d'installation</p>
+  <div class="steps-list">
+
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">1</div><h3>Création de la clé USB bootable</h3></div>
+      <pre><code># Windows : utiliser Rufus ou Balena Etcher
+# Linux avec dd :
 sudo dd if=debian-12.*-amd64-netinst.iso of=/dev/sdX bs=4M status=progress sync</code></pre>
+    </div>
 
-            <h3><span class="step-number">2</span>Démarrage et sélection du mode</h3>
-            <ul>
-                <li>Booter sur la clé USB</li>
-                <li>Choisir "Graphical Install" ou "Install" (mode texte)</li>
-            </ul>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">2</div><h3>Démarrage et sélection du mode</h3></div>
+      <ul>
+        <li>Booter sur la clé USB depuis le BIOS/UEFI</li>
+        <li>Choisir <code>Graphical Install</code> ou <code>Install</code> (mode texte)</li>
+      </ul>
+    </div>
 
-            <h3><span class="step-number">3</span>Configuration de base</h3>
-            <ul>
-                <li>Langue : Français</li>
-                <li>Pays : France</li>
-                <li>Clavier : Français (azerty)</li>
-            </ul>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">3</div><h3>Configuration de base</h3></div>
+      <ul>
+        <li>Langue : Français</li>
+        <li>Pays : France</li>
+        <li>Clavier : Français (azerty)</li>
+      </ul>
+    </div>
 
-            <h3><span class="step-number">4</span>Configuration réseau</h3>
-            <pre><code>Nom de la machine : debian-server
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">4</div><h3>Configuration réseau</h3></div>
+      <pre><code>Nom de la machine : debian-server
 Domaine : local (ou laisser vide)</code></pre>
+    </div>
 
-            <h3><span class="step-number">5</span>Configuration des utilisateurs</h3>
-            <ul>
-                <li>Mot de passe root (laisser vide pour désactiver root et utiliser sudo)</li>
-                <li>Créer un utilisateur standard</li>
-            </ul>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">5</div><h3>Configuration des utilisateurs</h3></div>
+      <ul>
+        <li>Mot de passe root (laisser vide pour désactiver root et utiliser sudo)</li>
+        <li>Créer un utilisateur standard avec un mot de passe sécurisé</li>
+      </ul>
+    </div>
 
-            <h3><span class="step-number">6</span>Partitionnement du disque</h3>
-            <p>Pour les débutants :</p>
-            <ul>
-                <li>Choisir "Assisté - utiliser un disque entier"</li>
-                <li>Sélectionner "Tous les fichiers dans une seule partition"</li>
-            </ul>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">6</div><h3>Partitionnement du disque</h3></div>
+      <p>Pour les débutants : choisir <code>Assisté – utiliser un disque entier</code> → <code>Tous les fichiers dans une seule partition</code>.</p>
+      <div class="tip">
+        <strong>💡 Configuration avancée recommandée</strong>
+        <pre><code>/boot   500 Mo  (ext4)
+/       20 Go   (ext4)
+/home   Reste   (ext4)
+swap    2× RAM  (max 8 Go)</code></pre>
+      </div>
+    </div>
 
-            <div class="tip">
-                <strong>💡 Configuration avancée :</strong>
-                <pre><code>/boot   - 500 Mo (ext4)
-/       - 20 Go (ext4)
-/home   - Reste du disque (ext4)
-swap    - 2x RAM (max 8 Go)</code></pre>
-            </div>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">7</div><h3>Sélection des logiciels</h3></div>
+      <ul>
+        <li>Environnement de bureau (GNOME, KDE, XFCE…) — selon besoin</li>
+        <li>✔ Serveur SSH</li>
+        <li>✔ Utilitaires usuels du système</li>
+      </ul>
+    </div>
 
-            <h3><span class="step-number">7</span>Sélection des logiciels</h3>
-            <p>Cocher selon vos besoins :</p>
-            <ul>
-                <li>☐ Environnement de bureau Debian (GNOME, KDE, XFCE...)</li>
-                <li>☑ Serveur SSH</li>
-                <li>☑ Utilitaires usuels du système</li>
-            </ul>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">8</div><h3>Installation de GRUB</h3></div>
+      <ul>
+        <li>Installer GRUB sur le disque principal</li>
+        <li>Sélectionner <code>/dev/sda</code></li>
+      </ul>
+    </div>
 
-            <h3><span class="step-number">8</span>Installation de GRUB</h3>
-            <ul>
-                <li>Installer GRUB sur le disque principal</li>
-                <li>Sélectionner <code>/dev/sda</code></li>
-            </ul>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>⚙️ Configuration post-installation</h2>
-
-            <h3>Mise à jour du système</h3>
-            <pre><code>sudo apt update
+  <p class="section-title">Configuration post-installation</p>
+  <div class="content-block">
+    <h3>Mise à jour du système</h3>
+    <pre><code>sudo apt update
 sudo apt upgrade -y
 sudo apt full-upgrade -y</code></pre>
 
-            <h3>Installation des outils essentiels</h3>
-            <pre><code>sudo apt install -y vim curl wget git htop net-tools</code></pre>
+    <h3>Installation des outils essentiels</h3>
+    <pre><code>sudo apt install -y vim curl wget git htop net-tools</code></pre>
 
-            <h3>Configuration de sudo (si root désactivé)</h3>
-            <pre><code># Ajouter l'utilisateur au groupe sudo
-su -
+    <h3>Configuration de sudo</h3>
+    <pre><code>su -
 usermod -aG sudo votre_utilisateur
-# Déconnecter et reconnecter</code></pre>
+# Déconnecter et reconnecter pour appliquer</code></pre>
 
-            <h3>Configuration SSH</h3>
-            <pre><code># Éditer la configuration
-sudo nano /etc/ssh/sshd_config
+    <h3>Configuration SSH</h3>
+    <pre><code>sudo nano /etc/ssh/sshd_config
 
 # Recommandations sécurité :
 PermitRootLogin no
 PasswordAuthentication yes
 Port 22
 
-# Redémarrer SSH
 sudo systemctl restart sshd</code></pre>
 
-            <h3>Configuration du pare-feu (UFW)</h3>
-            <pre><code>sudo apt install ufw
+    <h3>Configuration du pare-feu (UFW)</h3>
+    <pre><code>sudo apt install ufw
 sudo ufw allow ssh
 sudo ufw enable
 sudo ufw status</code></pre>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>📚 Commandes essentielles</h2>
-            <pre><code># Gestion des paquets
+  <p class="section-title">Commandes essentielles</p>
+  <div class="content-block">
+    <pre><code># Gestion des paquets
 apt search &lt;paquet&gt;
 apt install &lt;paquet&gt;
 apt remove &lt;paquet&gt;
@@ -285,23 +214,28 @@ free -h
 systemctl status &lt;service&gt;
 systemctl start/stop/restart &lt;service&gt;
 systemctl enable/disable &lt;service&gt;</code></pre>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>🔐 Sécurisation de base</h2>
-            <ul>
-                <li>Mettre à jour régulièrement le système</li>
-                <li>Configurer les mises à jour automatiques de sécurité</li>
-                <li>Désactiver les services inutiles</li>
-                <li>Configurer fail2ban contre les attaques brute force</li>
-            </ul>
-            <pre><code># Installation de fail2ban
-sudo apt install fail2ban
+  <p class="section-title">Sécurisation de base</p>
+  <div class="dark-block">
+    <div class="dark-label">Bonnes pratiques</div>
+    <ol>
+      <li>Mettre à jour régulièrement le système</li>
+      <li>Configurer les mises à jour automatiques de sécurité</li>
+      <li>Désactiver les services inutiles</li>
+      <li>Configurer fail2ban contre les attaques brute-force</li>
+    </ol>
+    <pre style="margin-top:1rem;background:#0f1a2e;border-radius:6px;padding:0.9rem 1.1rem;overflow-x:auto;"><code style="color:#a8c8e8;font-size:0.83rem;">sudo apt install fail2ban
 sudo systemctl enable fail2ban
 sudo systemctl start fail2ban</code></pre>
-        </div>
+  </div>
 
-        <a href="index.html" class="back-btn">← Retour au Portfolio</a>
-    </div>
+  <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+
+</div>
+
+<footer>
+  <p>Hugo Lemarchand · BTS SIO SISR · Ensitech · Session 2026 · <a href="https://hugo-lemarchand.github.io/portfolio/" target="_blank">Portfolio →</a></p>
+</footer>
 </body>
 </html>
