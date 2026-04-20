@@ -1,225 +1,160 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installation GLPI - Tutoriel</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e0e0e0;
-            line-height: 1.8;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            color: #ffc107;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            color: #888;
-            font-size: 1.1rem;
-        }
-        .section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border-left: 4px solid #ffc107;
-        }
-        h2 {
-            color: #ffc107;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-        h3 {
-            color: #17a2b8;
-            margin: 20px 0 10px;
-        }
-        ul, ol {
-            padding-left: 25px;
-            margin: 15px 0;
-        }
-        li {
-            margin: 10px 0;
-        }
-        code {
-            background: #0d1117;
-            color: #58a6ff;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-family: 'Consolas', monospace;
-        }
-        pre {
-            background: #0d1117;
-            padding: 20px;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 15px 0;
-        }
-        pre code {
-            padding: 0;
-            background: none;
-        }
-        .warning {
-            background: rgba(255, 193, 7, 0.1);
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .tip {
-            background: rgba(23, 162, 184, 0.1);
-            border-left: 4px solid #17a2b8;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .back-btn {
-            display: inline-block;
-            background: #ffc107;
-            color: #1a1a2e;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 30px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .back-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3);
-        }
-        .step-number {
-            display: inline-block;
-            background: #ffc107;
-            color: #1a1a2e;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        th {
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Installation GLPI – Tutoriel | Hugo Lemarchand</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 15px; line-height: 1.6; }
+    header { background: #1F3864; color: white; padding: 2.5rem 2rem 2rem; }
+    header .badge { display: inline-block; background: #2E75B6; color: white; font-size: 12px; padding: 3px 12px; border-radius: 20px; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+    header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.4rem; }
+    header p { color: #a8c4e0; font-size: 0.95rem; max-width: 600px; }
+    header .meta { margin-top: 1rem; font-size: 0.85rem; color: #7aa6cc; }
+    .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #2E75B6; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid #2E75B6; }
+    .intro-block { background: white; border-radius: 10px; border: 1px solid #e0e6f0; padding: 1.5rem; margin-bottom: 2rem; }
+    .intro-block p { color: #444; margin-bottom: 0.5rem; }
+    .intro-block p:last-child { margin-bottom: 0; }
+    .intro-block strong { color: #1F3864; }
+    .content-block { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .content-block h3 { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #2E75B6; margin: 1.2rem 0 0.5rem; }
+    .content-block h3:first-child { margin-top: 0; }
+    .content-block p, .content-block li { font-size: 0.88rem; color: #555; }
+    .content-block ul, .content-block ol { padding-left: 1.2rem; margin: 0.4rem 0; }
+    .content-block li { margin-bottom: 0.3rem; }
+    table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e0e6f0; font-size: 0.88rem; }
+    th { background: #D6E4F0; color: #1F3864; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { color: #444; }
+    .steps-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+    .step-card { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.25rem 1.5rem; border-left: 4px solid #2E75B6; transition: box-shadow 0.2s; }
+    .step-card:hover { box-shadow: 0 4px 12px rgba(30,60,100,0.08); }
+    .step-card .step-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 0.6rem; }
+    .step-num { width: 26px; height: 26px; background: #2E75B6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; }
+    .step-card h3 { font-size: 1rem; font-weight: 700; color: #1F3864; }
+    .step-card p { font-size: 0.88rem; color: #555; margin-bottom: 0.6rem; }
+    .step-card ul, .step-card ol { padding-left: 1.2rem; margin: 0.4rem 0 0.6rem; }
+    .step-card li { font-size: 0.88rem; color: #555; margin-bottom: 0.3rem; }
+    code { background: #f0f4fa; color: #1F3864; padding: 2px 7px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.82rem; }
+    pre { background: #1a2540; border-radius: 8px; padding: 1rem 1.25rem; overflow-x: auto; margin: 0.75rem 0; }
+    pre code { background: none; padding: 0; color: #a8c8e8; font-size: 0.83rem; line-height: 1.7; }
+    .tip { background: #eaf4fd; border-left: 4px solid #2E75B6; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.88rem; color: #444; margin-top: 0.75rem; }
+    .tip strong { color: #1F3864; display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .warning { background: #fff8e1; border-left: 4px solid #f0b43c; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.88rem; color: #444; margin-top: 0.75rem; }
+    .warning strong { color: #b07d00; display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .dark-block { background: #1F3864; color: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .dark-block .dark-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #a8c4e0; margin-bottom: 1rem; }
+    .dark-block ol { padding-left: 1.2rem; }
+    .dark-block li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #d0e4f5; }
+    .dark-block code { background: rgba(255,255,255,0.1); color: #a8c4e0; padding: 1px 6px; border-radius: 4px; }
+    .back-btn { display: inline-block; background: #2E75B6; color: white; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 0.88rem; font-weight: 600; transition: background 0.2s; margin-top: 1rem; margin-bottom: 2rem; }
+    .back-btn:hover { background: #1F3864; }
+    footer { text-align: center; padding: 1.5rem; font-size: 0.8rem; color: #999; border-top: 1px solid #e0e6f0; }
+    footer a { color: #2E75B6; text-decoration: none; }
+    @media (max-width: 600px) { header h1 { font-size: 1.3rem; } }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎫 Installation GLPI</h1>
-            <p class="subtitle">Gestion Libre de Parc Informatique - Helpdesk & Inventaire</p>
-        </header>
 
-        <div class="section">
-            <h2>📋 Prérequis</h2>
-            <ul>
-                <li>Serveur Debian/Ubuntu avec Apache2 installé</li>
-                <li>PHP 8.1 ou supérieur</li>
-                <li>MariaDB/MySQL</li>
-                <li>Minimum 2 Go de RAM</li>
-                <li>Espace disque : 2 Go minimum</li>
-            </ul>
-        </div>
+<header>
+  <div class="badge">BTS SIO – SISR | Projet</div>
+  <h1>Installation GLPI</h1>
+  <p>Gestion Libre de Parc Informatique – Helpdesk &amp; Inventaire</p>
+  <div class="meta">Hugo Lemarchand · Ensitech · Session 2026</div>
+</header>
 
-        <div class="section">
-            <h2>🔧 Installation des dépendances</h2>
+<div class="container">
 
-            <h3><span class="step-number">1</span>Installer PHP et les extensions requises</h3>
-            <pre><code>sudo apt update
-sudo apt install -y php php-{curl,gd,imagick,intl,apcu,memcache,imap,mysql,cas,ldap,tidy,pear,xmlrpc,pspell,mbstring,json,iconv,xml,gd,xsl,zip,bz2}</code></pre>
+  <p class="section-title">Présentation</p>
+  <div class="intro-block">
+    <p><strong>GLPI</strong> est une solution open-source de gestion de parc informatique et de helpdesk. Elle permet la gestion des tickets d'incident, l'inventaire du matériel et des logiciels, ainsi que le suivi des contrats et des budgets IT.</p>
+    <p>Ce déploiement s'inscrit dans mon stage SISR, où GLPI a été utilisé pour la gestion des demandes utilisateurs et l'inventaire du parc, en interface avec OCS Inventory.</p>
+  </div>
 
-            <h3><span class="step-number">2</span>Installer MariaDB</h3>
-            <pre><code>sudo apt install mariadb-server -y
+  <p class="section-title">Prérequis</p>
+  <div class="content-block">
+    <ul>
+      <li>Serveur Debian/Ubuntu avec Apache2 installé</li>
+      <li>PHP 8.1 ou supérieur</li>
+      <li>MariaDB / MySQL</li>
+      <li>Minimum 2 Go de RAM, 2 Go d'espace disque</li>
+    </ul>
+  </div>
+
+  <p class="section-title">Installation des dépendances</p>
+  <div class="steps-list">
+
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">1</div><h3>Installer PHP et les extensions requises</h3></div>
+      <pre><code>sudo apt update
+sudo apt install -y php php-{curl,gd,imagick,intl,apcu,memcache,imap,mysql,ldap,tidy,xmlrpc,mbstring,json,iconv,xml,xsl,zip,bz2}</code></pre>
+    </div>
+
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">2</div><h3>Installer MariaDB</h3></div>
+      <pre><code>sudo apt install mariadb-server -y
 sudo mysql_secure_installation</code></pre>
+    </div>
 
-            <h3><span class="step-number">3</span>Créer la base de données</h3>
-            <pre><code>sudo mysql -u root -p</code></pre>
-            <pre><code>CREATE DATABASE glpi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">3</div><h3>Créer la base de données</h3></div>
+      <pre><code>sudo mysql -u root -p</code></pre>
+      <pre><code>CREATE DATABASE glpi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER 'glpi_user'@'localhost' IDENTIFIED BY 'MotDePasseFort123!';
 GRANT ALL PRIVILEGES ON glpi.* TO 'glpi_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;</code></pre>
-        </div>
+    </div>
 
-        <div class="section">
-            <h2>📥 Téléchargement et installation de GLPI</h2>
+  </div>
 
-            <h3><span class="step-number">4</span>Télécharger GLPI</h3>
-            <pre><code>cd /tmp
-wget [github.com](https://github.com/glpi-project/glpi/releases/download/10.0.16/glpi-10.0.16.tgz)
+  <p class="section-title">Téléchargement et installation</p>
+  <div class="steps-list">
 
-# Extraire l'archive
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">4</div><h3>Télécharger GLPI</h3></div>
+      <pre><code>cd /tmp
+wget https://github.com/glpi-project/glpi/releases/download/10.0.16/glpi-10.0.16.tgz
 tar -xvzf glpi-10.0.16.tgz
-
-# Déplacer vers le répertoire web
 sudo mv glpi /var/www/html/</code></pre>
+    </div>
 
-            <h3><span class="step-number">5</span>Configurer les permissions</h3>
-            <pre><code>sudo chown -R www-data:www-data /var/www/html/glpi
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">5</div><h3>Configurer les permissions</h3></div>
+      <pre><code>sudo chown -R www-data:www-data /var/www/html/glpi
 sudo chmod -R 755 /var/www/html/glpi</code></pre>
+    </div>
 
-            <h3><span class="step-number">6</span>Sécuriser les dossiers sensibles</h3>
-            <pre><code># Déplacer les dossiers sensibles hors du web
-sudo mkdir -p /etc/glpi
-sudo mkdir -p /var/lib/glpi
-sudo mkdir -p /var/log/glpi
-
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">6</div><h3>Sécuriser les dossiers sensibles</h3></div>
+      <pre><code>sudo mkdir -p /etc/glpi /var/lib/glpi /var/log/glpi
 sudo mv /var/www/html/glpi/config /etc/glpi/
 sudo mv /var/www/html/glpi/files /var/lib/glpi/
+sudo chown -R www-data:www-data /etc/glpi /var/lib/glpi /var/log/glpi</code></pre>
+    </div>
 
-sudo chown -R www-data:www-data /etc/glpi
-sudo chown -R www-data:www-data /var/lib/glpi
-sudo chown -R www-data:www-data /var/log/glpi</code></pre>
-
-            <h3><span class="step-number">7</span>Créer les fichiers de configuration</h3>
-            <pre><code>sudo nano /var/www/html/glpi/inc/downstream.php</code></pre>
-            <pre><code>&lt;?php
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">7</div><h3>Fichiers de configuration</h3></div>
+      <pre><code>sudo nano /var/www/html/glpi/inc/downstream.php</code></pre>
+      <pre><code>&lt;?php
 define('GLPI_CONFIG_DIR', '/etc/glpi/');
 if (file_exists(GLPI_CONFIG_DIR . '/local_define.php')) {
     require_once GLPI_CONFIG_DIR . '/local_define.php';
 }</code></pre>
-
-            <pre><code>sudo nano /etc/glpi/local_define.php</code></pre>
-            <pre><code>&lt;?php
+      <pre><code>sudo nano /etc/glpi/local_define.php</code></pre>
+      <pre><code>&lt;?php
 define('GLPI_VAR_DIR', '/var/lib/glpi');
 define('GLPI_LOG_DIR', '/var/log/glpi');</code></pre>
-        </div>
+    </div>
 
-        <div class="section">
-            <h2>🌐 Configuration Apache</h2>
+  </div>
 
-            <pre><code>sudo nano /etc/apache2/sites-available/glpi.conf</code></pre>
-            <pre><code>&lt;VirtualHost *:80&gt;
+  <p class="section-title">Configuration Apache</p>
+  <div class="content-block">
+    <pre><code>sudo nano /etc/apache2/sites-available/glpi.conf</code></pre>
+    <pre><code>&lt;VirtualHost *:80&gt;
     ServerName glpi.mondomaine.fr
     DocumentRoot /var/www/html/glpi/public
 
@@ -233,74 +168,53 @@ define('GLPI_LOG_DIR', '/var/log/glpi');</code></pre>
     ErrorLog ${APACHE_LOG_DIR}/glpi_error.log
     CustomLog ${APACHE_LOG_DIR}/glpi_access.log combined
 &lt;/VirtualHost&gt;</code></pre>
-
-            <pre><code># Activer le site et les modules nécessaires
-sudo a2ensite glpi.conf
+    <pre><code>sudo a2ensite glpi.conf
 sudo a2enmod rewrite
 sudo systemctl restart apache2</code></pre>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>🖥️ Installation via l'interface web</h2>
+  <p class="section-title">Installation via l'interface web</p>
+  <div class="steps-list">
 
-            <h3><span class="step-number">8</span>Accéder à l'installation</h3>
-            <p>Ouvrir un navigateur et accéder à :</p>
-            <pre><code>[ip_du_serveur](http://IP_DU_SERVEUR/glpi)</code></pre>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">8</div><h3>Accéder à l'assistant</h3></div>
+      <p>Ouvrir un navigateur et accéder à :</p>
+      <pre><code>http://IP_DU_SERVEUR/glpi</code></pre>
+    </div>
 
-            <h3><span class="step-number">9</span>Étapes de l'assistant</h3>
-            <ol>
-                <li>Sélectionner la langue (Français)</li>
-                <li>Accepter la licence GPL</li>
-                <li>Choisir "Installer"</li>
-                <li>Vérifier les prérequis (tout doit être en vert)</li>
-                <li>Configurer la connexion à la base de données :
-                    <ul>
-                        <li>Serveur : localhost</li>
-                        <li>Utilisateur : glpi_user</li>
-                        <li>Mot de passe : MotDePasseFort123!</li>
-                    </ul>
-                </li>
-                <li>Sélectionner la base "glpi"</li>
-                <li>Finaliser l'installation</li>
-            </ol>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">9</div><h3>Étapes de l'assistant</h3></div>
+      <ol>
+        <li>Sélectionner la langue (Français)</li>
+        <li>Accepter la licence GPL</li>
+        <li>Choisir "Installer"</li>
+        <li>Vérifier les prérequis (tout doit être en vert)</li>
+        <li>Configurer la connexion à la base de données (host : localhost, user : glpi_user)</li>
+        <li>Sélectionner la base <code>glpi</code></li>
+        <li>Finaliser l'installation</li>
+      </ol>
+      <div class="warning">
+        <strong>⚠️ Important</strong>
+        Noter les identifiants par défaut puis les changer immédiatement !
+      </div>
+    </div>
 
-            <div class="warning">
-                <strong>⚠️ Important :</strong> Noter les identifiants par défaut puis les changer immédiatement !
-            </div>
+  </div>
 
-            <table>
-                <tr>
-                    <th>Utilisateur</th>
-                    <th>Mot de passe</th>
-                    <th>Rôle</th>
-                </tr>
-                <tr>
-                    <td>glpi</td>
-                    <td>glpi</td>
-                    <td>Super-Admin</td>
-                </tr>
-                <tr>
-                    <td>tech</td>
-                    <td>tech</td>
-                    <td>Technicien</td>
-                </tr>
-                <tr>
-                    <td>normal</td>
-                    <td>normal</td>
-                    <td>Utilisateur</td>
-                </tr>
-                <tr>
-                    <td>post-only</td>
-                    <td>postonly</td>
-                    <td>Post-only</td>
-                </tr>
-            </table>
-        </div>
+  <p class="section-title">Identifiants par défaut</p>
+  <div class="content-block">
+    <table>
+      <tr><th>Utilisateur</th><th>Mot de passe</th><th>Rôle</th></tr>
+      <tr><td><code>glpi</code></td><td><code>glpi</code></td><td>Super-Admin</td></tr>
+      <tr><td><code>tech</code></td><td><code>tech</code></td><td>Technicien</td></tr>
+      <tr><td><code>normal</code></td><td><code>normal</code></td><td>Utilisateur</td></tr>
+      <tr><td><code>post-only</code></td><td><code>postonly</code></td><td>Post-only</td></tr>
+    </table>
+  </div>
 
-        <div class="section">
-            <h2>🔒 Sécurisation post-installation</h2>
-
-            <pre><code># Supprimer le fichier d'installation
+  <p class="section-title">Sécurisation post-installation</p>
+  <div class="content-block">
+    <pre><code># Supprimer le fichier d'installation
 sudo rm /var/www/html/glpi/install/install.php
 
 # Changer les mots de passe par défaut
@@ -310,23 +224,28 @@ sudo rm /var/www/html/glpi/install/install.php
 sudo crontab -u www-data -e
 # Ajouter :
 */1 * * * * php /var/www/html/glpi/front/cron.php</code></pre>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>🔌 Intégration avec OCS Inventory</h2>
-            <p>GLPI peut s'interfacer avec OCS Inventory pour l'inventaire automatique :</p>
-            <ol>
-                <li>Configuration → Plugins → Installer le plugin OCS</li>
-                <li>Configurer la connexion au serveur OCS</li>
-                <li>Planifier les imports automatiques</li>
-            </ol>
-
-            <div class="tip">
-                <strong>💡 Conseil :</strong> Utiliser le plugin FusionInventory (intégré nativement) comme alternative à OCS.
-            </div>
-        </div>
-
-        <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+  <p class="section-title">Intégration avec OCS Inventory</p>
+  <div class="dark-block">
+    <div class="dark-label">Interface GLPI ↔ OCS</div>
+    <ol>
+      <li>Configuration → Plugins → Installer le plugin OCS</li>
+      <li>Configurer la connexion au serveur OCS</li>
+      <li>Planifier les imports automatiques</li>
+    </ol>
+    <div class="tip" style="background:rgba(255,255,255,0.07);border-left-color:#a8c4e0;margin-top:1rem;">
+      <strong style="color:#a8c4e0;">💡 Conseil</strong>
+      <span style="color:#d0e4f5;">Utiliser le plugin FusionInventory (intégré nativement) comme alternative à OCS.</span>
     </div>
+  </div>
+
+  <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+
+</div>
+
+<footer>
+  <p>Hugo Lemarchand · BTS SIO SISR · Ensitech · Session 2026 · <a href="https://hugo-lemarchand.github.io/portfolio/" target="_blank">Portfolio →</a></p>
+</footer>
 </body>
 </html>

@@ -1,287 +1,241 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installation OCS Inventory - Tutoriel</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e0e0e0;
-            line-height: 1.8;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            color: #28a745;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            color: #888;
-            font-size: 1.1rem;
-        }
-        .section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border-left: 4px solid #28a745;
-        }
-        h2 {
-            color: #28a745;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-        h3 {
-            color: #17a2b8;
-            margin: 20px 0 10px;
-        }
-        ul, ol {
-            padding-left: 25px;
-            margin: 15px 0;
-        }
-        li {
-            margin: 10px 0;
-        }
-        code {
-            background: #0d1117;
-            color: #58a6ff;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-family: 'Consolas', monospace;
-        }
-        pre {
-            background: #0d1117;
-            padding: 20px;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 15px 0;
-        }
-        pre code {
-            padding: 0;
-            background: none;
-        }
-        .warning {
-            background: rgba(255, 165, 0, 0.1);
-            border-left: 4px solid #ffa500;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .tip {
-            background: rgba(40, 167, 69, 0.1);
-            border-left: 4px solid #28a745;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .back-btn {
-            display: inline-block;
-            background: #28a745;
-            color: #fff;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 30px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .back-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
-        }
-        .step-number {
-            display: inline-block;
-            background: #28a745;
-            color: #fff;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Installation OCS Inventory – Tutoriel | Hugo Lemarchand</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 15px; line-height: 1.6; }
+    header { background: #1F3864; color: white; padding: 2.5rem 2rem 2rem; }
+    header .badge { display: inline-block; background: #2E75B6; color: white; font-size: 12px; padding: 3px 12px; border-radius: 20px; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+    header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.4rem; }
+    header p { color: #a8c4e0; font-size: 0.95rem; max-width: 600px; }
+    header .meta { margin-top: 1rem; font-size: 0.85rem; color: #7aa6cc; }
+    .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #2E75B6; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid #2E75B6; }
+    .intro-block { background: white; border-radius: 10px; border: 1px solid #e0e6f0; padding: 1.5rem; margin-bottom: 2rem; }
+    .intro-block p { color: #444; margin-bottom: 0.5rem; }
+    .intro-block p:last-child { margin-bottom: 0; }
+    .intro-block strong { color: #1F3864; }
+    .content-block { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .content-block h3 { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #2E75B6; margin: 1.2rem 0 0.5rem; }
+    .content-block h3:first-child { margin-top: 0; }
+    .content-block p, .content-block li { font-size: 0.88rem; color: #555; }
+    .content-block ul, .content-block ol { padding-left: 1.2rem; margin: 0.4rem 0; }
+    .content-block li { margin-bottom: 0.3rem; }
+    .steps-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+    .step-card { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.25rem 1.5rem; border-left: 4px solid #2E75B6; transition: box-shadow 0.2s; }
+    .step-card:hover { box-shadow: 0 4px 12px rgba(30,60,100,0.08); }
+    .step-card .step-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 0.6rem; }
+    .step-num { width: 26px; height: 26px; background: #2E75B6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; }
+    .step-card h3 { font-size: 1rem; font-weight: 700; color: #1F3864; }
+    .step-card p { font-size: 0.88rem; color: #555; margin-bottom: 0.6rem; }
+    .step-card ul, .step-card ol { padding-left: 1.2rem; margin: 0.4rem 0 0.6rem; }
+    .step-card li { font-size: 0.88rem; color: #555; margin-bottom: 0.3rem; }
+    code { background: #f0f4fa; color: #1F3864; padding: 2px 7px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.82rem; }
+    pre { background: #1a2540; border-radius: 8px; padding: 1rem 1.25rem; overflow-x: auto; margin: 0.75rem 0; }
+    pre code { background: none; padding: 0; color: #a8c8e8; font-size: 0.83rem; line-height: 1.7; }
+    .tip { background: #eaf4fd; border-left: 4px solid #2E75B6; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.88rem; color: #444; margin-top: 0.75rem; }
+    .tip strong { color: #1F3864; display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .warning { background: #fff8e1; border-left: 4px solid #f0b43c; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.88rem; color: #444; margin-top: 0.75rem; }
+    .warning strong { color: #b07d00; display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .dark-block { background: #1F3864; color: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .dark-block .dark-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #a8c4e0; margin-bottom: 1rem; }
+    .dark-block ol { padding-left: 1.2rem; }
+    .dark-block li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #d0e4f5; }
+    .dark-block code { background: rgba(255,255,255,0.1); color: #a8c4e0; padding: 1px 6px; border-radius: 4px; }
+    .back-btn { display: inline-block; background: #2E75B6; color: white; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 0.88rem; font-weight: 600; transition: background 0.2s; margin-top: 1rem; margin-bottom: 2rem; }
+    .back-btn:hover { background: #1F3864; }
+    footer { text-align: center; padding: 1.5rem; font-size: 0.8rem; color: #999; border-top: 1px solid #e0e6f0; }
+    footer a { color: #2E75B6; text-decoration: none; }
+    @media (max-width: 600px) { header h1 { font-size: 1.3rem; } }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📦 Installation OCS Inventory</h1>
-            <p class="subtitle">Open Computers and Software Inventory - Inventaire automatique du parc</p>
-        </header>
 
-        <div class="section">
-            <h2>📋 Prérequis</h2>
-            <ul>
-                <li>Serveur Debian/Ubuntu</li>
-                <li>Apache2 avec mod_perl</li>
-                <li>MariaDB/MySQL</li>
-                <li>PHP 7.4+ avec extensions</li>
-                <li>Perl et modules CPAN</li>
-                <li>Minimum 2 Go RAM, 10 Go disque</li>
-            </ul>
-        </div>
+<header>
+  <div class="badge">BTS SIO – SISR | Projet</div>
+  <h1>Installation OCS Inventory</h1>
+  <p>Open Computers and Software Inventory – Inventaire automatique du parc</p>
+  <div class="meta">Hugo Lemarchand · Ensitech · Session 2026</div>
+</header>
 
-        <div class="section">
-            <h2>🔧 Installation des dépendances</h2>
+<div class="container">
 
-            <h3><span class="step-number">1</span>Mise à jour et installation des paquets de base</h3>
-            <pre><code>sudo apt update && sudo apt upgrade -y
+  <p class="section-title">Présentation</p>
+  <div class="intro-block">
+    <p><strong>OCS Inventory NG</strong> est une solution open-source d'inventaire automatique du parc informatique. Elle collecte les informations matérielles et logicielles des postes via des agents déployés, et les centralise dans une interface web pour consultation et export vers GLPI.</p>
+    <p>Ce déploiement s'inscrit dans le projet de mise en place d'une solution de gestion de parc complète, couplée à GLPI pour le helpdesk.</p>
+  </div>
+
+  <p class="section-title">Prérequis</p>
+  <div class="content-block">
+    <ul>
+      <li>Serveur Debian/Ubuntu</li>
+      <li>Apache2 avec mod_perl</li>
+      <li>MariaDB / MySQL</li>
+      <li>PHP 7.4+ avec extensions</li>
+      <li>Perl et modules CPAN</li>
+      <li>Minimum 2 Go RAM, 10 Go disque</li>
+    </ul>
+  </div>
+
+  <p class="section-title">Installation des dépendances</p>
+  <div class="steps-list">
+
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">1</div><h3>Paquets de base</h3></div>
+      <pre><code>sudo apt update && sudo apt upgrade -y
 sudo apt install -y apache2 libapache2-mod-perl2 mariadb-server
 sudo apt install -y php php-{mysql,gd,mbstring,xml,curl,zip}
-sudo apt install -y perl libxml-simple-perl libdbi-perl libdbd-mysql-perl libapache-dbi-perl libnet-ip-perl libsoap-lite-perl libarchive-zip-perl make build-essential</code></pre>
+sudo apt install -y perl libxml-simple-perl libdbi-perl libdbd-mysql-perl \
+  libapache-dbi-perl libnet-ip-perl libsoap-lite-perl libarchive-zip-perl \
+  make build-essential</code></pre>
+    </div>
 
-            <h3><span class="step-number">2</span>Installer les modules Perl additionnels</h3>
-            <pre><code>sudo cpan install XML::Entities Apache2::SOAP
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">2</div><h3>Modules Perl additionnels</h3></div>
+      <pre><code>sudo cpan install XML::Entities Apache2::SOAP
 sudo cpan install Mojolicious::Lite Plack::Handler Switch Archive::Zip</code></pre>
+    </div>
 
-            <h3><span class="step-number">3</span>Créer la base de données</h3>
-            <pre><code>sudo mysql -u root -p</code></pre>
-            <pre><code>CREATE DATABASE ocsweb;
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">3</div><h3>Créer la base de données</h3></div>
+      <pre><code>sudo mysql -u root -p</code></pre>
+      <pre><code>CREATE DATABASE ocsweb;
 CREATE USER 'ocs_user'@'localhost' IDENTIFIED BY 'MotDePasseOCS123!';
 GRANT ALL PRIVILEGES ON ocsweb.* TO 'ocs_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;</code></pre>
-        </div>
+    </div>
 
-        <div class="section">
-            <h2>📥 Installation du serveur OCS</h2>
+  </div>
 
-            <h3><span class="step-number">4</span>Télécharger OCS Inventory Server</h3>
-            <pre><code>cd /tmp
-wget [github.com](https://github.com/OCSInventory-NG/OCSInventory-ocsreports/releases/download/2.12.1/OCSNG_UNIX_SERVER-2.12.1.tar.gz)
+  <p class="section-title">Installation du serveur OCS</p>
+  <div class="steps-list">
+
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">4</div><h3>Télécharger OCS Inventory Server</h3></div>
+      <pre><code>cd /tmp
+wget https://github.com/OCSInventory-NG/OCSInventory-ocsreports/releases/download/2.12.1/OCSNG_UNIX_SERVER-2.12.1.tar.gz
 tar -xvzf OCSNG_UNIX_SERVER-2.12.1.tar.gz
 cd OCSNG_UNIX_SERVER-2.12.1</code></pre>
+    </div>
 
-            <h3><span class="step-number">5</span>Lancer l'installation</h3>
-            <pre><code>sudo ./setup.sh</code></pre>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">5</div><h3>Lancer l'installation</h3></div>
+      <pre><code>sudo ./setup.sh</code></pre>
+      <p>Répondre aux questions de l'assistant :</p>
+      <ul>
+        <li>Apache config directory : <code>/etc/apache2/conf-available</code></li>
+        <li>Apache user/group : <code>www-data</code></li>
+        <li>Perl binary : <code>/usr/bin/perl</code></li>
+        <li>Logfile directory : <code>/var/log/ocsinventory-server</code></li>
+      </ul>
+    </div>
 
-            <p>Répondre aux questions de l'assistant :</p>
-            <ul>
-                <li>Apache config directory : <code>/etc/apache2/conf-available</code></li>
-                <li>Apache user/group : <code>www-data</code></li>
-                <li>Perl binary : <code>/usr/bin/perl</code></li>
-                <li>Logfile directory : <code>/var/log/ocsinventory-server</code></li>
-            </ul>
-
-            <h3><span class="step-number">6</span>Activer la configuration Apache</h3>
-            <pre><code>sudo a2enconf ocsinventory-reports
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">6</div><h3>Activer la configuration Apache</h3></div>
+      <pre><code>sudo a2enconf ocsinventory-reports
 sudo a2enconf z-ocsinventory-server
-
-# Activer les modules nécessaires
 sudo a2enmod perl
 sudo a2enmod rewrite
-
-# Redémarrer Apache
 sudo systemctl restart apache2</code></pre>
+    </div>
 
-            <h3><span class="step-number">7</span>Configurer les permissions</h3>
-            <pre><code>sudo chown -R www-data:www-data /var/lib/ocsinventory-reports
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">7</div><h3>Configurer les permissions</h3></div>
+      <pre><code>sudo chown -R www-data:www-data /var/lib/ocsinventory-reports
 sudo chmod -R 755 /var/lib/ocsinventory-reports
-
 sudo mkdir -p /var/log/ocsinventory-server
 sudo chown www-data:www-data /var/log/ocsinventory-server</code></pre>
-        </div>
+    </div>
 
-        <div class="section">
-            <h2>🖥️ Configuration via l'interface web</h2>
+  </div>
 
-            <h3><span class="step-number">8</span>Accéder à l'installation web</h3>
-            <pre><code>[ip_du_serveur](http://IP_DU_SERVEUR/ocsreports/install.php)</code></pre>
+  <p class="section-title">Configuration via l'interface web</p>
+  <div class="steps-list">
 
-            <h3><span class="step-number">9</span>Configurer la connexion</h3>
-            <ul>
-                <li>MySQL server : localhost</li>
-                <li>MySQL user : ocs_user</li>
-                <li>MySQL password : MotDePasseOCS123!</li>
-                <li>MySQL database : ocsweb</li>
-            </ul>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">8</div><h3>Accéder à l'assistant</h3></div>
+      <pre><code>http://IP_DU_SERVEUR/ocsreports/install.php</code></pre>
+    </div>
 
-            <div class="warning">
-                <strong>⚠️ Important :</strong> Après l'installation, supprimer le fichier install.php !
-                <pre><code>sudo rm /usr/share/ocsinventory-reports/ocsreports/install.php</code></pre>
-            </div>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">9</div><h3>Configurer la connexion</h3></div>
+      <ul>
+        <li>MySQL server : <code>localhost</code></li>
+        <li>MySQL user : <code>ocs_user</code></li>
+        <li>MySQL password : <code>MotDePasseOCS123!</code></li>
+        <li>MySQL database : <code>ocsweb</code></li>
+      </ul>
+      <div class="warning">
+        <strong>⚠️ Important</strong>
+        Supprimer le fichier install.php après l'installation :
+        <pre style="margin-top:0.5rem;background:#f5e9c8;border-radius:5px;padding:0.6rem 0.9rem;"><code style="background:none;color:#7a5900;font-size:0.82rem;">sudo rm /usr/share/ocsinventory-reports/ocsreports/install.php</code></pre>
+      </div>
+      <p style="margin-top:0.75rem;font-size:0.88rem;color:#555;">Identifiants par défaut : login <code>admin</code> / mot de passe <code>admin</code> — à changer immédiatement.</p>
+    </div>
 
-            <h3>Identifiants par défaut</h3>
-            <ul>
-                <li>Login : <code>admin</code></li>
-                <li>Mot de passe : <code>admin</code></li>
-            </ul>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>💻 Installation de l'agent Windows</h2>
-
-            <h3><span class="step-number">1</span>Télécharger l'agent</h3>
-            <p>Depuis le GitHub officiel : <code>OCSInventory-NG/OCSInventory-Windows-Agent</code></p>
-
-            <h3><span class="step-number">2</span>Installation silencieuse</h3>
-            <pre><code>OCS-Windows-Agent-Setup.exe /S /SERVER=[ip_serveur](http://IP_SERVEUR/ocsinventory)</code></pre>
-
-            <h3><span class="step-number">3</span>Configuration via fichier</h3>
-            <p>Fichier de config : <code>C:\ProgramData\OCS Inventory NG\Agent\ocsinventory.ini</code></p>
-            <pre><code>[OCS Inventory Agent]
-Server=[ip_serveur](http://IP_SERVEUR/ocsinventory)
+  <p class="section-title">Installation de l'agent Windows</p>
+  <div class="content-block">
+    <h3>Télécharger l'agent</h3>
+    <p>Depuis le GitHub officiel : <code>OCSInventory-NG/OCSInventory-Windows-Agent</code></p>
+    <h3>Installation silencieuse</h3>
+    <pre><code>OCS-Windows-Agent-Setup.exe /S /SERVER=http://IP_SERVEUR/ocsinventory</code></pre>
+    <h3>Fichier de configuration</h3>
+    <p>Chemin : <code>C:\ProgramData\OCS Inventory NG\Agent\ocsinventory.ini</code></p>
+    <pre><code>[OCS Inventory Agent]
+Server=http://IP_SERVEUR/ocsinventory
 SSL=0
 TAG=MonEntreprise</code></pre>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>🐧 Installation de l'agent Linux</h2>
+  <p class="section-title">Installation de l'agent Linux</p>
+  <div class="content-block">
+    <pre><code># Installer les dépendances
+sudo apt install -y libmodule-install-perl dmidecode libxml-simple-perl \
+  libcompress-zlib-perl libnet-ip-perl libwww-perl libdigest-md5-perl libdata-uuid-perl
 
-            <pre><code># Installer les dépendances
-sudo apt install -y libmodule-install-perl dmidecode libxml-simple-perl libcompress-zlib-perl libnet-ip-perl libwww-perl libdigest-md5-perl libdata-uuid-perl
-
-# Télécharger l'agent
+# Télécharger et installer l'agent
 cd /tmp
-wget [github.com](https://github.com/OCSInventory-NG/UnixAgent/releases/download/v2.10.0/Ocsinventory-Unix-Agent-2.10.0.tar.gz)
+wget https://github.com/OCSInventory-NG/UnixAgent/releases/download/v2.10.0/Ocsinventory-Unix-Agent-2.10.0.tar.gz
 tar -xvzf Ocsinventory-Unix-Agent-2.10.0.tar.gz
 cd Ocsinventory-Unix-Agent-2.10.0
+perl Makefile.PL && make && sudo make install
 
-# Installer
-perl Makefile.PL
-make
-sudo make install
-
-# Configurer
-sudo ocsinventory-agent --server [ip_serveur](http://IP_SERVEUR/ocsinventory) --tag Linux-Servers
+# Premier inventaire
+sudo ocsinventory-agent --server http://IP_SERVEUR/ocsinventory --tag Linux-Servers
 
 # Automatiser avec cron
 echo "0 12 * * * root /usr/local/bin/ocsinventory-agent" | sudo tee /etc/cron.d/ocsinventory</code></pre>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>🔗 Intégration GLPI-OCS</h2>
-            <ol>
-                <li>Dans GLPI : Configuration → Plugins</li>
-                <li>Installer et activer le plugin OCS Inventory NG</li>
-                <li>Configurer la connexion au serveur OCS</li>
-                <li>Configurer les règles d'import</li>
-                <li>Planifier la synchronisation automatique</li>
-            </ol>
-
-            <div class="tip">
-                <strong>💡 Astuce :</strong> Configurer l'import automatique des machines découvertes par OCS vers l'inventaire GLPI.
-            </div>
-        </div>
-
-        <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+  <p class="section-title">Intégration GLPI ↔ OCS</p>
+  <div class="dark-block">
+    <div class="dark-label">Synchronisation automatique</div>
+    <ol>
+      <li>Dans GLPI : Configuration → Plugins</li>
+      <li>Installer et activer le plugin OCS Inventory NG</li>
+      <li>Configurer la connexion au serveur OCS</li>
+      <li>Configurer les règles d'import</li>
+      <li>Planifier la synchronisation automatique</li>
+    </ol>
+    <div class="tip" style="background:rgba(255,255,255,0.07);border-left-color:#a8c4e0;margin-top:1rem;">
+      <strong style="color:#a8c4e0;">💡 Astuce</strong>
+      <span style="color:#d0e4f5;">Configurer l'import automatique des machines découvertes par OCS vers l'inventaire GLPI.</span>
     </div>
+  </div>
+
+  <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+
+</div>
+
+<footer>
+  <p>Hugo Lemarchand · BTS SIO SISR · Ensitech · Session 2026 · <a href="https://hugo-lemarchand.github.io/portfolio/" target="_blank">Portfolio →</a></p>
+</footer>
 </body>
 </html>

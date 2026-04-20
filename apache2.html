@@ -1,208 +1,149 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installation Apache 2 - Tutoriel</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e0e0e0;
-            line-height: 1.8;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            color: #e94560;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            color: #888;
-            font-size: 1.1rem;
-        }
-        .section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border-left: 4px solid #e94560;
-        }
-        h2 {
-            color: #e94560;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-        h3 {
-            color: #ffa500;
-            margin: 20px 0 10px;
-        }
-        ul, ol {
-            padding-left: 25px;
-            margin: 15px 0;
-        }
-        li {
-            margin: 10px 0;
-        }
-        code {
-            background: #0d1117;
-            color: #58a6ff;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-family: 'Consolas', monospace;
-        }
-        pre {
-            background: #0d1117;
-            padding: 20px;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 15px 0;
-        }
-        pre code {
-            padding: 0;
-            background: none;
-        }
-        .warning {
-            background: rgba(255, 165, 0, 0.1);
-            border-left: 4px solid #ffa500;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .tip {
-            background: rgba(233, 69, 96, 0.1);
-            border-left: 4px solid #e94560;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .back-btn {
-            display: inline-block;
-            background: #e94560;
-            color: #fff;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 30px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .back-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
-        }
-        .step-number {
-            display: inline-block;
-            background: #e94560;
-            color: #fff;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        .file-structure {
-            background: #0d1117;
-            padding: 15px;
-            border-radius: 10px;
-            font-family: monospace;
-            margin: 15px 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Installation Apache 2 – Tutoriel | Hugo Lemarchand</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 15px; line-height: 1.6; }
+    header { background: #1F3864; color: white; padding: 2.5rem 2rem 2rem; }
+    header .badge { display: inline-block; background: #2E75B6; color: white; font-size: 12px; padding: 3px 12px; border-radius: 20px; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+    header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.4rem; }
+    header p { color: #a8c4e0; font-size: 0.95rem; max-width: 600px; }
+    header .meta { margin-top: 1rem; font-size: 0.85rem; color: #7aa6cc; }
+    .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #2E75B6; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid #2E75B6; }
+    .intro-block { background: white; border-radius: 10px; border: 1px solid #e0e6f0; padding: 1.5rem; margin-bottom: 2rem; }
+    .intro-block p { color: #444; margin-bottom: 0.5rem; }
+    .intro-block p:last-child { margin-bottom: 0; }
+    .intro-block strong { color: #1F3864; }
+    .content-block { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .content-block h3 { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #2E75B6; margin: 1.2rem 0 0.5rem; }
+    .content-block h3:first-child { margin-top: 0; }
+    .content-block p, .content-block li { font-size: 0.88rem; color: #555; }
+    .content-block ul, .content-block ol { padding-left: 1.2rem; margin: 0.4rem 0; }
+    .content-block li { margin-bottom: 0.3rem; }
+    .steps-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+    .step-card { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.25rem 1.5rem; border-left: 4px solid #2E75B6; transition: box-shadow 0.2s; }
+    .step-card:hover { box-shadow: 0 4px 12px rgba(30,60,100,0.08); }
+    .step-card .step-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 0.6rem; }
+    .step-num { width: 26px; height: 26px; background: #2E75B6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; }
+    .step-card h3 { font-size: 1rem; font-weight: 700; color: #1F3864; }
+    .step-card p { font-size: 0.88rem; color: #555; margin-bottom: 0.6rem; }
+    .step-card ul, .step-card ol { padding-left: 1.2rem; margin: 0.4rem 0 0.6rem; }
+    .step-card li { font-size: 0.88rem; color: #555; margin-bottom: 0.3rem; }
+    code { background: #f0f4fa; color: #1F3864; padding: 2px 7px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.82rem; }
+    pre { background: #1a2540; border-radius: 8px; padding: 1rem 1.25rem; overflow-x: auto; margin: 0.75rem 0; }
+    pre code { background: none; padding: 0; color: #a8c8e8; font-size: 0.83rem; line-height: 1.7; }
+    .tip { background: #eaf4fd; border-left: 4px solid #2E75B6; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.88rem; color: #444; margin-top: 0.75rem; }
+    .tip strong { color: #1F3864; display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .warning { background: #fff8e1; border-left: 4px solid #f0b43c; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.88rem; color: #444; margin-top: 0.75rem; }
+    .warning strong { color: #b07d00; display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .dark-block { background: #1F3864; color: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .dark-block .dark-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #a8c4e0; margin-bottom: 1rem; }
+    .dark-block ol, .dark-block ul { padding-left: 1.2rem; }
+    .dark-block li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #d0e4f5; }
+    .dark-block code { background: rgba(255,255,255,0.1); color: #a8c4e0; padding: 1px 6px; border-radius: 4px; }
+    .file-block { background: #1a2540; border-radius: 8px; padding: 1rem 1.25rem; font-family: 'Consolas', monospace; font-size: 0.83rem; color: #a8c8e8; line-height: 1.7; margin: 0.75rem 0; overflow-x: auto; }
+    .back-btn { display: inline-block; background: #2E75B6; color: white; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 0.88rem; font-weight: 600; transition: background 0.2s; margin-top: 1rem; margin-bottom: 2rem; }
+    .back-btn:hover { background: #1F3864; }
+    footer { text-align: center; padding: 1.5rem; font-size: 0.8rem; color: #999; border-top: 1px solid #e0e6f0; }
+    footer a { color: #2E75B6; text-decoration: none; }
+    @media (max-width: 600px) { header h1 { font-size: 1.3rem; } }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🌐 Installation Apache 2</h1>
-            <p class="subtitle">Serveur web HTTP open-source</p>
-        </header>
 
-        <div class="section">
-            <h2>📋 Prérequis</h2>
-            <ul>
-                <li>Serveur Debian/Ubuntu à jour</li>
-                <li>Accès root ou sudo</li>
-                <li>Port 80 et 443 disponibles</li>
-                <li>Connexion internet pour télécharger les paquets</li>
-            </ul>
-        </div>
+<header>
+  <div class="badge">BTS SIO – SISR | Projet</div>
+  <h1>Installation Apache 2</h1>
+  <p>Serveur web HTTP open-source – Installation et configuration</p>
+  <div class="meta">Hugo Lemarchand · Ensitech · Session 2026</div>
+</header>
 
-        <div class="section">
-            <h2>🔧 Installation</h2>
+<div class="container">
 
-            <h3><span class="step-number">1</span>Mise à jour du système</h3>
-            <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
+  <p class="section-title">Présentation</p>
+  <div class="intro-block">
+    <p>Ce tutoriel couvre l'installation et la configuration d'<strong>Apache HTTP Server 2</strong> sur Debian/Ubuntu. Apache est le serveur web open-source le plus utilisé au monde, et constitue la brique de base de nombreux déploiements LAMP.</p>
+    <p>Ce projet est en lien direct avec le déploiement de GLPI, OCS Inventory et d'autres services web de mon environnement de laboratoire.</p>
+  </div>
 
-            <h3><span class="step-number">2</span>Installation d'Apache</h3>
-            <pre><code>sudo apt install apache2 -y</code></pre>
+  <p class="section-title">Prérequis</p>
+  <div class="content-block">
+    <ul>
+      <li>Serveur Debian/Ubuntu à jour</li>
+      <li>Accès root ou sudo</li>
+      <li>Ports 80 et 443 disponibles</li>
+      <li>Connexion internet pour télécharger les paquets</li>
+    </ul>
+  </div>
 
-            <h3><span class="step-number">3</span>Vérification du service</h3>
-            <pre><code># Vérifier le statut
+  <p class="section-title">Installation</p>
+  <div class="steps-list">
+
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">1</div><h3>Mise à jour du système</h3></div>
+      <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
+    </div>
+
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">2</div><h3>Installation d'Apache</h3></div>
+      <pre><code>sudo apt install apache2 -y</code></pre>
+    </div>
+
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">3</div><h3>Vérification du service</h3></div>
+      <pre><code># Vérifier le statut
 sudo systemctl status apache2
 
 # Activer au démarrage
 sudo systemctl enable apache2
 
-# Tester dans un navigateur
-[ip_du_serveur](http://IP_DU_SERVEUR)</code></pre>
-        </div>
+# Tester dans un navigateur : http://IP_DU_SERVEUR</code></pre>
+    </div>
 
-        <div class="section">
-            <h2>📁 Structure des fichiers</h2>
-            <div class="file-structure">
-/etc/apache2/
+  </div>
+
+  <p class="section-title">Structure des fichiers</p>
+  <div class="content-block">
+    <div class="file-block">/etc/apache2/
 ├── apache2.conf      # Configuration principale
 ├── ports.conf        # Ports d'écoute
 ├── sites-available/  # Sites disponibles
 ├── sites-enabled/    # Sites activés (liens symboliques)
 ├── mods-available/   # Modules disponibles
-├── mods-enabled/     # Modules activés
-└── conf-available/   # Configurations additionnelles
+└── mods-enabled/     # Modules activés
 
 /var/www/html/        # Racine web par défaut
-/var/log/apache2/     # Logs (access.log, error.log)
-            </div>
-        </div>
+/var/log/apache2/     # Logs (access.log, error.log)</div>
+  </div>
 
-        <div class="section">
-            <h2>⚙️ Configuration d'un Virtual Host</h2>
+  <p class="section-title">Configuration d'un Virtual Host</p>
+  <div class="steps-list">
 
-            <h3><span class="step-number">1</span>Créer le répertoire du site</h3>
-            <pre><code>sudo mkdir -p /var/www/monsite.fr/public_html
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">1</div><h3>Créer le répertoire du site</h3></div>
+      <pre><code>sudo mkdir -p /var/www/monsite.fr/public_html
 sudo chown -R $USER:$USER /var/www/monsite.fr
 sudo chmod -R 755 /var/www/monsite.fr</code></pre>
+    </div>
 
-            <h3><span class="step-number">2</span>Créer une page de test</h3>
-            <pre><code>nano /var/www/monsite.fr/public_html/index.html</code></pre>
-            <pre><code>&lt;!DOCTYPE html&gt;
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">2</div><h3>Créer une page de test</h3></div>
+      <pre><code>nano /var/www/monsite.fr/public_html/index.html</code></pre>
+      <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Bienvenue sur MonSite&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h1&gt;Le site monsite.fr fonctionne !&lt;/h1&gt;
-&lt;/body&gt;
+&lt;head&gt;&lt;title&gt;Bienvenue&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;&lt;h1&gt;Le site monsite.fr fonctionne !&lt;/h1&gt;&lt;/body&gt;
 &lt;/html&gt;</code></pre>
+    </div>
 
-            <h3><span class="step-number">3</span>Créer le fichier de configuration</h3>
-            <pre><code>sudo nano /etc/apache2/sites-available/monsite.fr.conf</code></pre>
-            <pre><code>&lt;VirtualHost *:80&gt;
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">3</div><h3>Créer le fichier de configuration</h3></div>
+      <pre><code>sudo nano /etc/apache2/sites-available/monsite.fr.conf</code></pre>
+      <pre><code>&lt;VirtualHost *:80&gt;
     ServerAdmin admin@monsite.fr
     ServerName monsite.fr
     ServerAlias www.monsite.fr
@@ -217,83 +158,74 @@ sudo chmod -R 755 /var/www/monsite.fr</code></pre>
     ErrorLog ${APACHE_LOG_DIR}/monsite.fr_error.log
     CustomLog ${APACHE_LOG_DIR}/monsite.fr_access.log combined
 &lt;/VirtualHost&gt;</code></pre>
+    </div>
 
-            <h3><span class="step-number">4</span>Activer le site</h3>
-            <pre><code># Activer le site
-sudo a2ensite monsite.fr.conf
-
-# Désactiver le site par défaut (optionnel)
-sudo a2dissite 000-default.conf
-
-# Vérifier la configuration
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">4</div><h3>Activer le site</h3></div>
+      <pre><code>sudo a2ensite monsite.fr.conf
+sudo a2dissite 000-default.conf   # Optionnel
 sudo apache2ctl configtest
-
-# Recharger Apache
 sudo systemctl reload apache2</code></pre>
-        </div>
+    </div>
 
-        <div class="section">
-            <h2>🔒 Installation SSL avec Let's Encrypt</h2>
+  </div>
 
-            <h3><span class="step-number">1</span>Installer Certbot</h3>
-            <pre><code>sudo apt install certbot python3-certbot-apache -y</code></pre>
+  <p class="section-title">SSL avec Let's Encrypt</p>
+  <div class="steps-list">
 
-            <h3><span class="step-number">2</span>Obtenir le certificat</h3>
-            <pre><code>sudo certbot --apache -d monsite.fr -d www.monsite.fr</code></pre>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">1</div><h3>Installer Certbot</h3></div>
+      <pre><code>sudo apt install certbot python3-certbot-apache -y</code></pre>
+    </div>
 
-            <h3><span class="step-number">3</span>Renouvellement automatique</h3>
-            <pre><code># Tester le renouvellement
-sudo certbot renew --dry-run
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">2</div><h3>Obtenir le certificat</h3></div>
+      <pre><code>sudo certbot --apache -d monsite.fr -d www.monsite.fr</code></pre>
+    </div>
 
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">3</div><h3>Renouvellement automatique</h3></div>
+      <pre><code>sudo certbot renew --dry-run
 # Le cron est automatiquement configuré</code></pre>
+      <div class="tip">
+        <strong>💡 Note</strong>
+        Certbot modifie automatiquement la configuration Apache pour rediriger HTTP vers HTTPS.
+      </div>
+    </div>
 
-            <div class="tip">
-                <strong>💡 Note :</strong> Certbot modifie automatiquement la configuration Apache pour rediriger HTTP vers HTTPS.
-            </div>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>🔌 Modules utiles</h2>
-            <pre><code># Activer mod_rewrite (réécriture d'URL)
-sudo a2enmod rewrite
+  <p class="section-title">Modules utiles</p>
+  <div class="content-block">
+    <pre><code>sudo a2enmod rewrite   # Réécriture d'URL
+sudo a2enmod ssl       # HTTPS
+sudo a2enmod headers   # En-têtes personnalisés
+sudo a2enmod deflate   # Compression
 
-# Activer mod_ssl (HTTPS)
-sudo a2enmod ssl
-
-# Activer mod_headers (en-têtes personnalisés)
-sudo a2enmod headers
-
-# Activer mod_deflate (compression)
-sudo a2enmod deflate
-
-# Redémarrer Apache après activation
 sudo systemctl restart apache2</code></pre>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>🛡️ Sécurisation</h2>
+  <p class="section-title">Sécurisation</p>
+  <div class="content-block">
+    <h3>Masquer la version d'Apache</h3>
+    <pre><code>sudo nano /etc/apache2/conf-available/security.conf
 
-            <h3>Masquer la version d'Apache</h3>
-            <pre><code>sudo nano /etc/apache2/conf-available/security.conf
-
-# Modifier ces lignes :
 ServerTokens Prod
 ServerSignature Off</code></pre>
 
-            <h3>Configuration des en-têtes de sécurité</h3>
-            <pre><code># Dans le VirtualHost ou .htaccess
-Header always set X-Content-Type-Options "nosniff"
+    <h3>En-têtes de sécurité</h3>
+    <pre><code>Header always set X-Content-Type-Options "nosniff"
 Header always set X-Frame-Options "SAMEORIGIN"
 Header always set X-XSS-Protection "1; mode=block"</code></pre>
 
-            <h3>Configurer le pare-feu</h3>
-            <pre><code>sudo ufw allow 'Apache Full'
+    <h3>Pare-feu</h3>
+    <pre><code>sudo ufw allow 'Apache Full'
 sudo ufw status</code></pre>
-        </div>
+  </div>
 
-        <div class="section">
-            <h2>📚 Commandes utiles</h2>
-            <pre><code># Gestion du service
+  <p class="section-title">Commandes utiles</p>
+  <div class="content-block">
+    <pre><code># Gestion du service
 sudo systemctl start/stop/restart/reload apache2
 
 # Activer/désactiver un site
@@ -310,9 +242,14 @@ sudo apache2ctl configtest
 # Voir les logs en temps réel
 sudo tail -f /var/log/apache2/error.log
 sudo tail -f /var/log/apache2/access.log</code></pre>
-        </div>
+  </div>
 
-        <a href="index.html" class="back-btn">← Retour au Portfolio</a>
-    </div>
+  <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+
+</div>
+
+<footer>
+  <p>Hugo Lemarchand · BTS SIO SISR · Ensitech · Session 2026 · <a href="https://hugo-lemarchand.github.io/portfolio/" target="_blank">Portfolio →</a></p>
+</footer>
 </body>
 </html>
