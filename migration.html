@@ -71,235 +71,194 @@
 
   <p class="section-title">Présentation</p>
   <div class="intro-block">
-    <p>Ce projet décrit la migration d'une infrastructure gérée par <strong>Active Directory on-premise</strong> vers une gestion cloud avec <strong>Microsoft Entra ID</strong> (ex-Azure AD) et <strong>Microsoft Intune</strong> (MDM).</p>
-    <p>Cette migration permet une gestion centralisée depuis le cloud, un accès aux applications depuis n'importe quel endroit, et une sécurité renforcée via l'accès conditionnel et le MFA.</p>
+    <p>Ce projet décrit la procédure de migration des postes utilisateurs gérés par un <strong>domaine Active Directory on-premise</strong> vers une gestion cloud avec <strong>Microsoft Entra ID</strong> (ex-Azure AD) et <strong>Microsoft Intune</strong> (MDM).</p>
+    <p>J'ai appliqué la solution mise en place par mon manager pour faire basculer les utilisateurs du domaine vers Intune. Cette procédure couvre l'ensemble du processus : désinstallation des agents, sortie du domaine, jonction Entra ID, migration du profil utilisateur et vérifications finales.</p>
   </div>
 
   <!-- PHASE 1 -->
-  <p class="section-title">Phase 1 – Audit et planification</p>
+  <p class="section-title">Phase 1 – Préparation du poste</p>
   <div class="steps-list">
 
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">1</div><h3>Inventaire de l'existant</h3></div>
+      <div class="step-meta"><div class="step-num">1</div><h3>Sauvegarde des données utilisateur</h3></div>
+      <p>Avant toute intervention, vérifier et sauvegarder les données de l'utilisateur :</p>
       <ul>
-        <li>Nombre de postes et utilisateurs</li>
-        <li>Applications déployées (GPO, scripts)</li>
-        <li>Imprimantes et partages réseau</li>
-        <li>Stratégies de groupe (GPO) en place</li>
-        <li>Certificats et configurations spécifiques</li>
+        <li>Favoris du navigateur Chrome</li>
+        <li>Fichiers synchronisés sur OneDrive</li>
       </ul>
+      <div class="tip"><strong>💡 Conseil</strong>S'assurer que OneDrive est bien synchronisé et que les favoris Chrome sont exportés ou sauvegardés avant de commencer.</div>
     </div>
 
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">2</div><h3>Prérequis licences</h3></div>
-      <table>
-        <tr><th>Licence</th><th>Fonctionnalités incluses</th></tr>
-        <tr><td>Microsoft 365 Business Premium</td><td>Intune, Entra ID P1, Defender</td></tr>
-        <tr><td>Microsoft 365 E3/E5</td><td>Intune, Entra ID P1/P2, fonctionnalités avancées</td></tr>
-        <tr><td>Intune Plan 1 (standalone)</td><td>MDM uniquement</td></tr>
-      </table>
+      <div class="step-meta"><div class="step-num">2</div><h3>Désactivation du PIN CyberArk</h3></div>
+      <p>Se connecter en tant qu'<strong>Admin CyberArk</strong> et désactiver le PIN pour permettre les opérations suivantes sans blocage d'authentification.</p>
     </div>
 
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">3</div><h3>Planifier la coexistence</h3></div>
+      <div class="step-meta"><div class="step-num">3</div><h3>Exécution des politiques Automox</h3></div>
+      <p>Depuis la console Automox, lancer les trois politiques dans l'ordre suivant :</p>
+      <ol>
+        <li>Exécuter : <code>EXN uninstall Netskope Windows</code></li>
+        <li>Exécuter : <code>EXN Intune Copy Software</code></li>
+        <li>Exécuter : <code>EXN Intune Add Local User to Machine</code></li>
+      </ol>
+      <div class="warning">
+        <strong>⚠️ Si Netskope ne se désinstalle pas via Automox</strong>
+        Aller dans Programmes et fonctionnalités et désinstaller manuellement avec le mot de passe : <code>L3xRNA4Arv-mE*t6</code>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">4</div><h3>Vérifications post-désinstallation</h3></div>
       <ul>
-        <li><strong>Hybrid Join</strong> : postes joints à AD et Entra ID – transition progressive</li>
-        <li><strong>Cloud-only</strong> : migration complète vers Entra ID – recommandé pour nouveaux postes</li>
+        <li>Confirmer que Netskope est bien désinstallé</li>
+        <li>Vérifier l'existence du dossier <code>C:\Intune</code></li>
       </ul>
     </div>
 
   </div>
 
   <!-- PHASE 2 -->
-  <p class="section-title">Phase 2 – Configuration Entra ID et Intune</p>
+  <p class="section-title">Phase 2 – Configuration locale et sortie du domaine</p>
   <div class="steps-list">
 
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">4</div><h3>Configurer Entra ID Connect (si Hybrid)</h3></div>
-      <pre><code># Télécharger Azure AD Connect depuis Microsoft
-# Installer sur un serveur membre du domaine
-# Configuration recommandée :
-- Synchronisation de hash de mot de passe
-- Filtrage par OU si nécessaire
-- Rétroécriture de mot de passe (optionnel)</code></pre>
-    </div>
-
-    <div class="step-card">
-      <div class="step-meta"><div class="step-num">5</div><h3>Configurer l'inscription automatique Intune</h3></div>
-      <p>Dans le portail Entra ID :</p>
+      <div class="step-meta"><div class="step-num">5</div><h3>Ajout au groupe Administrateurs</h3></div>
+      <p>Ouvrir la <strong>Gestion de l'ordinateur</strong> en tant qu'administrateur, puis :</p>
       <ol>
-        <li>Mobility (MDM and MAM) → Microsoft Intune</li>
-        <li>MDM user scope : Tous ou groupe spécifique</li>
-        <li>MAM user scope : Aucun (ou selon besoin)</li>
+        <li>Aller dans : <code>Groupes → Administrateurs → Propriétés</code></li>
+        <li>Ajouter l'utilisateur : <code>magic</code></li>
+        <li>Cliquer sur <strong>Appliquer → OK</strong></li>
       </ol>
     </div>
 
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">6</div><h3>Configurer Windows Autopilot</h3></div>
-      <pre><code># Récupérer l'ID matériel du poste de test
-Install-Script -Name Get-WindowsAutoPilotInfo
-Get-WindowsAutoPilotInfo -OutputFile C:\autopilot.csv
+      <div class="step-meta"><div class="step-num">6</div><h3>Connexion avec l'utilisateur local Magic</h3></div>
+      <p>Se déconnecter du compte domaine et se reconnecter avec le compte local créé :</p>
+      <ul>
+        <li>Login : <code>.\Magic</code></li>
+        <li>Mot de passe : <code>We-n33d-to-migrate-FR</code></li>
+      </ul>
+    </div>
 
-# Importer dans Intune :
-# Devices → Windows → Enrollment → Devices (Autopilot)</code></pre>
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">7</div><h3>Sortie du domaine Active Directory</h3></div>
+      <p>Depuis les propriétés système, quitter le domaine et rejoindre un groupe de travail :</p>
+      <ol>
+        <li>Groupe de travail : <code>WORKGROUP</code></li>
+        <li>Valider avec les identifiants : <code>.\Magic</code></li>
+        <li>Redémarrer la machine</li>
+      </ol>
     </div>
 
   </div>
 
   <!-- PHASE 3 -->
-  <p class="section-title">Phase 3 – Migration des GPO vers Intune</p>
+  <p class="section-title">Phase 3 – Jonction à Entra ID et migration du profil</p>
   <div class="steps-list">
 
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">7</div><h3>Analyser les GPO existantes</h3></div>
-      <pre><code>Get-GPO -All | ForEach-Object {
-    Get-GPOReport -Guid $_.Id -ReportType Html -Path "C:\GPO_Reports\$($_.DisplayName).html"
-}</code></pre>
+      <div class="step-meta"><div class="step-num">8</div><h3>Liaison à Entra ID (Azure AD)</h3></div>
+      <p>Depuis la session du compte local <strong>Magic</strong>, rejoindre Entra ID :</p>
+      <ol>
+        <li>Aller dans : <code>Paramètres → Accès professionnel ou scolaire → Se connecter</code></li>
+        <li>Cliquer sur : <strong>Joindre cet appareil à Entra ID</strong></li>
+        <li>Entrer les identifiants Office 365 de l'utilisateur</li>
+        <li>Cliquer sur <strong>Joindre</strong>, puis <strong>Terminé</strong></li>
+      </ol>
     </div>
 
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">8</div><h3>Utiliser Group Policy Analytics</h3></div>
-      <p>Dans Intune : Devices → Windows → Group Policy analytics</p>
-      <ul>
-        <li>Importer les fichiers de sauvegarde GPO</li>
-        <li>Analyser la compatibilité avec Intune</li>
-        <li>Migrer les paramètres compatibles</li>
-      </ul>
+      <div class="step-meta"><div class="step-num">9</div><h3>Changer d'utilisateur</h3></div>
+      <p>Après la jonction à Entra ID, changer d'utilisateur (sans redémarrer) pour passer au compte Office 365 créé, avant de lancer la migration de profil.</p>
     </div>
 
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">9</div><h3>Créer les profils de configuration</h3></div>
+      <div class="step-meta"><div class="step-num">10</div><h3>Migration du profil utilisateur avec Profwiz</h3></div>
+      <p>Dans le dossier <code>C:\Intune</code>, lancer <strong>Profwiz (version 2)</strong> :</p>
       <ul>
-        <li><strong>Device restrictions</strong> : sécurité et fonctionnalités Windows</li>
-        <li><strong>Configuration profiles</strong> : paramètres personnalisés</li>
-        <li><strong>Endpoint security</strong> : antivirus, pare-feu, chiffrement</li>
-        <li><strong>Compliance policies</strong> : conformité des appareils</li>
+        <li>Chemin utilisateur : <code>C:\Users\NomUtilisateur</code></li>
       </ul>
+      <div class="tip">
+        <strong>💡 En cas de double profil Windows</strong>
+        Vérifier quel dossier contient le plus de données et utiliser ce chemin dans Profwiz.
+      </div>
+      <p>Options à configurer dans Profwiz :</p>
+      <ul>
+        <li>❌ Décocher : <strong>Join Domain</strong></li>
+        <li>✅ Cocher : <strong>Azure AD</strong></li>
+        <li>❌ Décocher : <strong>Set as default login</strong></li>
+      </ul>
+      <p>Entrer l'adresse email Office 365 de l'utilisateur, puis terminer l'assistant.</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-meta"><div class="step-num">11</div><h3>Redémarrer la machine</h3></div>
+      <p>Redémarrer le poste pour finaliser la migration du profil et appliquer les paramètres Entra ID.</p>
     </div>
 
   </div>
 
   <!-- PHASE 4 -->
-  <p class="section-title">Phase 4 – Migration des postes</p>
+  <p class="section-title">Phase 4 – Vérifications et finalisation</p>
   <div class="steps-list">
 
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">10</div><h3>Option A – Migration en place</h3></div>
-      <pre><code># Vérifier l'état actuel
-dsregcmd /status
-
-# Quitter le domaine
-Remove-Computer -UnjoinDomainCredential (Get-Credential) -PassThru -Verbose -Restart
-
-# Après redémarrage : Paramètres → Comptes → Accès professionnel ou scolaire
-# Choisir "Joindre cet appareil à Azure Active Directory"</code></pre>
-    </div>
-
-    <div class="step-card">
-      <div class="step-meta"><div class="step-num">11</div><h3>Option B – Réinstallation avec Autopilot</h3></div>
+      <div class="step-meta"><div class="step-num">12</div><h3>Vérifications finales</h3></div>
+      <p>Après redémarrage, vérifier le bon fonctionnement de l'environnement migré :</p>
       <ol>
-        <li>Enregistrer le poste dans Autopilot</li>
-        <li>Réinitialiser Windows (Reset this PC)</li>
-        <li>L'utilisateur se connecte avec ses identifiants M365</li>
-        <li>Configuration automatique via Intune</li>
+        <li>Ouvrir le <strong>Portail d'entreprise (Company Portal)</strong></li>
+        <li>Réinstaller <strong>Netskope</strong> et se connecter</li>
+        <li>Vérifier le bon fonctionnement de :
+          <ul>
+            <li>Okta</li>
+            <li>Microsoft Teams</li>
+            <li>Office 365</li>
+          </ul>
+        </li>
       </ol>
     </div>
 
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">12</div><h3>Script de migration automatisé</h3></div>
-      <pre><code>$Credential = Get-Credential -Message "Compte admin domaine"
-
-# Sauvegarder les données utilisateur
-Copy-Item "$env:USERPROFILE\Desktop"   "D:\Backup\Desktop"   -Recurse
-Copy-Item "$env:USERPROFILE\Documents" "D:\Backup\Documents" -Recurse
-
-# Disjoindre du domaine
-Remove-Computer -UnjoinDomainCredential $Credential -Force -Restart</code></pre>
-      <div class="warning">
-        <strong>⚠️ Attention</strong>
-        Toujours tester sur un groupe pilote avant le déploiement massif !
-      </div>
+      <div class="step-meta"><div class="step-num">13</div><h3>Synchronisation Intune</h3></div>
+      <p>Forcer la synchronisation du poste avec Intune pour appliquer les politiques :</p>
+      <ol>
+        <li>Aller dans : <code>Paramètres → Accès professionnel ou scolaire → Compte → Informations</code></li>
+        <li>Cliquer sur <strong>Synchroniser</strong></li>
+      </ol>
     </div>
 
-  </div>
-
-  <!-- PHASE 5 -->
-  <p class="section-title">Phase 5 – Configuration de la sécurité</p>
-  <div class="steps-list">
-
     <div class="step-card">
-      <div class="step-meta"><div class="step-num">13</div><h3>Conditional Access</h3></div>
+      <div class="step-meta"><div class="step-num">14</div><h3>Reconnexion des imprimantes et lecteurs réseau</h3></div>
+      <p>Reconnecter les ressources réseau de l'utilisateur :</p>
       <ul>
-        <li>Exiger MFA pour les connexions à risque</li>
-        <li>Bloquer l'accès depuis des pays non autorisés</li>
-        <li>Exiger un appareil conforme pour accéder aux données</li>
-      </ul>
-    </div>
-
-    <div class="step-card">
-      <div class="step-meta"><div class="step-num">14</div><h3>Compliance Policies</h3></div>
-      <pre><code># Exemple de politique de conformité
-- Version Windows minimum : 22H2
-- BitLocker activé
-- Antivirus actif
-- Pare-feu activé
-- Mot de passe requis
-
-# Action si non conforme :
-- Notification utilisateur
-- Bloquer l'accès après X jours</code></pre>
-    </div>
-
-    <div class="step-card">
-      <div class="step-meta"><div class="step-num">15</div><h3>Windows Hello for Business</h3></div>
-      <p>Configurer l'authentification sans mot de passe :</p>
-      <ul>
-        <li>Devices → Windows → Enrollment → Windows Hello for Business</li>
-        <li>Activer et configurer PIN, biométrie</li>
+        <li>Imprimantes via : <code>\\FR1MS01.supervadnet.com</code></li>
+        <li>Lecteurs réseau via :
+          <ul>
+            <li><code>\\FR1FPS01.supervadnet.com</code></li>
+            <li><code>\\FR1FPS02.supervadnet.com</code></li>
+            <li><code>\\FR1FPS03.supervadnet.com</code></li>
+          </ul>
+        </li>
       </ul>
     </div>
 
   </div>
 
-  <!-- PHASE 6 -->
-  <p class="section-title">Phase 6 – Déploiement des applications</p>
-  <div class="steps-list">
-
-    <div class="step-card">
-      <div class="step-meta"><div class="step-num">16</div><h3>Apps Microsoft 365</h3></div>
-      <pre><code># Dans Intune : Apps → Windows → Add
-# Type : Microsoft 365 Apps
-# Configuration recommandée :
-- Update channel : Monthly Enterprise
-- Apps : Word, Excel, PowerPoint, Outlook, Teams
-- Architecture : 64-bit</code></pre>
-    </div>
-
-    <div class="step-card">
-      <div class="step-meta"><div class="step-num">17</div><h3>Applications Win32</h3></div>
-      <pre><code># Préparer le package avec IntuneWinAppUtil
-IntuneWinAppUtil.exe -c "C:\Source\App" -s "setup.exe" -o "C:\Output" -q
-
-# Configurer dans Intune :
-# Install : setup.exe /silent
-# Uninstall : setup.exe /uninstall /silent
-# Detection rules : fichier, registre ou script</code></pre>
-    </div>
-
-  </div>
-
-  <p class="section-title">Checklist post-migration</p>
+  <p class="section-title">Checklist de validation</p>
   <div class="dark-block">
-    <div class="dark-label">Points de validation</div>
+    <div class="dark-label">Points de validation post-migration</div>
     <ul>
-      <li>Tous les postes apparaissent dans Intune</li>
-      <li>Les profils de configuration sont appliqués</li>
-      <li>Les applications sont déployées</li>
-      <li>Les politiques de conformité sont actives</li>
-      <li>L'accès conditionnel fonctionne correctement</li>
-      <li>Les utilisateurs peuvent accéder à leurs ressources</li>
-      <li>La documentation est à jour</li>
-      <li>L'ancien AD peut être décommissionné (si full cloud)</li>
+      <li>Données utilisateur sauvegardées (favoris Chrome, OneDrive)</li>
+      <li>Netskope désinstallé et dossier <code>C:\Intune</code> présent</li>
+      <li>Compte <code>Magic</code> ajouté au groupe Administrateurs</li>
+      <li>Poste sorti du domaine et redémarré</li>
+      <li>Poste joint à Entra ID depuis la session Magic</li>
+      <li>Migration du profil effectuée via Profwiz (Azure AD coché)</li>
+      <li>Company Portal accessible et Netskope réinstallé</li>
+      <li>Okta, Teams et Office 365 fonctionnels</li>
+      <li>Synchronisation Intune effectuée</li>
+      <li>Imprimantes et lecteurs réseau reconnectés</li>
     </ul>
   </div>
 
