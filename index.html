@@ -48,138 +48,109 @@
 </section>
 
 <section id="skills">
-    <style>
-        /* Conteneur principal harmonisé avec ton portfolio (fond blanc, bordure noire) */
-        .skills-main-container {
-            max-width: 1000px;
-            margin: 20px auto;
-            background-color: #ffffff;
-            padding: 30px;
-            border: 2px solid #333; /* Style identique à tes autres sections */
-            border-radius: 8px;
-            font-family: Arial, sans-serif;
-        }
-
-        .skills-main-container h2 {
-            font-size: 2em;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
-            color: #000;
-        }
-
-        /* Grille pour l'affichage en cartes (3 colonnes sur PC, 1 sur mobile) */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        /* Style des cartes individuelles (inspiré de ta capture d'écran) */
-        .skill-card {
-            background: #fff;
-            padding: 25px;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(93, 70, 226, 0.15);
-            border-color: #5d46e2;
-        }
-
-        .skill-icon {
-            font-size: 40px;
-            color: #5d46e2; /* Violet de ton image */
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .skill-card h3 {
-            font-size: 1.3em;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .skill-card ul {
-            list-style: none;
-            padding: 0;
-            text-align: left;
-        }
-
-        .skill-card li {
-            font-size: 0.9em;
-            margin-bottom: 10px;
-            color: #555;
-            padding-left: 18px;
-            position: relative;
-        }
-
-        /* Puces personnalisées violettes */
-        .skill-card li::before {
-            content: "•";
-            color: #5d46e2;
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-    </style>
-
-    <div class="skills-main-container">
-        <h2>Compétences Techniques</h2>
+    <div class="skills-container" style="max-width: 1000px; margin: 20px auto; background-color: #fff; padding: 30px; border: 2px solid #333; border-radius: 8px;">
         
-        <div class="skills-grid">
-            <div class="skill-card">
-                <span class="skill-icon">🌐</span>
+        <h2 style="font-size: 2em; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 10px; color: #000;">Compétences</h2>
+
+        <style>
+            /* Grille pour afficher les compétences en cartes comme sur ton image */
+            .grid-skills {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .card-skill {
+                background: #ffffff;
+                border: 1px solid #eee;
+                border-radius: 10px;
+                padding: 20px;
+                text-align: center;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+                transition: transform 0.3s ease;
+            }
+
+            .card-skill:hover {
+                transform: translateY(-5px);
+                border-color: #5d46e2;
+            }
+
+            .card-skill i, .card-skill .icon {
+                font-size: 30px;
+                color: #5d46e2;
+                margin-bottom: 15px;
+                display: block;
+            }
+
+            .card-skill h3 {
+                font-size: 1.2em;
+                margin-bottom: 10px;
+                color: #333;
+                border-bottom: none; /* On retire la ligne sous les titres des cartes */
+            }
+
+            .card-skill ul {
+                list-style: none;
+                padding: 0;
+                text-align: left;
+            }
+
+            .card-skill ul li {
+                font-size: 0.9em;
+                margin-bottom: 8px;
+                color: #555;
+                position: relative;
+                padding-left: 15px;
+            }
+
+            .card-skill ul li::before {
+                content: "•";
+                color: #5d46e2;
+                position: absolute;
+                left: 0;
+                font-weight: bold;
+            }
+        </style>
+
+        <div class="grid-skills">
+            <div class="card-skill">
+                <span class="icon">🌐</span>
                 <h3>Infrastructure Réseau</h3>
                 <ul>
-                    <li><strong>Switching :</strong> VLAN, Trunking, STP, LACP</li>
-                    <li><strong>Routing :</strong> OSPF, BGP, RIP, Routage Statique</li>
-                    <li>Analyse de trafic & Qualité de Service (QoS)</li>
+                    <li><strong>Switching :</strong> VLAN, Trunking, STP [cite: 1]</li>
+                    <li><strong>Routing :</strong> OSPF, BGP, RIP [cite: 1]</li>
+                    <li>LACP & QoS [cite: 1]</li>
                 </ul>
             </div>
 
-            <div class="skill-card">
-                <span class="skill-icon">📞</span>
+            <div class="card-skill">
+                <span class="icon">📞</span>
                 <h3>Téléphonie & VoIP</h3>
                 <ul>
-                    <li>Gestion Asterisk & Cisco VoIP</li>
-                    <li>Protocoles SIP & RTP</li>
-                    <li>Installation & Maintenance de serveurs IP-PBX</li>
+                    <li>Asterisk & Cisco VoIP [cite: 1]</li>
+                    <li>Protocoles SIP & RTP [cite: 1]</li>
+                    <li>IP-PBX & Cloud PBX [cite: 1]</li>
                 </ul>
             </div>
 
-            <div class="skill-card">
-                <span class="skill-icon">🖥️</span>
-                <h3>Administration Système</h3>
+            <div class="card-skill">
+                <span class="icon">🛡️</span>
+                <h3>Système & Sécurité</h3>
                 <ul>
-                    <li>Linux (Ubuntu, CentOS, Debian)</li>
-                    <li>Windows Server & Active Directory</li>
-                    <li>Gestion des utilisateurs et permissions</li>
+                    <li>Linux (Ubuntu, Debian) [cite: 1]</li>
+                    <li>Active Directory & GPO [cite: 1]</li>
+                    <li>Firewalls & Port Security [cite: 1]</li>
                 </ul>
             </div>
 
-            <div class="skill-card">
-                <span class="skill-icon">🛡️</span>
-                <h3>Sécurité & Web</h3>
+            <div class="card-skill">
+                <span class="icon">📊</span>
+                <h3>Data & Web</h3>
                 <ul>
-                    <li>Configuration de Firewalls & Port Security</li>
-                    <li>Développement HTML5 & PHP</li>
-                    <li>Interaction bases de données MySQL</li>
-                </ul>
-            </div>
-
-            <div class="skill-card">
-                <span class="skill-icon">📊</span>
-                <h3>Data Analysis</h3>
-                <ul>
-                    <li>Visualisation (Tableau, Excel TCD)</li>
-                    <li>Python (Matplotlib, Seaborn, Plotly)</li>
-                    <li>Business Intelligence (BI)</li>
+                    <li>Tableau & Excel (TCD) [cite: 1]</li>
+                    <li>Python (Matplotlib) [cite: 1]</li>
+                    <li>HTML5 & PHP/MySQL [cite: 1]</li>
                 </ul>
             </div>
         </div>
