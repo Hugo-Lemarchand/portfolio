@@ -48,63 +48,67 @@
 </section>
 
 <section id="skills">
-    <div class="skills-container" style="max-width: 1000px; margin: 20px auto; background-color: #fff; padding: 30px; border: 2px solid #333; border-radius: 8px;">
+    <div style="max-width: 1000px; margin: 20px auto; background-color: #fff; padding: 30px; border: 2px solid #333; border-radius: 8px; font-family: Arial, sans-serif;">
         
-        <h2 style="font-size: 2em; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 10px; color: #000;">Compétences</h2>
+        <h2 style="font-size: 2em; margin-bottom: 25px; border-bottom: 2px solid #333; padding-bottom: 10px; color: #000; font-weight: bold;">Compétences</h2>
 
         <style>
-            /* Grille pour afficher les compétences en cartes comme sur ton image */
-            .grid-skills {
+            /* Configuration de la grille pour les cartes (Cards) */
+            .skills-card-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
                 gap: 20px;
-                margin-top: 20px;
             }
 
-            .card-skill {
+            /* Style des cartes inspiré de ta première capture d'écran */
+            .skill-item-card {
                 background: #ffffff;
-                border: 1px solid #eee;
-                border-radius: 10px;
-                padding: 20px;
+                border: 1px solid #e0e0e0;
+                border-radius: 12px;
+                padding: 25px;
                 text-align: center;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-                transition: transform 0.3s ease;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
 
-            .card-skill:hover {
+            .skill-item-card:hover {
                 transform: translateY(-5px);
+                box-shadow: 0 6px 15px rgba(93, 70, 226, 0.15);
                 border-color: #5d46e2;
             }
 
-            .card-skill i, .card-skill .icon {
-                font-size: 30px;
-                color: #5d46e2;
+            .skill-item-card .icon {
+                font-size: 35px;
+                color: #5d46e2; /* Violet de ton design initial */
                 margin-bottom: 15px;
                 display: block;
             }
 
-            .card-skill h3 {
-                font-size: 1.2em;
-                margin-bottom: 10px;
+            .skill-item-card h3 {
+                font-size: 1.25em;
                 color: #333;
-                border-bottom: none; /* On retire la ligne sous les titres des cartes */
+                margin-bottom: 15px;
+                border-bottom: none !important; /* On retire la ligne ici pour garder le style carte */
+                padding-bottom: 0 !important;
             }
 
-            .card-skill ul {
+            .skill-item-card ul {
                 list-style: none;
                 padding: 0;
+                margin: 0;
                 text-align: left;
             }
 
-            .card-skill ul li {
+            .skill-item-card li {
                 font-size: 0.9em;
-                margin-bottom: 8px;
+                margin-bottom: 10px;
                 color: #555;
+                padding-left: 20px;
                 position: relative;
-                padding-left: 15px;
+                line-height: 1.4;
             }
 
-            .card-skill ul li::before {
+            .skill-item-card li::before {
                 content: "•";
                 color: #5d46e2;
                 position: absolute;
@@ -113,44 +117,44 @@
             }
         </style>
 
-        <div class="grid-skills">
-            <div class="card-skill">
+        <div class="skills-card-grid">
+            <div class="skill-item-card">
                 <span class="icon">🌐</span>
                 <h3>Infrastructure Réseau</h3>
                 <ul>
-                    <li><strong>Switching :</strong> VLAN, Trunking, STP [cite: 1]</li>
-                    <li><strong>Routing :</strong> OSPF, BGP, RIP [cite: 1]</li>
-                    <li>LACP & QoS [cite: 1]</li>
+                    <li><strong>Switching :</strong> VLAN, Trunking, STP, LACP</li>
+                    <li><strong>Routing :</strong> OSPF, BGP, RIP, Statique</li>
+                    <li>QoS & Analyse de trafic</li>
                 </ul>
             </div>
 
-            <div class="card-skill">
+            <div class="skill-item-card">
                 <span class="icon">📞</span>
                 <h3>Téléphonie & VoIP</h3>
                 <ul>
-                    <li>Asterisk & Cisco VoIP [cite: 1]</li>
-                    <li>Protocoles SIP & RTP [cite: 1]</li>
-                    <li>IP-PBX & Cloud PBX [cite: 1]</li>
+                    <li>Systèmes Asterisk & Cisco VoIP</li>
+                    <li>Protocoles SIP & RTP</li>
+                    <li>IP PBX & Cloud PBX</li>
                 </ul>
             </div>
 
-            <div class="card-skill">
+            <div class="skill-item-card">
                 <span class="icon">🛡️</span>
                 <h3>Système & Sécurité</h3>
                 <ul>
-                    <li>Linux (Ubuntu, Debian) [cite: 1]</li>
-                    <li>Active Directory & GPO [cite: 1]</li>
-                    <li>Firewalls & Port Security [cite: 1]</li>
+                    <li>Linux (Ubuntu, CentOS, Debian)</li>
+                    <li>Windows Server & Active Directory</li>
+                    <li>Firewalls & Port Security</li>
                 </ul>
             </div>
 
-            <div class="card-skill">
+            <div class="skill-item-card">
                 <span class="icon">📊</span>
                 <h3>Data & Web</h3>
                 <ul>
-                    <li>Tableau & Excel (TCD) [cite: 1]</li>
-                    <li>Python (Matplotlib) [cite: 1]</li>
-                    <li>HTML5 & PHP/MySQL [cite: 1]</li>
+                    <li>Tableau & Excel (TCD)</li>
+                    <li>Python (Matplotlib, Seaborn)</li>
+                    <li>HTML5 & PHP/MySQL</li>
                 </ul>
             </div>
         </div>
