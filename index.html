@@ -49,123 +49,160 @@
 
 <section id="skills">
     <style>
+        /* Conteneur principal avec le fond gris clair de l'image */
         #skills {
-            padding: 50px 20px;
-            background-color: #f9f9f9;
-            font-family: sans-serif;
+            background-color: #d1d5db; /* Gris de l'arrière-plan */
+            padding: 40px 20px;
+            font-family: 'Arial', sans-serif;
+            color: #1a1a1a;
         }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
+        /* Titre de la section avec la bordure inférieure */
+        #skills h2.section-title {
+            font-family: 'Georgia', serif;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #666;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .skills-container {
             max-width: 1200px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
+        /* Style des cartes (identique à l'image Ensitech / Jean Moulin) */
         .skill-card {
-            background: #fff;
-            padding: 30px;
+            background-color: #ffffff;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .skill-icon {
-            font-size: 40px;
-            color: #5d46e2;
-            margin-bottom: 15px;
-            display: block;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .skill-card h3 {
-            font-size: 1.4rem;
-            color: #333;
+            font-size: 20px;
+            margin-top: 0;
             margin-bottom: 12px;
+            color: #333;
         }
 
-        .skill-card p {
-            font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 20px;
-            line-height: 1.5;
+        .skill-card h3 span {
+            font-weight: normal;
+            color: #555;
         }
 
-        .skill-tags {
+        .skill-card h4 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        /* Texte descriptif */
+        .skill-description {
+            font-size: 14.5px;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        /* Liste de compétences à l'intérieur */
+        .skill-items {
             list-style: none;
             padding: 0;
+            margin: 0;
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
+            gap: 15px;
         }
 
-        .skill-tags li {
-            font-size: 0.85rem;
-            background: #f0eeff;
-            color: #5d46e2;
-            padding: 5px 12px;
-            border-radius: 20px;
+        .skill-items li {
+            font-size: 14px;
+            background: #f3f4f6;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border-left: 3px solid #5d46e2; /* Accent de couleur */
             font-weight: 500;
+        }
+
+        strong {
+            color: #000;
         }
     </style>
 
-    <div class="skills-grid">
+    <h2 class="section-title">Compétences Techniques</h2>
+
+    <div class="skills-container">
+        
         <div class="skill-card">
-            <span class="skill-icon">🌐</span>
-            <h3>Infrastructure Réseau</h3>
-            <p>Configuration et gestion approfondie des équipements de commutation et de routage[cite: 2, 10].</p>
-            <ul class="skill-tags">
-                <li>VLAN & Trunking [cite: 2, 4]</li>
-                <li>STP & LACP [cite: 5, 7]</li>
-                <li>OSPF & BGP [cite: 11, 12]</li>
-                <li>QoS [cite: 8]</li>
+            <h3>Infrastructure Réseau <span>(Niveau Approfondi)</span></h3>
+            <h4>Switching & Routing</h4>
+            <p class="skill-description">
+                Expertise en configuration et gestion de réseaux commutés et routés pour optimiser le trafic et assurer la sécurité. 
+                Maîtrise des protocoles essentiels pour garantir la performance et la redondance des connexions.
+            </p>
+            <ul class="skill-items">
+                <li><strong>VLAN & Trunking</strong></li>
+                <li><strong>Spanning Tree (STP)</strong></li>
+                <li><strong>OSPF & BGP</strong></li>
+                <li><strong>LACP & QoS</strong></li>
             </ul>
         </div>
 
         <div class="skill-card">
-            <span class="skill-icon">📞</span>
-            <h3>Téléphonie & VoIP</h3>
-            <p>Expertise dans l'installation et la maintenance de systèmes de communication IP[cite: 18, 26].</p>
-            <ul class="skill-tags">
-                <li>Asterisk [cite: 19]</li>
-                <li>Cisco VoIP [cite: 20]</li>
-                <li>SIP & RTP [cite: 21]</li>
-                <li>PBX / Cloud PBX [cite: 27, 30]</li>
+            <h3>Téléphonie sur IP <span>(Niveau Approfondi)</span></h3>
+            <h4>Solutions VoIP & PBX</h4>
+            <p class="skill-description">
+                Installation et maintenance de systèmes VoIP complexes. Intégration de solutions de téléphonie d'entreprise 
+                incluant la gestion des appels, la sécurité vocale et la configuration de serveurs dédiés.
+            </p>
+            <ul class="skill-items">
+                <li><strong>Asterisk & Cisco VoIP</strong></li>
+                <li><strong>Protocoles SIP & RTP</strong></li>
+                <li><strong>IP-PBX & Cloud PBX</strong></li>
+                <li><strong>Maintenance VoIP</strong></li>
             </ul>
         </div>
 
         <div class="skill-card">
-            <span class="skill-icon">🛡️</span>
-            <h3>Système & Sécurité</h3>
-            <p>Administration de serveurs et sécurisation des accès réseaux[cite: 42, 46, 57].</p>
-            <ul class="skill-tags">
-                <li>Linux (Ubuntu, Debian) [cite: 46]</li>
-                <li>Active Directory [cite: 58]</li>
-                <li>Firewalls [cite: 42]</li>
-                <li>Port Security [cite: 6]</li>
+            <h3>Administration Système <span>(Niveau Intermédiaire)</span></h3>
+            <h4>Linux, Windows & Sécurité</h4>
+            <p class="skill-description">
+                Gestion et maintenance de parcs serveurs. Mise en place de stratégies de sécurité, 
+                administration d'annuaires et configuration de pare-feux pour protéger les infrastructures.
+            </p>
+            <ul class="skill-items">
+                <li><strong>Linux (Ubuntu, CentOS)</strong></li>
+                <li><strong>Active Directory</strong></li>
+                <li><strong>Firewalls & Port Security</strong></li>
+                <li><strong>Gestion des utilisateurs</strong></li>
             </ul>
         </div>
 
         <div class="skill-card">
-            <span class="skill-icon">📊</span>
-            <h3>Data & Développement</h3>
-            <p>Analyse de données et création d'applications web dynamiques[cite: 34, 38, 50].</p>
-            <ul class="skill-tags">
-                <li>Tableau & Excel [cite: 52, 53]</li>
-                <li>Python (Matplotlib) [cite: 54]</li>
-                <li>HTML5 & PHP [cite: 35, 39]</li>
-                <li>MySQL [cite: 40]</li>
+            <h3>Visualisation & Développement <span>(Niveau Basique)</span></h3>
+            <h4>Data Analysis & Web Design</h4>
+            <p class="skill-description">
+                Analyse de données complexes et création de tableaux de bord interactifs. 
+                Développement de sites dynamiques utilisant des bases de données pour la gestion d'informations.
+            </p>
+            <ul class="skill-items">
+                <li><strong>Tableau & Excel (TCD)</strong></li>
+                <li><strong>Python (Matplotlib, Seaborn)</strong></li>
+                <li><strong>HTML5 / PHP</strong></li>
+                <li><strong>MySQL</strong></li>
             </ul>
         </div>
+
     </div>
 </section>
-
 
 
     <section id="projects">
