@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Config Réseau Avancée – VLAN & Routage | Hugo Lemarchand</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; font-size: 15px; line-height: 1.6; }
+
+    header { background: #1F3864; color: white; padding: 2.5rem 2rem 2rem; }
+    header .badge { display: inline-block; background: #2E75B6; color: white; font-size: 12px; padding: 3px 12px; border-radius: 20px; margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+    header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.4rem; }
+    header p { color: #a8c4e0; font-size: 0.95rem; max-width: 600px; }
+    header .meta { margin-top: 1rem; font-size: 0.85rem; color: #7aa6cc; }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #2E75B6; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 2px solid #2E75B6; }
+
+    .intro-block { background: white; border-radius: 10px; border: 1px solid #e0e6f0; padding: 1.5rem; margin-bottom: 2rem; }
+    .intro-block p { color: #444; margin-bottom: 0.5rem; }
+    .intro-block p:last-child { margin-bottom: 0; }
+    .intro-block strong { color: #1F3864; }
+
+    /* TECHNO CARDS */
+    .techno-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+    .techno-card { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1rem; display: flex; flex-direction: column; gap: 5px; }
+    .techno-card .t-icon { font-size: 1.3rem; margin-bottom: 2px; }
+    .techno-card .t-name { font-weight: 700; font-size: 0.9rem; color: #1F3864; }
+    .techno-card .t-detail { font-size: 0.82rem; color: #555; }
+    .techno-card .t-badge { font-size: 11px; background: #D6E4F0; color: #1F3864; padding: 2px 8px; border-radius: 20px; width: fit-content; }
+    .techno-card .t-why { font-size: 0.78rem; color: #2E75B6; font-style: italic; margin-top: 2px; }
+    .step-why { display: inline-block; background: #eaf4fd; color: #1F3864; font-size: 0.82rem; font-style: italic; border-left: 3px solid #2E75B6; padding: 4px 10px; border-radius: 4px; margin-bottom: 0.6rem; }
+
+    /* STEPS */
+    .steps-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+    .step-card { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.25rem 1.5rem; border-left: 4px solid #2E75B6; transition: box-shadow 0.2s; }
+    .step-card:hover { box-shadow: 0 4px 12px rgba(30,60,100,0.08); }
+    .step-card .step-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 0.6rem; }
+    .step-num { width: 26px; height: 26px; background: #2E75B6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; }
+    .step-card h3 { font-size: 1rem; font-weight: 700; color: #1F3864; }
+    .step-card p { font-size: 0.88rem; color: #555; margin-bottom: 0.6rem; }
+    .step-card ul { padding-left: 1.2rem; margin: 0.4rem 0 0.6rem; }
+    .step-card li { font-size: 0.88rem; color: #555; margin-bottom: 0.3rem; }
+
+    /* CODE */
+    code { background: #f0f4fa; color: #1F3864; padding: 2px 7px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.82rem; }
+    pre { background: #1a2540; border-radius: 8px; padding: 1rem 1.25rem; overflow-x: auto; margin: 0.75rem 0; }
+    pre code { background: none; padding: 0; color: #a8c8e8; font-size: 0.83rem; line-height: 1.8; }
+
+    /* TIP */
+    .tip { background: #eaf4fd; border-left: 4px solid #2E75B6; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.88rem; color: #444; margin-top: 0.75rem; }
+    .tip strong { color: #1F3864; display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* DARK BLOCK */
+    .dark-block { background: #1F3864; color: white; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .dark-block .dark-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #a8c4e0; margin-bottom: 1rem; }
+    .dark-block ol { padding-left: 1.2rem; }
+    .dark-block li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #d0e4f5; }
+    .dark-block code { background: rgba(255,255,255,0.1); color: #a8c4e0; }
+
+    /* CONTENT BLOCK */
+    .content-block { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .content-block h3 { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #2E75B6; margin: 1.2rem 0 0.5rem; }
+    .content-block h3:first-child { margin-top: 0; }
+    .content-block p, .content-block li { font-size: 0.88rem; color: #555; }
+    .content-block ul { padding-left: 1.2rem; margin: 0.4rem 0; }
+    .content-block li { margin-bottom: 0.3rem; }
+
+    /* SCHÉMA VLAN */
+    .schema-block { background: white; border: 1px solid #e0e6f0; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; overflow-x: auto; }
+    .schema-block .schema-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #2E75B6; margin-bottom: 1rem; }
+    .topo { display: flex; flex-direction: column; align-items: center; gap: 0; font-size: 0.8rem; }
+    .topo-row { display: flex; align-items: center; justify-content: center; gap: 0; }
+    .topo-box { background: #1F3864; color: white; border-radius: 8px; padding: 8px 18px; font-weight: 700; font-size: 0.82rem; text-align: center; white-space: nowrap; }
+    .topo-box.router { background: #2E75B6; }
+    .topo-box.pc { background: #e8f0fb; color: #1F3864; border: 1px solid #c0d4ee; font-weight: 600; font-size: 0.78rem; }
+    .topo-line-v { width: 2px; height: 28px; background: #b0c4de; margin: 0 auto; }
+    .topo-line-h { height: 2px; flex: 1; background: #b0c4de; min-width: 20px; max-width: 60px; }
+    .topo-trunk { font-size: 0.7rem; color: #2E75B6; font-weight: 700; text-align: center; }
+    .vlan-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+    .vlan-tag { padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; }
+    .vlan-tag.v10 { background: #fde8d0; color: #b85c00; }
+    .vlan-tag.v20 { background: #d0f0e0; color: #1a6e3c; }
+    .vlan-tag.v30 { background: #e0d8f5; color: #4a2d8c; }
+    .vlan-tag.v99 { background: #f0f4fa; color: #1F3864; border: 1px solid #c0d4ee; }
+
+    .back-btn { display: inline-block; background: #2E75B6; color: white; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 0.88rem; font-weight: 600; transition: background 0.2s; margin-top: 1rem; margin-bottom: 2rem; }
+    .back-btn:hover { background: #1F3864; }
+    footer { text-align: center; padding: 1.5rem; font-size: 0.8rem; color: #999; border-top: 1px solid #e0e6f0; }
+    footer a { color: #2E75B6; text-decoration: none; }
+    @media (max-width: 600px) { header h1 { font-size: 1.3rem; } .techno-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">BTS SIO – SISR | Réseau</div>
+  <h1>Configuration Réseau Avancée</h1>
+  <p>VLANs, routage, firewall, VoIP, administration système – Infrastructure réseau sur matériel Cisco</p>
+  <div class="meta">Hugo Lemarchand · Ensitech · Session 2026</div>
+</header>
+
+<div class="container">
+
+  <!-- PRÉSENTATION -->
+  <p class="section-title">Présentation</p>
+  <div class="intro-block">
+    <p>Dans le cadre du BTS SIO SISR, j'ai mis en œuvre des configurations réseau avancées sur <strong>matériel Cisco réel</strong> et en simulation via <strong>Cisco Packet Tracer</strong>. Ces travaux couvrent la segmentation réseau par VLANs, le routage inter-VLAN, les protocoles de routage dynamique ainsi que la redondance avec STP et EtherChannel.</p>
+    <p>Ces compétences correspondent directement aux activités d'administration réseau en entreprise : conception, configuration et dépannage d'infrastructures switching/routing.</p>
+  </div>
+
+  <!-- TECHNOLOGIES -->
+  <p class="section-title">Technologies utilisées</p>
+  <div class="techno-grid">
+    <div class="techno-card">
+      <span class="t-icon">🔀</span>
+      <span class="t-name">VLANs</span>
+      <span class="t-detail">Segmentation logique du réseau</span>
+      <span class="t-badge">IEEE 802.1Q</span>
+      <span class="t-why">→ Isoler les services (RH, IT…) sur le même switch physique</span>
+    </div>
+    <div class="techno-card">
+      <span class="t-icon">🌐</span>
+      <span class="t-name">Routage inter-VLAN</span>
+      <span class="t-detail">Router-on-a-stick / L3 switch</span>
+      <span class="t-badge">Sous-interfaces</span>
+      <span class="t-why">→ Permettre la communication entre VLANs différents</span>
+    </div>
+    <div class="techno-card">
+      <span class="t-icon">📡</span>
+      <span class="t-name">OSPF / Statique</span>
+      <span class="t-detail">Routage dynamique et manuel</span>
+      <span class="t-badge">Area 0</span>
+      <span class="t-why">→ Distribuer automatiquement les routes sans configuration manuelle</span>
+    </div>
+    <div class="techno-card">
+      <span class="t-icon">🔁</span>
+      <span class="t-name">STP</span>
+      <span class="t-detail">Prévention des boucles L2</span>
+      <span class="t-badge">Spanning Tree</span>
+      <span class="t-why">→ Éviter les tempêtes de broadcast qui saturent le réseau</span>
+    </div>
+    <div class="techno-card">
+      <span class="t-icon">⚡</span>
+      <span class="t-name">EtherChannel</span>
+      <span class="t-detail">Agrégation de liens</span>
+      <span class="t-badge">LACP / PAgP</span>
+      <span class="t-why">→ Augmenter le débit et assurer la redondance entre switches</span>
+    </div>
+    <div class="techno-card">
+      <span class="t-icon">🔥</span>
+      <span class="t-name">Firewall / ACL</span>
+      <span class="t-detail">Filtrage et sécurisation</span>
+      <span class="t-badge">ACL Cisco</span>
+      <span class="t-why">→ Contrôler les flux et bloquer les accès non autorisés</span>
+    </div>
+    <div class="techno-card">
+      <span class="t-icon">📊</span>
+      <span class="t-name">Supervision</span>
+      <span class="t-detail">Monitoring réseau</span>
+      <span class="t-badge">SNMP / Syslog</span>
+      <span class="t-why">→ Détecter les pannes et analyser les performances en temps réel</span>
+    </div>
+    <div class="techno-card">
+      <span class="t-icon">🖥️</span>
+      <span class="t-name">Admin Système</span>
+      <span class="t-detail">Linux & Windows Server</span>
+      <span class="t-badge">AD / GPO</span>
+      <span class="t-why">→ Gérer les serveurs, utilisateurs et politiques réseau</span>
+    </div>
+  </div>
+
+  <!-- SCHÉMA TOPOLOGIE -->
+  <p class="section-title">Topologie type</p>
+  <div class="schema-block">
+    <div class="schema-label">Infrastructure switching / routing – Vue logique</div>
+    <div class="topo">
+      <div class="topo-box router">Routeur Cisco (Gateway)</div>
+      <div class="topo-line-v"></div>
+      <div class="topo-trunk">Trunk 802.1Q</div>
+      <div class="topo-line-v"></div>
+      <div class="topo-box">Switch L3 (Distribution)</div>
+      <div class="topo-line-v"></div>
+      <div class="topo-row">
+        <div class="topo-line-h"></div>
+        <div class="topo-box">Switch L2 A</div>
+        <div class="topo-line-h"></div>
+        <div class="topo-box">Switch L2 B</div>
+        <div class="topo-line-h"></div>
+      </div>
+      <div class="topo-row" style="gap:60px; margin-top:8px;">
+        <div style="text-align:center;">
+          <div class="topo-line-v"></div>
+          <div class="topo-box pc">PCs – VLAN 10</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="topo-line-v"></div>
+          <div class="topo-box pc">PCs – VLAN 20</div>
+        </div>
+      </div>
+    </div>
+    <div class="vlan-tags">
+      <span class="vlan-tag v10">VLAN 10 – RH</span>
+      <span class="vlan-tag v20">VLAN 20 – IT</span>
+      <span class="vlan-tag v30">VLAN 30 – Direction</span>
+      <span class="vlan-tag v99">VLAN 99 – Management</span>
+    </div>
+  </div>
+
+  <!-- DOMAINES -->
+  <p class="section-title">Domaines abordés</p>
+  <div class="content-block">
+
+    <h3>🔀 VLANs & Trunking</h3>
+    <p>Segmentation logique du réseau via des <strong>VLANs (Virtual Local Area Networks)</strong> pour isoler les services entre eux (RH, IT, Direction, Management) sur le même équipement physique. Les ports access transportent un seul VLAN tandis que les liens <strong>trunk 802.1Q</strong> transportent l'ensemble des VLANs entre les switches et vers le routeur.</p>
+    <ul>
+      <li>Création et nommage des VLANs sur chaque switch</li>
+      <li>Assignation des ports en mode access (un VLAN par port)</li>
+      <li>Configuration des liaisons trunk entre équipements</li>
+    </ul>
+
+    <h3>🌐 Routage inter-VLAN</h3>
+    <p>Par défaut, deux VLANs ne peuvent pas communiquer entre eux. La technique <strong>Router-on-a-Stick</strong> consiste à créer des sous-interfaces sur le routeur, chacune associée à un VLAN, pour qu'il joue le rôle de passerelle entre les différents réseaux.</p>
+    <ul>
+      <li>Sous-interfaces avec encapsulation dot1Q sur le routeur</li>
+      <li>Adresse IP de passerelle par VLAN</li>
+      <li>Alternative : switch de niveau 3 avec interfaces virtuelles (SVI)</li>
+    </ul>
+
+    <h3>📡 Routage dynamique – OSPF</h3>
+    <p><strong>OSPF (Open Shortest Path First)</strong> est un protocole de routage dynamique qui permet aux routeurs de s'échanger automatiquement leurs tables de routes. En cas de panne d'un lien, OSPF recalcule le meilleur chemin sans intervention manuelle.</p>
+    <ul>
+      <li>Déclaration des réseaux dans l'area 0 (backbone)</li>
+      <li>Établissement automatique des adjacences entre voisins OSPF</li>
+      <li>Convergence rapide en cas de changement topologique</li>
+    </ul>
+
+    <h3>🔁 Spanning Tree Protocol (STP)</h3>
+    <p>Quand plusieurs switches sont reliés avec des liens redondants, des <strong>boucles de commutation</strong> se créent et génèrent des tempêtes de broadcast paralysant le réseau. STP désactive logiquement les liens en trop tout en les gardant disponibles en cas de panne.</p>
+    <ul>
+      <li>Élection du root bridge (switch central de référence)</li>
+      <li>Ports en état Forwarding (actifs) ou Blocking (en veille)</li>
+      <li>Rapid PVST+ pour une convergence plus rapide que le STP classique</li>
+    </ul>
+
+    <h3>⚡ EtherChannel – Agrégation de liens</h3>
+    <p>EtherChannel regroupe plusieurs liens physiques entre deux switches en un seul lien logique. Cela multiplie la bande passante disponible et assure la redondance : si un câble tombe, le trafic bascule automatiquement sur les autres sans interruption.</p>
+    <ul>
+      <li>Protocole LACP (IEEE 802.3ad) — standard et interopérable</li>
+      <li>Protocole PAgP — propriétaire Cisco</li>
+      <li>Combinaison possible avec le mode trunk</li>
+    </ul>
+
+  </div>
+
+  <!-- AUTRES DOMAINES -->
+  <p class="section-title">Autres domaines abordés</p>
+  <div class="content-block">
+    <h3>🔥 Firewall & Sécurité réseau</h3>
+    <p>Mise en place de <strong>listes de contrôle d'accès (ACL)</strong> sur les routeurs Cisco pour filtrer le trafic entrant et sortant. Compréhension des principes de pare-feu et configuration de règles de filtrage par IP, port et protocole.</p>
+    <ul>
+      <li>ACL standard et étendue (<code>access-list</code>, <code>ip access-group</code>)</li>
+      <li>Filtrage par source, destination et protocole (TCP/UDP/ICMP)</li>
+      <li>Sécurisation des accès de management : <code>SSH</code> uniquement, désactivation de <code>Telnet</code></li>
+    </ul>
+
+    <h3>🖥️ Administration Système</h3>
+    <p>Gestion des serveurs <strong>Linux (Ubuntu/Debian)</strong> et <strong>Windows Server</strong> en lien avec l'infrastructure réseau. Configuration de l'Active Directory, des GPO et des droits utilisateurs.</p>
+    <ul>
+      <li>Active Directory : création d'UO, comptes, groupes et politiques GPO</li>
+      <li>Linux : administration en ligne de commande, gestion des services réseau (DNS, DHCP)</li>
+      <li>Permissions & utilisateurs : droits NTFS, partages réseau, stratégies de sécurité</li>
+    </ul>
+
+    <h3>📡 Supervision & Monitoring</h3>
+    <p>Surveillance de l'infrastructure réseau pour détecter les pannes et analyser les performances. Utilisation d'outils de supervision conformes aux attentes du référentiel SISR.</p>
+    <ul>
+      <li>Supervision via <strong>SNMP</strong> et outils type Nagios / Zabbix / Grafana</li>
+      <li>Analyse du trafic avec <strong>Wireshark</strong></li>
+      <li>Journalisation et alertes sur les équipements Cisco (<code>logging</code>, <code>syslog</code>)</li>
+    </ul>
+  </div>
+
+  <!-- BONNES PRATIQUES -->
+  <p class="section-title">Bonnes pratiques</p>
+  <div class="dark-block">
+    <div class="dark-label">Administration réseau Cisco</div>
+    <ol>
+      <li>Toujours nommer les VLANs (<code>name</code>) pour faciliter la lisibilité</li>
+      <li>Dédier un VLAN de management (ex. VLAN 99) pour l'accès aux équipements</li>
+      <li>Désactiver les ports inutilisés : <code>shutdown</code> + les mettre en VLAN black-hole</li>
+      <li>Définir manuellement le root bridge STP plutôt que de laisser l'élection automatique</li>
+      <li>Sauvegarder la configuration : <code>copy running-config startup-config</code></li>
+    </ol>
+  </div>
+
+  <a href="index.html" class="back-btn">← Retour au Portfolio</a>
+
+</div>
+
+<footer>
+  <p>Hugo Lemarchand · BTS SIO SISR · Ensitech · Session 2026 · <a href="https://hugo-lemarchand.github.io/portfolio/" target="_blank">Portfolio →</a></p>
+</footer>
+</body>
+</html>
