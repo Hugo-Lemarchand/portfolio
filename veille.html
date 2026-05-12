@@ -178,6 +178,38 @@
     }
     .article-card a.read-more:hover { text-decoration: underline; }
 
+    /* METHODE */
+    .methode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .methode-step {
+      background: white;
+      border: 1px solid #e0e6f0;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .methode-step .step-num {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2E75B6;
+      line-height: 1;
+    }
+    .methode-step .step-title {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #1F3864;
+    }
+    .methode-step .step-desc {
+      font-size: 0.82rem;
+      color: #666;
+    }
+
     /* ANALYSE */
     .analyse-block {
       background: white;
@@ -243,6 +275,8 @@
   <div class="intro-block">
     <p>Cette veille technologique porte sur les <strong>évolutions des technologies réseau et d'infrastructure</strong> en entreprise. Elle s'inscrit directement dans mon option SISR et fait écho à mes réalisations professionnelles : configuration de VLANs, déploiement de serveurs Windows Server, administration Active Directory.</p>
     <p>L'objectif est de suivre les nouveaux protocoles, équipements et architectures réseau (SD-WAN, IPv6, Wi-Fi 7, cloud hybride…) afin de rester à jour sur les évolutions du métier d'administrateur systèmes et réseaux.</p>
+    <p>La veille technologique est une compétence essentielle dans le domaine de l'informatique, où les technologies évoluent rapidement. En tant que futur technicien SISR, être capable d'identifier les tendances émergentes, d'évaluer leur pertinence pour l'entreprise et d'anticiper les impacts sur l'infrastructure existante fait partie intégrante du métier. Cette veille couvre la période <strong>2024-2026</strong> et s'appuie sur des sources spécialisées, institutionnelles et professionnelles.</p>
+    <p>La <strong>méthodologie</strong> adoptée repose sur l'agrégation de flux RSS via un lecteur dédié (Feedly), la consultation hebdomadaire de sources ciblées, et une sélection des articles en fonction de leur pertinence avec les missions SISR : administration réseau, sécurité de l'infrastructure, virtualisation et supervision.</p>
   </div>
 
   <!-- SOURCES -->
@@ -272,6 +306,12 @@
       <span style="font-size:12px;color:#555;">Régulation, IPv6, réseau FR</span>
       <a href="https://www.arcep.fr/actualites/actualites-et-communiques/rss.xml" target="_blank">arcep.fr</a>
     </div>
+    <div class="source-card">
+      <span class="source-name">CERT-FR</span>
+      <span class="source-lang">🇫🇷 Français</span>
+      <span style="font-size:12px;color:#555;">Alertes sécurité, vulnérabilités</span>
+      <a href="https://www.cert.ssi.gouv.fr/feed/" target="_blank">cert.ssi.gouv.fr/feed/</a>
+    </div>
   </div>
 
   <!-- ARTICLES -->
@@ -286,7 +326,7 @@
         <span class="article-tag">Wi-Fi 7</span>
       </div>
       <h3>Wi-Fi 7 (802.11be) : ce qui change pour les réseaux d'entreprise</h3>
-      <p>Le Wi-Fi 7 apporte des débits théoriques jusqu'à 46 Gbps et la technologie Multi-Link Operation (MLO) qui permet d'agréger plusieurs bandes simultanément. Pour les administrateurs réseau, cela implique de revoir les plans d'adressage et la gestion des points d'accès.</p>
+      <p>Le Wi-Fi 7 apporte des débits théoriques jusqu'à 46 Gbps et la technologie Multi-Link Operation (MLO) qui permet d'agréger plusieurs bandes simultanément (2,4 GHz, 5 GHz et 6 GHz). Cette agrégation réduit la latence et améliore la tolérance aux interférences, ce qui est particulièrement utile dans des environnements denses comme les open spaces ou les entrepôts. Pour les administrateurs réseau, cela implique de revoir les plans d'adressage, la gestion des points d'accès et potentiellement le câblage structuré (passage au 2,5G ou 10G en RJ45 pour alimenter les bornes). La certification officielle Wi-Fi 7 a été lancée par la Wi-Fi Alliance début 2025, garantissant l'interopérabilité entre les équipements des différents constructeurs.</p>
       <a class="read-more" href="https://www.lemondeinformatique.fr/actualites/lire-la-wifi-alliance-lance-la-certification-wifi-7-officielle-92632.html" target="_blank">Lire l'article sur Le Monde Informatique →</a>
     </div>
 
@@ -298,7 +338,7 @@
         <span class="article-tag">SD-WAN</span>
       </div>
       <h3>SD-WAN : adoption massive dans les PME françaises en 2025</h3>
-      <p>Le SD-WAN (Software-Defined Wide Area Network) s'impose comme alternative aux liens MPLS traditionnels. Il permet de gérer le réseau étendu via logiciel, offrant plus de flexibilité et réduisant les coûts. Une tendance importante pour les techniciens SISR en entreprise.</p>
+      <p>Le SD-WAN (Software-Defined Wide Area Network) s'impose comme alternative aux liens MPLS traditionnels, jugés coûteux et peu flexibles. Il permet de gérer le réseau étendu via une couche logicielle centralisée, en agrégeant plusieurs types de connexions (fibre, 4G/5G, internet public) pour optimiser le routage des flux en temps réel. Les entreprises multi-sites y trouvent un moyen de réduire leurs coûts tout en améliorant la qualité de service pour les applications cloud (Microsoft 365, Salesforce…). En France, l'adoption dépasse désormais 40 % des PME de plus de 100 salariés selon les dernières études sectorielles. Pour un technicien SISR, comprendre le SD-WAN est devenu incontournable, notamment pour assurer l'intégration avec les solutions de sécurité type SASE (Secure Access Service Edge).</p>
       <a class="read-more" href="https://www.lemondeinformatique.fr/actualites/lire-les-entreprises-tres-pragmatiques-sur-le-deploiement-du-sd-wan-97589.html" target="_blank">Lire l'article sur Le Monde Informatique →</a>
     </div>
 
@@ -306,50 +346,85 @@
     <div class="article-card">
       <div class="article-meta">
         <span class="article-date">Février 2026</span>
-        <span class="article-source">IT-Connect</span>
+        <span class="article-source">ARCEP</span>
         <span class="article-tag">IPv6</span>
       </div>
       <h3>Transition IPv6 en France : état des lieux 2025 selon l'ARCEP</h3>
-      <p>Selon le baromètre annuel de l'ARCEP, fin 2024, 87 % des clients du réseau fixe grand public ont IPv6 activé. Free, Bouygues et Orange ont quasiment terminé leur transition sur le réseau fixe. Côté entreprises, la transition est plus lente et implique des mécanismes de coexistence comme le dual-stack, impactant la configuration des routeurs et serveurs DHCP.</p>
+      <p>Selon le baromètre annuel de l'ARCEP, fin 2024, 87 % des clients du réseau fixe grand public ont IPv6 activé. Free, Bouygues et Orange ont quasiment terminé leur transition sur le réseau fixe. Côté entreprises, la transition est plus lente et implique des mécanismes de coexistence comme le dual-stack (IPv4 et IPv6 fonctionnant simultanément) ou le tunneling 6in4. Ces mécanismes ont un impact direct sur la configuration des routeurs, des serveurs DHCP et des règles de pare-feu. Les administrateurs réseau doivent également anticiper la montée en charge des tables de routage IPv6 et adapter leurs outils de supervision qui ne supportent pas toujours nativement l'adressage IPv6. La transition est également une opportunité de revoir le plan d'adressage global de l'entreprise.</p>
       <a class="read-more" href="https://www.arcep.fr/cartes-et-donnees/nos-publications-chiffrees/transition-ipv6/barometre-annuel-de-la-transition-vers-ipv6-en-france.html" target="_blank">Lire le baromètre ARCEP →</a>
     </div>
 
     <!-- ARTICLE 4 -->
     <div class="article-card">
-  <div class="article-meta">
-    <span class="article-date">Avril 2026</span>
-    <span class="article-source">IT-Connect</span>
-    <span class="article-tag">Surveillance réseau</span>
-  </div>
-  <h3>Superviser des équipements réseau Cisco avec Zabbix et SNMP v3</h3>
-  <p>Ce tutoriel explique comment mettre en place la supervision d'équipements réseau Cisco avec Zabbix via le protocole SNMP v3, y compris la gestion des traps SNMP. La supervision réseau est essentielle pour détecter les incidents et maintenir la disponibilité de l'infrastructure.</p>
-  <a class="read-more" href="https://www.it-connect.fr/tuto-zabbix-supervision-reseau-snmpv3/" target="_blank">Lire l'article sur IT-Connect →</a>
-</div>
+      <div class="article-meta">
+        <span class="article-date">Avril 2026</span>
+        <span class="article-source">IT-Connect</span>
+        <span class="article-tag">Supervision réseau</span>
+      </div>
+      <h3>Superviser des équipements réseau Cisco avec Zabbix et SNMP v3</h3>
+      <p>Ce tutoriel détaille la mise en place de la supervision d'équipements réseau Cisco avec Zabbix via le protocole SNMP v3, y compris la configuration des traps SNMP pour remonter les alertes en temps réel. SNMP v3 apporte des mécanismes d'authentification et de chiffrement absents des versions précédentes, ce qui en fait le standard recommandé dans les environnements professionnels. La supervision réseau est essentielle pour détecter rapidement les incidents (saturation d'interface, perte de lien, montée en charge CPU des équipements), maintenir la disponibilité de l'infrastructure et produire des rapports de performance. Zabbix est un outil open source particulièrement répandu en entreprise, compatible avec les équipements Cisco, HP, et la plupart des constructeurs du marché.</p>
+      <a class="read-more" href="https://www.it-connect.fr/tuto-zabbix-supervision-reseau-snmpv3/" target="_blank">Lire l'article sur IT-Connect →</a>
+    </div>
 
-<!-- ARTICLE 5-->
+    <!-- ARTICLE 5 -->
     <div class="article-card">
-  <div class="article-meta">
-    <span class="article-date">Mai 2026</span>
-    <span class="article-source">CERT-FR</span>
-    <span class="article-tag">Supervision réseau</span>
+      <div class="article-meta">
+        <span class="article-date">Mai 2026</span>
+        <span class="article-source">CERT-FR</span>
+        <span class="article-tag">Sécurité / Vulnérabilités</span>
+      </div>
+      <h3>Analyse et remédiation des vulnérabilités critiques VMware : Note CERTFR-2026-AVI-0566</h3>
+      <p>L'avis CERTFR-2026-AVI-0566 alerte sur la découverte de plusieurs vulnérabilités critiques affectant les solutions de virtualisation VMware (ESXi, vCenter). Ces failles permettent à un attaquant distant d'exécuter du code arbitraire avec des privilèges élevés ou de provoquer un déni de service sur les systèmes compromis. Ce type d'alerte illustre l'importance d'une veille sécurité active pour un administrateur SISR : les hyperviseurs sont au cœur de l'infrastructure et leur compromission peut impacter l'ensemble des machines virtuelles hébergées. Le CERT-FR recommande l'application immédiate des correctifs publiés par VMware et la vérification des journaux d'événements pour détecter toute tentative d'exploitation. Cet article souligne également la nécessité de maintenir une procédure de gestion des correctifs (patch management) rigoureuse et documentée.</p>
+      <a class="read-more" href="https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0566/" target="_blank">Lire l'alerte sur CERT-FR →</a>
+    </div>
+
+    <!-- ARTICLE 6 -->
+    <div class="article-card">
+      <div class="article-meta">
+        <span class="article-date">Janvier 2026</span>
+        <span class="article-source">Cisco Blogs</span>
+        <span class="article-tag">Sécurité réseau</span>
+      </div>
+      <h3>Zero Trust Network Access (ZTNA) : vers la fin du VPN traditionnel ?</h3>
+      <p>Le modèle Zero Trust repose sur le principe selon lequel aucun utilisateur ni équipement n'est considéré comme fiable par défaut, même à l'intérieur du réseau de l'entreprise. Le ZTNA (Zero Trust Network Access) applique ce principe à l'accès distant en remplaçant les VPN SSL/IPSec classiques par des accès granulaires, vérifiés en continu (identité, posture de l'appareil, localisation). Cisco, Palo Alto et d'autres éditeurs proposent désormais des solutions ZTNA intégrées à leurs gammes. Pour un technicien SISR, cette évolution implique de maîtriser de nouveaux outils d'authentification (MFA, certificats, SSO) et de repenser les politiques d'accès réseau. Le ZTNA s'inscrit dans la tendance plus large du SASE, qui converge sécurité et réseau dans une architecture cloud-native.</p>
+      <a class="read-more" href="https://blogs.cisco.com/security/zero-trust-network-access" target="_blank">Lire l'article sur Cisco Blogs →</a>
+    </div>
+
   </div>
-  <h3>Analyse et remédiation des vulnérabilités critiques VMware : Note CERTFR-2026-AVI-0566</h3>
-  <p>L'avis CERTFR-2026-AVI-0566 alerte sur la découverte de plusieurs vulnérabilités critiques affectant les solutions de virtualisation de l'éditeur VMware. Ces failles de sécurité permettent à un attaquant distant d'exécuter du code arbitraire avec des privilèges élevés ou de provoquer un déni de service sur les systèmes compromis. Le centre de veille recommande l'application immédiate des correctifs mis à disposition par l'éditeur pour protéger les infrastructures concernées.</p>
-  <a class="read-more" href="https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0566/" target="_blank">Lire l'article sur CERT-FR →</a>
-</div>
 
-
+  <!-- EVOLUTIONS -->
+  <p class="section-title">Évolutions des technologies réseau & infrastructure</p>
+  <div class="methode-grid">
+    <div class="methode-step">
+      <span class="step-num" style="font-size:1.1rem;">📡</span>
+      <span class="step-title">Wi-Fi 7 & montée en débit</span>
+      <span class="step-desc">Le Wi-Fi 7 (802.11be) porte les débits théoriques jusqu'à 46 Gbps grâce au MLO. En parallèle, les datacenters migrent vers des liens 25G/100G pour absorber la croissance des flux liés au cloud et à la virtualisation.</span>
+    </div>
+    <div class="methode-step">
+      <span class="step-num" style="font-size:1.1rem;">🌐</span>
+      <span class="step-title">SD-WAN & virtualisation réseau</span>
+      <span class="step-desc">Le SD-WAN remplace progressivement les liens MPLS coûteux par une gestion logicielle du réseau étendu. Cette tendance s'inscrit dans un mouvement plus large vers le SASE et le ZTNA, où sécurité et réseau convergent dans le cloud.</span>
+    </div>
+    <div class="methode-step">
+      <span class="step-num" style="font-size:1.1rem;">🔢</span>
+      <span class="step-title">Transition IPv6</span>
+      <span class="step-desc">Avec 87 % des accès fixes grand public en IPv6 en France fin 2024, les entreprises doivent accélérer leur transition. Cela implique dual-stack, reconfiguration des routeurs et serveurs DHCP, et mise à jour des outils de supervision.</span>
+    </div>
+    <div class="methode-step">
+      <span class="step-num" style="font-size:1.1rem;">🔒</span>
+      <span class="step-title">Sécurité de l'infrastructure</span>
+      <span class="step-desc">Les hyperviseurs (VMware) et équipements réseau font l'objet de vulnérabilités critiques régulières (CERT-FR). La supervision proactive via SNMP v3 et le patch management rigoureux deviennent des pratiques incontournables pour tout technicien SISR.</span>
+    </div>
   </div>
 
   <!-- ANALYSE -->
   <p class="section-title">Analyse et synthèse</p>
   <div class="analyse-block">
-    <p>Les évolutions réseau de 2024-2026 convergent vers trois grandes tendances : la <strong>montée en débit</strong> (Wi-Fi 7, 25G/100G dans les datacenters), la <strong>virtualisation du réseau</strong> (SD-WAN, SASE) qui déplace la gestion vers le logiciel, et la <strong>transition vers IPv6</strong> qui implique une refonte des configurations existantes.</p>
-    <p>Ces évolutions impactent directement le quotidien d'un technicien SISR. Lors de mes stages, j'ai pu observer que la documentation réseau (que je maintiens sur Confluence) doit être constamment mise à jour pour rester pertinente face à ces changements.</p>
-    <p>Le défi pour les années à venir sera d'accompagner les utilisateurs dans ces transitions, notamment pour IPv6 et les nouveaux équipements Wi-Fi 7 qui nécessitent des compétences de configuration actualisées.</p>
+    <p>Les évolutions réseau de 2024-2026 convergent vers trois grandes tendances : la <strong>montée en débit</strong> (Wi-Fi 7, 25G/100G dans les datacenters), la <strong>virtualisation du réseau</strong> (SD-WAN, SASE, ZTNA) qui déplace la gestion vers le logiciel et le cloud, et la <strong>transition vers IPv6</strong> qui implique une refonte progressive des configurations existantes.</p>
+    <p>À cela s'ajoute une <strong>pression croissante sur la sécurité de l'infrastructure</strong>, illustrée par les alertes régulières du CERT-FR sur les hyperviseurs et équipements réseau. La supervision proactive (Zabbix, SNMP v3) et la gestion rigoureuse des correctifs deviennent des pratiques indispensables, et non plus optionnelles, dans les environnements professionnels.</p>
+    <p>Ces évolutions impactent directement le quotidien d'un technicien SISR. Lors de mes stages, j'ai pu observer que la documentation réseau (que je maintiens sur Confluence) doit être constamment mise à jour pour rester pertinente face à ces changements. La veille technologique m'a notamment permis d'identifier la nécessité d'intégrer la gestion des alertes de sécurité dans les procédures d'exploitation.</p>
+    <p>Le défi pour les années à venir sera d'accompagner les entreprises dans ces transitions, en maintenant la continuité de service : migration vers IPv6 sans coupure, déploiement Wi-Fi 7 compatible avec les terminaux existants, et adoption du ZTNA sans désorganiser les habitudes de connexion des utilisateurs. Ces compétences sont au cœur du profil SISR et constituent un axe fort de mon projet professionnel.</p>
   </div>
-
- 
 
 </div>
 
